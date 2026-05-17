@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Info Visualization</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="info-visualization.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+</head>
+<body>
+  <div class="cursor" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;">
+      <div class="cursor-big-circle"></div>
+      <div class="cursor-small-circle"></div>
+  </div>
+
+  <div id="header">
+      <div class="container">
+          <nav class="navbar">
+              <a href="index.html" class="brand">Zenith</a>
+              <div class="menu-btn">
+                  <i class="fas fa-bars"></i>
+              </div>
+              <ul class="nav-links">
+                  <li><a href="index.html#about">About</a></li>
+                  <li><a href="index.html#services">My work</a></li>
+                  <li><a href="index.html#portfolio">Experience</a></li>
+                  <li><a href="index.html#contact">Contact</a></li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+
+  <div class="iv-viewport">
+    <div class="iv-canvas">
+
+      <!-- Left: title + project 1 -->
+      <div class="iv-col iv-col-left">
+          <div class="iv-title-block">
+              <span class="iv-eyebrow">04 / Communication Design</span>
+              <h1 class="iv-title">Info<br>Visualization</h1>
+          </div>
+          <div class="iv-project iv-project-1" data-detail="takeaway">
+              <div class="iv-project-img">
+                  <img src="images/info-viz-card1.png" alt="外卖信息调研设计" />
+              </div>
+              <div class="iv-project-info">
+                  <span class="iv-project-num">01</span>
+                  <h3>外卖信息调研设计</h3>
+                  <p>Food Delivery Research</p>
+              </div>
+          </div>
+      </div>
+
+      <!-- Right: project 2 (offset lower) -->
+      <div class="iv-col iv-col-right">
+          <div class="iv-project iv-project-2" data-detail="nintendo">
+              <div class="iv-project-img">
+                  <img src="images/info-viz-card2.png" alt="任天堂信息调研设计" />
+              </div>
+              <div class="iv-project-info">
+                  <span class="iv-project-num">02</span>
+                  <h3>任天堂信息调研设计</h3>
+                  <p>Nintendo Information Research</p>
+              </div>
+          </div>
+      </div>
+
+      <!-- Back link -->
+      <a class="iv-back" href="index.html#services"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+  </div>
+
+  <!-- Detail overlay -->
+  <div class="detail-overlay" id="detail-overlay">
+      <button class="detail-close">&times;</button>
+      <div class="detail-scroll">
+          <img class="detail-img" id="detail-img" src="" alt="" />
+      </div>
+  </div>
+
+  <script src="info-visualization.js"></script>
+</body>
+</html>

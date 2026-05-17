@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Interactive Design</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Interactive Design.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+    <style>
+        html, body {
+            background: #000 !important;
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor">
+        <div class="cursor-big-circle"></div>
+        <div class="cursor-small-circle"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <div id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="brand">Zenith</a>
+                <div class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#services">My work</a></li>
+                    <li><a href="index.html#portfolio">Experience</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Hero Section with Split Images -->
+    <section class="interactive-hero">
+        <div class="hero-split-container">
+            <!-- Left: Daoist Doctrine of Inaction -->
+            <div class="hero-panel hero-left">
+                <img src="images/daoist doctrine of inaction.webp" alt="Daoist Doctrine of Inaction" />
+            </div>
+            <!-- Right: Plant Sense Party -->
+            <div class="hero-panel hero-right">
+                <img src="images/plant sense party.webp" alt="Plant Sense Party" />
+            </div>
+
+            <!-- Info on LEFT side: Daoist Doctrine info (left panel slides away, this fills the empty left) -->
+            <div class="hero-info hero-info-left" id="info-daoist">
+                <span class="hero-tag">01</span>
+                <h2>Daoist Doctrine<br/>of Inaction</h2>
+                <p>Creating a wonderful plant sensory world through dialogue, amplifying plant behavior in the micro world, and enhancing emotional connections between humans and plants.</p>
+                <a href="daoist-doctrine.html" class="hero-arrow-link">
+                    <span class="hero-arrow-text">Explore Project</span>
+                    <span class="hero-arrow-icon">&rarr;</span>
+                </a>
+            </div>
+
+            <!-- Info on RIGHT side: Plant Sense Party info (right panel slides away, this fills the empty right) -->
+            <div class="hero-info hero-info-right" id="info-plant">
+                <span class="hero-tag">02</span>
+                <h2>Plant Sense<br/>Party</h2>
+                <p>An interactive visualization that transforms bioelectric signals into perceivable media, exploring plant sensory worlds through p5.js.</p>
+                <a href="plant-sense-party.html" class="hero-arrow-link">
+                    <span class="hero-arrow-text">Explore Project</span>
+                    <span class="hero-arrow-icon">&rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <a class="back-link" href="index.html#services">&larr; Back</a>
+
+    <script src="Interactive Design.js"></script>
+</body>
+</html>

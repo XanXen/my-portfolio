@@ -1,0 +1,296 @@
+/* Branding Design Page */
+/* Fixed canvas 1512×982, scaled by JS to fit any viewport */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Hide all scrollbars */
+*::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background: white;
+}
+
+/* ── Viewport wrapper: fills screen below header ── */
+.branding-viewport {
+    width: 100vw;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* ── Inner canvas: fixed Figma size, JS scales + positions ── */
+.branding-canvas {
+    width: 1512px;
+    height: 982px;
+    position: absolute;
+    transform-origin: 0 0;
+}
+
+/* ── Background layers (all absolute inside canvas) ── */
+.branding-canvas img,
+.branding-canvas h1,
+.branding-canvas .branding-card,
+.branding-canvas .branding-back {
+    position: absolute;
+}
+
+/* 舞狮  655.47×846.699  rotate(-9.296deg)  at (-106, 152)  opacity 0.32 */
+.bg-liondance {
+    left: -106px;
+    top: 152px;
+    width: 655px;
+    height: auto;
+    transform: rotate(-9.296deg);
+    mix-blend-mode: screen;
+    opacity: 0.32;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 麒麟龙旗 SVG  802.66×688.36  at (810, -31)  opacity 0.32 */
+.bg-redvector {
+    left: 810px;
+    top: -31px;
+    width: 803px;
+    height: auto;
+    opacity: 0.32;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 绣球  284×304  at (394, 39)  opacity 0.50 */
+.bg-lion {
+    left: 394px;
+    top: 39px;
+    width: 284px;
+    height: auto;
+    opacity: 0.50;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 灯笼  294×276  at (627, 175)  opacity 0.50 */
+.bg-calligraphy {
+    left: 627px;
+    top: 175px;
+    width: 294px;
+    height: auto;
+    opacity: 0.50;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* 花灯  398×431  at (921, 623)  opacity 0.50 */
+.bg-pattern {
+    left: 921px;
+    top: 623px;
+    width: 398px;
+    height: auto;
+    opacity: 0.50;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* ── Title  at (51, 39) ── */
+.branding-title {
+    left: 51px;
+    top: 39px;
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+    color: #000;
+    z-index: 10;
+    margin: 0;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+/* ── Cards  346.299×526  cornerRadius 32.758 ── */
+.branding-card {
+    top: 220px;
+    width: 346px;
+    height: 526px;
+    z-index: 10;
+    cursor: pointer;
+    border-radius: 33px;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+}
+
+.branding-card:hover {
+    transform: scale(1.12) rotateY(180deg);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 33px;
+    overflow: hidden;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+.card-front img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-back img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.card-1 {
+    left: 303px;
+}
+
+.card-1 .card-front {
+    background: #591817;
+}
+
+.card-1 .card-back {
+    background: transparent;
+}
+
+.card-2 {
+    left: 861px;
+}
+
+.card-2 .card-front {
+    background: #E1263F;
+}
+
+.card-2 .card-back {
+    background: transparent;
+}
+
+/* ── Back link ── */
+.branding-back {
+    left: 51px;
+    bottom: 30px;
+    color: #000;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    z-index: 15;
+    transition: color 0.3s ease;
+}
+
+.branding-back:hover {
+    color: #DF101B;
+}
+
+/* ── Detail overlay ── */
+.detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0);
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.4s ease, visibility 0s 0.4s;
+}
+
+.detail-overlay.active {
+    background: rgba(0, 0, 0, 0.6);
+    visibility: visible;
+    transition: background 0.4s ease, visibility 0s 0s;
+}
+
+.detail-scroll {
+    width: 60%;
+    max-width: 900px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.detail-overlay.active .detail-scroll {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.detail-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+
+.detail-close {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    z-index: 10001;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease 0.2s, background 0.3s ease;
+}
+
+.detail-overlay.active .detail-close {
+    opacity: 1;
+}
+
+.detail-close:hover {
+    background: rgba(223, 16, 27, 0.7);
+}
+

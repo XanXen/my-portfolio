@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Plant Sense Party</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Header */
+        .detail-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .detail-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Poppins', monospace;
+            transition: color 0.3s;
+        }
+
+        .detail-header .back-link:hover {
+            color: #ff004f;
+        }
+
+        .detail-header .brand {
+            margin-left: auto;
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Hero */
+        .detail-hero {
+            margin-top: 60px;
+            width: 100%;
+            height: 50vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 80px 60px 40px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        }
+
+        .detail-hero-overlay h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            font-family: 'Arial Black', 'Poppins', sans-serif;
+            margin-bottom: 16px;
+        }
+
+        .detail-hero-overlay .tag {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+        }
+
+        /* Info section */
+        .detail-info {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+        }
+
+        .detail-info .info-label {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+            margin-bottom: 24px;
+        }
+
+        .detail-info .info-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 16px;
+            border-left: 3px solid rgba(255, 255, 255, 0.1);
+            padding-left: 20px;
+        }
+
+        .detail-info .info-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .detail-info .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-info .info-tag {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'Poppins', monospace;
+        }
+
+        .detail-info .info-val {
+            font-size: 15px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Canvas section */
+        .sketch-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .sketch-section .section-label {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+            margin-bottom: 16px;
+        }
+
+        .sketch-section .section-hint {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .sketch-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #000;
+        }
+
+        .sketch-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            cursor: none;
+        }
+
+        #sketch-frame {
+            display: block;
+            border: none;
+            transform-origin: top left;
+            width: 1495px;
+            height: 785px;
+        }
+
+        /* Cursor - mix-blend-mode: difference handles color inversion automatically */
+
+        /* Responsive */
+        @media only screen and (max-width: 900px) {
+            .detail-info {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 20px;
+            }
+
+            .detail-hero-overlay {
+                padding: 60px 20px 30px;
+            }
+
+            .sketch-section {
+                padding: 0 20px 60px;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .detail-hero {
+                height: 35vh;
+            }
+
+            .detail-header {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor">
+        <div class="cursor-big-circle"></div>
+        <div class="cursor-small-circle"></div>
+    </div>
+
+    <header class="detail-header">
+        <a href="Interactive Design.html" class="back-link">&larr; Back</a>
+        <a href="index.html" class="brand">Zenith</a>
+    </header>
+
+    <div class="detail-hero">
+        <img src="images/plant sense party.webp" alt="Plant Sense Party" />
+        <div class="detail-hero-overlay">
+            <span class="tag">INTERACTIVE VISUALIZATION</span>
+            <h1>Plant Sense<br/>Party</h1>
+        </div>
+    </div>
+
+    <section class="detail-info">
+        <div class="info-left">
+            <div class="info-label">ABOUT THIS PROJECT</div>
+            <p class="info-text">
+                As living organisms, plants constantly perceive their environment with various information-collecting terminals. In the inaudible world of plants, they have their own way of sensing the world.
+            </p>
+            <p class="info-text">
+                Plant Sense Party uses visualization to transform bioelectric signals into perceivable media. Through the five senses of plants, we attempt to converse with them, amplify their microscopic behaviors, and create a wonderful plant sensory world.
+            </p>
+        </div>
+        <div class="info-right">
+            <div class="info-item">
+                <span class="info-tag">YEAR</span>
+                <span class="info-val">2023-2024</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">TYPE</span>
+                <span class="info-val">Interactive Visualization</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">TOOLS</span>
+                <span class="info-val">p5.js / Bioelectric Sensors</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">ROLE</span>
+                <span class="info-val">Designer & Developer</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="sketch-section">
+        <div class="section-label">INTERACTIVE EXPERIENCE</div>
+        <p class="section-hint">Press & drag your mouse on the canvas to paint with plant textures. Click to switch between 8 different plants.</p>
+        <div class="sketch-container" id="sketch-container">
+            <div class="sketch-overlay" id="sketch-overlay"></div>
+            <iframe id="sketch-frame" src="sketch/index.html" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <script>
+    // ---- Page interactions ----
+    document.addEventListener("DOMContentLoaded", function () {
+        var isMobile = window.matchMedia("(max-width: 600px)").matches && "ontouchstart" in window;
+
+        // Entrance
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease';
+        requestAnimationFrame(function () {
+            document.body.style.opacity = '1';
+        });
+
+        // Back link
+        document.querySelector('.back-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            setTimeout(function () {
+                window.location.href = 'Interactive Design.html';
+            }, 300);
+        });
+
+        // Brand link
+        document.querySelector('.brand').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            setTimeout(function () {
+                window.location.href = 'index.html';
+            }, 300);
+        });
+
+        // ---- Sketch iframe scaling ----
+        var sketchContainer = document.getElementById('sketch-container');
+        var sketchFrame = document.getElementById('sketch-frame');
+        var sketchOverlay = document.getElementById('sketch-overlay');
+        var sketchScale = 1;
+
+        function resizeSketch() {
+            if (!sketchContainer || !sketchFrame) return;
+            var containerWidth = sketchContainer.clientWidth;
+            sketchScale = containerWidth / 1495;
+            sketchFrame.style.transform = 'scale(' + sketchScale + ')';
+            sketchContainer.style.height = Math.round(785 * sketchScale) + 'px';
+        }
+        resizeSketch();
+        window.addEventListener('resize', resizeSketch);
+
+        // ---- Forward mouse events to iframe sketch via postMessage ----
+        if (sketchOverlay && sketchFrame) {
+            sketchOverlay.addEventListener('mousemove', function (e) {
+                var rect = sketchContainer.getBoundingClientRect();
+                var sx = (e.clientX - rect.left) / sketchScale;
+                var sy = (e.clientY - rect.top) / sketchScale;
+                sketchFrame.contentWindow.postMessage({ type: 'mousemove', x: sx, y: sy }, '*');
+            });
+
+            sketchOverlay.addEventListener('mousedown', function (e) {
+                var rect = sketchContainer.getBoundingClientRect();
+                var sx = (e.clientX - rect.left) / sketchScale;
+                var sy = (e.clientY - rect.top) / sketchScale;
+                sketchFrame.contentWindow.postMessage({ type: 'mousedown', x: sx, y: sy }, '*');
+            });
+
+            sketchOverlay.addEventListener('mouseup', function (e) {
+                sketchFrame.contentWindow.postMessage({ type: 'mouseup' }, '*');
+            });
+        }
+
+        // ---- Cursor (works everywhere including over sketch area) ----
+        if (!isMobile) {
+            var cursorBig = document.querySelector(".cursor-big-circle");
+            var cursorSmall = document.querySelector(".cursor-small-circle");
+            if (cursorBig && cursorSmall) {
+                var styleEl = document.createElement('style');
+                styleEl.textContent = '* { cursor: none !important; }';
+                document.head.appendChild(styleEl);
+
+                var mouseX = 0, mouseY = 0;
+                var bigX = 0, bigY = 0, smallX = 0, smallY = 0;
+                var isFirstMove = true;
+
+                document.addEventListener("mousemove", function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (isFirstMove) {
+                        bigX = mouseX; bigY = mouseY;
+                        smallX = mouseX; smallY = mouseY;
+                        isFirstMove = false;
+                    }
+                });
+
+                (function animate() {
+                    bigX += (mouseX - bigX) * 0.15;
+                    bigY += (mouseY - bigY) * 0.15;
+                    smallX += (mouseX - smallX) * 0.25;
+                    smallY += (mouseY - smallY) * 0.25;
+                    cursorBig.style.left = bigX + "px";
+                    cursorBig.style.top = bigY + "px";
+                    cursorSmall.style.left = smallX + "px";
+                    cursorSmall.style.top = smallY + "px";
+                    requestAnimationFrame(animate);
+                })();
+            }
+        } else {
+            document.querySelectorAll(".cursor-big-circle, .cursor-small-circle").forEach(function (el) { el.remove(); });
+        }
+    });
+    </script>
+</body>
+</html>

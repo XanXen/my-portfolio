@@ -1,0 +1,292 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  overflow: hidden;
+  font-family: "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
+  user-select: none;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 动态背景 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes bgDrift {
+  0% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1.1) rotate(3deg); }
+}
+
+/* 标题 */
+.header {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+}
+
+.title {
+  font-size: 38px;
+  color: rgba(20, 20, 40, 0.9);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 30px rgba(140, 180, 255, 0.2);
+  letter-spacing: 8px;
+  animation: titleFloat 4s ease-in-out infinite;
+}
+
+@keyframes titleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.subtitle {
+  font-size: 13px;
+  color: rgba(80, 80, 100, 0.55);
+  margin-top: 14px;
+  letter-spacing: 5px;
+}
+
+/* 状态提示 */
+.status-banner {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 28px;
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(180, 180, 220, 0.18);
+  border-radius: 30px;
+  color: rgba(60, 60, 80, 0.75);
+  font-size: 14px;
+  letter-spacing: 2px;
+  z-index: 10;
+  pointer-events: none;
+  animation: statusGlow 3s ease-in-out infinite;
+}
+
+@keyframes statusGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(120, 160, 255, 0.06); }
+  50% { box-shadow: 0 0 30px rgba(120, 160, 255, 0.15); }
+}
+
+/* 三个长方形容器 */
+.cards-row {
+  display: flex;
+  gap: 40px;
+  z-index: 5;
+  position: relative;
+}
+
+.card {
+  width: 320px;
+  height: 420px;
+  background: rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(180, 180, 220, 0.18);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: cardFloat 4s ease-in-out infinite;
+}
+
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.5s; }
+.card:nth-child(3) { animation-delay: 1s; }
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+  60% { transform: translateY(6px); }
+}
+
+/* 卡片光晕边框 */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(180, 180, 220, 0.2), transparent 60%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.card.highlight {
+  transform: scale(1.1) translateY(-14px) !important;
+  border-color: rgba(140, 180, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 0 50px rgba(140, 180, 255, 0.3) !important;
+  animation: cardBuzz 0.5s ease-in-out infinite !important;
+}
+
+.card.highlight::before {
+  opacity: 1;
+}
+
+@keyframes cardBuzz {
+  0%, 100% { transform: scale(1.1) translateY(-14px) rotate(0deg); }
+  50% { transform: scale(1.12) translateY(-16px) rotate(1.5deg); }
+}
+
+/* 卡片内部图片 */
+.card-image {
+  width: 85%;
+  height: auto;
+  max-height: 65%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.card.highlight .card-image {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* 卡片标签 */
+.card-label {
+  position: absolute;
+  bottom: 24px;
+  font-size: 18px;
+  color: rgba(80, 80, 100, 0.6);
+  letter-spacing: 2px;
+  pointer-events: none;
+  transition: color 0.4s;
+}
+
+.card:nth-child(1) .card-label { color: rgba(140, 200, 255, 0.7); }
+.card:nth-child(2) .card-label { color: rgba(200, 160, 255, 0.7); }
+.card:nth-child(3) .card-label { color: rgba(255, 200, 140, 0.7); }
+
+.card.highlight .card-label {
+  color: rgba(20, 20, 40, 0.9) !important;
+}
+
+/* 卡片编号角标 */
+.card-number {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  font-size: 15px;
+  color: rgba(100, 100, 120, 0.35);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+
+/* 占位图标（第二、三个卡片） */
+.placeholder-icon {
+  font-size: 60px;
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.card.highlight .placeholder-icon {
+  opacity: 0.55;
+}
+
+/* 手势光标 */
+#handCursor {
+  position: fixed;
+  width: 26px;
+  height: 26px;
+  background: radial-gradient(circle at 40% 40%, rgba(140, 180, 255, 0.85), rgba(120, 140, 255, 0.55));
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 18px rgba(140, 180, 255, 0.4), 0 0 36px rgba(120, 140, 255, 0.2);
+  transition: width 0.2s, height 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+#handCursor.grabbing {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 40%, #6b9dff, #3b6dff);
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 28px rgba(59, 109, 255, 0.6), 0 0 56px rgba(107, 157, 255, 0.35);
+}
+
+/* 摄像头 */
+.webcam-container {
+  display: none;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 12px 24px;
+  background: rgba(30, 30, 50, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(180, 180, 220, 0.2);
+  border-radius: 14px;
+  color: rgba(30, 30, 50, 0.9);
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation:
+    toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    toastOut 0.35s ease-in 2.2s forwards;
+}
+
+@keyframes toastIn {
+  0% { opacity: 0; transform: translateX(60px) scale(0.8); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes toastOut {
+  0% { opacity: 1; transform: translateX(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+}
+
+/* 粒子画布 */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}

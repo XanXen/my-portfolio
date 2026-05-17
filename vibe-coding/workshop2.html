@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>龙头动态工坊 | AI手势交互</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="css/workshop2.css" />
+  </head>
+  <body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+      <!-- 标题 -->
+      <div class="header">
+        <div class="title">龙头动态工坊</div>
+        <div class="subtitle">AI HAND GESTURE LAB</div>
+      </div>
+
+      <!-- 状态提示 -->
+      <div class="status-banner" id="statusBanner">
+        <span class="emoji">👋</span> 握拳抓取零件 · 松手放置图纸
+        <span class="emoji">👋</span>
+      </div>
+
+      <!-- 齿轮卡片侧边栏 -->
+      <div class="gears-sidebar" id="gearsSidebar"></div>
+      <div class="sidebar-hint">从 这 里 抓 取 齿 轮</div>
+
+      <!-- 图纸区域 -->
+      <div class="blueprint-wrapper">
+        <div class="blueprint-frame" id="blueprintFrame">
+          <div class="frame-corner corner-tl"></div>
+          <div class="frame-corner corner-tr"></div>
+          <div class="frame-corner corner-bl"></div>
+          <div class="frame-corner corner-br"></div>
+          <div class="blueprint-inner">
+            <div class="blueprint-content">
+              <img
+                src="11.png"
+                alt="图纸"
+                class="blueprint-bg"
+                draggable="false"
+              />
+              <div class="drop-zone" id="dropZone"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 进度点 -->
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+
+      <!-- 摄像头 -->
+      <div class="webcam-container">
+        <video id="webcam" autoplay playsinline></video>
+        <span class="webcam-label">手势感应</span>
+      </div>
+
+      <!-- 手势光标 -->
+      <div id="handCursor"></div>
+
+      <!-- Toast -->
+      <div class="toast-container" id="toastContainer"></div>
+
+      <!-- 庆祝浮层 -->
+      <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-text">龙头组装完成!</div>
+      </div>
+    </div>
+
+    <script src="js/workshop2.js"></script>
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'j' || e.key === 'J') {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'vibe-back' }, '*');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

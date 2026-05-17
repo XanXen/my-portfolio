@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Daoist Doctrine of Inaction</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Header */
+        .detail-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .detail-header .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: 'Poppins', monospace;
+            transition: color 0.3s;
+        }
+
+        .detail-header .back-link:hover {
+            color: #ff004f;
+        }
+
+        .detail-header .brand {
+            margin-left: auto;
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 900;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Hero */
+        .detail-hero {
+            margin-top: 60px;
+            width: 100%;
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 80px 60px 40px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        }
+
+        .detail-hero-overlay h1 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            font-family: 'Arial Black', 'Poppins', sans-serif;
+            margin-bottom: 16px;
+        }
+
+        .detail-hero-overlay .tag {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+        }
+
+        /* Info section */
+        .detail-info {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+        }
+
+        .detail-info .info-label {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+            margin-bottom: 24px;
+        }
+
+        .detail-info .info-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 16px;
+            border-left: 3px solid rgba(255, 255, 255, 0.1);
+            padding-left: 20px;
+        }
+
+        .detail-info .info-right {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .detail-info .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .detail-info .info-tag {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'Poppins', monospace;
+        }
+
+        .detail-info .info-val {
+            font-size: 15px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Video section */
+        .detail-videos {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .detail-videos .section-label {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ff004f;
+            font-family: 'Poppins', monospace;
+            margin-bottom: 40px;
+        }
+
+        .video-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .video-item {
+            width: 100%;
+            max-width: 720px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .video-item video {
+            width: 100%;
+            display: block;
+            background: #111;
+        }
+
+        /* Cursor - mix-blend-mode: difference handles color inversion automatically */
+
+        /* Responsive */
+        @media only screen and (max-width: 900px) {
+            .detail-info {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 20px;
+            }
+
+            .detail-hero-overlay {
+                padding: 60px 20px 30px;
+            }
+
+            .detail-videos {
+                padding: 0 20px 60px;
+            }
+        }
+
+        @media only screen and (max-width: 600px) {
+            .detail-hero {
+                height: 40vh;
+            }
+
+            .detail-header {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor">
+        <div class="cursor-big-circle"></div>
+        <div class="cursor-small-circle"></div>
+    </div>
+
+    <header class="detail-header">
+        <a href="Interactive Design.html" class="back-link">&larr; Back</a>
+        <a href="index.html" class="brand">Zenith</a>
+    </header>
+
+    <div class="detail-hero">
+        <img src="images/daoist doctrine of inaction.webp" alt="Daoist Doctrine of Inaction" loading="lazy" />
+        <div class="detail-hero-overlay">
+            <span class="tag">INTERACTIVE INSTALLATION</span>
+            <h1>Daoist Doctrine<br/>of Inaction</h1>
+        </div>
+    </div>
+
+    <section class="detail-info">
+        <div class="info-left">
+            <div class="info-label">ABOUT THIS PROJECT</div>
+            <p class="info-text">
+                Inspired by the Daoist philosophy of "Wu Wei" (non-action), this interactive installation explores the harmony between human intention and natural flow. Through gesture and presence, participants experience the paradox of effortless action.
+            </p>
+            <p class="info-text">
+                The installation invites visitors to engage with generative visuals that respond to stillness and movement, revealing the beauty of letting go and allowing things to unfold naturally — a digital meditation on the Daoist doctrine of inaction.
+            </p>
+        </div>
+        <div class="info-right">
+            <div class="info-item">
+                <span class="info-tag">YEAR</span>
+                <span class="info-val">2023-2024</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">TYPE</span>
+                <span class="info-val">Interactive Installation</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">TOOLS</span>
+                <span class="info-val">Media</span>
+            </div>
+            <div class="info-item">
+                <span class="info-tag">ROLE</span>
+                <span class="info-val">Designer & Developer</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-videos">
+        <div class="section-label">PROJECT VIDEOS</div>
+        <div class="video-grid">
+            <div class="video-item">
+                <video controls preload="none" playsinline>
+                    <source src="videos/daoist-1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-item">
+                <video controls preload="none" playsinline>
+                    <source src="videos/daoist-2.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var isMobile = window.matchMedia("(max-width: 600px)").matches && "ontouchstart" in window;
+
+        // Entrance animation without breaking fixed positioning
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.4s ease';
+        requestAnimationFrame(function () {
+            document.body.style.opacity = '1';
+        });
+
+        // Back link navigation
+        document.querySelector('.back-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            setTimeout(function () {
+                window.location.href = 'Interactive Design.html';
+            }, 300);
+        });
+
+        // Brand link
+        document.querySelector('.brand').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            setTimeout(function () {
+                window.location.href = 'index.html';
+            }, 300);
+        });
+
+        // Cursor
+        if (!isMobile) {
+            var cursorBig = document.querySelector(".cursor-big-circle");
+            var cursorSmall = document.querySelector(".cursor-small-circle");
+            if (cursorBig && cursorSmall) {
+                var styleEl = document.createElement('style');
+                styleEl.textContent = '* { cursor: none !important; }';
+                document.head.appendChild(styleEl);
+
+                var mouseX = 0, mouseY = 0;
+                var bigX = 0, bigY = 0, smallX = 0, smallY = 0;
+                var isFirstMove = true;
+
+                document.addEventListener("mousemove", function (e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (isFirstMove) {
+                        bigX = mouseX; bigY = mouseY;
+                        smallX = mouseX; smallY = mouseY;
+                        isFirstMove = false;
+                    }
+                });
+
+                (function animate() {
+                    bigX += (mouseX - bigX) * 0.15;
+                    bigY += (mouseY - bigY) * 0.15;
+                    smallX += (mouseX - smallX) * 0.25;
+                    smallY += (mouseY - smallY) * 0.25;
+                    cursorBig.style.left = bigX + "px";
+                    cursorBig.style.top = bigY + "px";
+                    cursorSmall.style.left = smallX + "px";
+                    cursorSmall.style.top = smallY + "px";
+                    requestAnimationFrame(animate);
+                })();
+            }
+        } else {
+            document.querySelectorAll(".cursor-big-circle, .cursor-small-circle").forEach(function (el) { el.remove(); });
+        }
+    });
+    </script>
+</body>
+</html>

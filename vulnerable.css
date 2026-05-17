@@ -1,0 +1,73 @@
+body {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow-y: auto;
+    position: relative;
+}
+
+.background-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    animation: moveInBottom 600ms ease-in-out forwards;
+    z-index: 0;
+}
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #FFF;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+@keyframes moveInBottom {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes moveOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* 响应式设计 */
+@media only screen and (max-width: 600px) {
+    .background-image {
+        max-width: 100%;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Cursor styles handled by global style.css */

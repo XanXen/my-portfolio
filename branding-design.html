@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Branding Design</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="branding-design.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+</head>
+<body>
+  <div class="cursor" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;">
+      <div class="cursor-big-circle"></div>
+      <div class="cursor-small-circle"></div>
+  </div>
+
+  <div id="header">
+      <div class="container">
+          <nav class="navbar">
+              <a href="index.html" class="brand">Zenith</a>
+              <div class="menu-btn">
+                  <i class="fas fa-bars"></i>
+              </div>
+              <ul class="nav-links">
+                  <li><a href="index.html#about">About</a></li>
+                  <li><a href="index.html#services">My work</a></li>
+                  <li><a href="index.html#portfolio">Experience</a></li>
+                  <li><a href="index.html#contact">Contact</a></li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+
+  <!-- Viewport wrapper: centres & clips -->
+  <div class="branding-viewport">
+    <!-- Inner canvas: fixed 1512×982, JS scales to fit -->
+    <div class="branding-canvas">
+
+      <!-- Background layers -->
+      <img class="bg-liondance" src="images/branding-deco-liondance.png" alt="" aria-hidden="true" />
+      <img class="bg-redvector"  src="images/branding-deco-redvector.svg" alt="" aria-hidden="true" />
+      <img class="bg-lion"       src="images/branding-deco-lion.png" alt="" aria-hidden="true" />
+      <img class="bg-calligraphy" src="images/branding-deco-calligraphy.png" alt="" aria-hidden="true" />
+      <img class="bg-pattern"    src="images/branding-deco-pattern.png" alt="" aria-hidden="true" />
+
+      <!-- Title -->
+      <h1 class="branding-title">Branding Design</h1>
+
+      <!-- Two project cards -->
+      <div class="branding-card card-1" data-project="xiaohongqi">
+          <div class="card-front">
+              <img src="images/branding-card1.png" alt="小红麒 XIAO HONG QI & BBQ" />
+          </div>
+          <div class="card-back" data-detail="xiaohongqi">
+              <img src="images/branding-card1-back.png" alt="小红麒 Project Details" />
+          </div>
+      </div>
+      <div class="branding-card card-2" data-project="heritage">
+          <div class="card-front">
+              <img src="images/branding-card2.png" alt="Intangible Cultural Heritage Illustrations" />
+          </div>
+          <div class="card-back" data-detail="heritage">
+              <img src="images/branding-card2-back.png" alt="Heritage Project Details" />
+          </div>
+      </div>
+
+      <!-- Back link -->
+      <a class="branding-back" href="index.html#services">&larr; Back</a>
+    </div>
+  </div>
+
+  <!-- Detail overlay -->
+  <div class="detail-overlay" id="detail-overlay">
+      <button class="detail-close">&times;</button>
+      <div class="detail-scroll">
+          <img class="detail-img" id="detail-img" src="" alt="" />
+      </div>
+  </div>
+
+  <script src="branding-design.js"></script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+/* Interactive Design Page Styles */
+
+/* ---- Header ---- */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+#header .navbar {
+    background: transparent;
+}
+
+#header .brand {
+    color: #fff;
+}
+
+#header .nav-links a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#header .nav-links a:hover {
+    color: #ff004f;
+}
+
+#header .menu-btn i {
+    color: #fff;
+}
+
+/* ---- Hero Section ---- */
+.interactive-hero {
+    width: 100%;
+    height: calc(100vh - 60px);
+    background-color: #000;
+    overflow: hidden;
+    position: relative;
+    margin-top: 60px;
+    z-index: 1;
+}
+
+.hero-split-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* ---- Hero Panels (images only) ---- */
+.hero-panel {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    overflow: hidden;
+    z-index: 1;
+    transform: translateX(0);
+}
+
+.hero-left {
+    left: 0;
+}
+
+.hero-right {
+    right: 0;
+}
+
+.hero-panel.sliding {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.hero-panel.returning {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.hero-panel.static {
+    transition: none;
+    transform: translateX(0) !important;
+    z-index: 1;
+}
+
+.hero-panel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* ---- Hero Info Overlays (separate from panels, fixed to left/right sides) ---- */
+.hero-info {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 80px;
+    background: #000;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s 0.15s ease;
+}
+
+.hero-info-left {
+    left: 0;
+}
+
+.hero-info-right {
+    right: 0;
+}
+
+.hero-info.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hero-tag {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ff004f;
+    font-family: 'Poppins', monospace;
+    margin-bottom: 20px;
+}
+
+.hero-info h2 {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    font-family: 'Arial Black', 'Poppins', sans-serif;
+}
+
+.hero-info p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 480px;
+    margin-bottom: 40px;
+}
+
+/* Arrow link */
+.hero-arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Poppins', monospace;
+    padding: 14px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-arrow-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #ff004f;
+    transition: left 0.3s ease;
+    z-index: -1;
+}
+
+.hero-arrow-link:hover::before {
+    left: 0;
+}
+
+.hero-arrow-link:hover {
+    border-color: #ff004f;
+}
+
+.hero-arrow-icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.hero-arrow-link:hover .hero-arrow-icon {
+    transform: translateX(6px);
+}
+
+/* ---- Back Link ---- */
+.back-link {
+    position: fixed;
+    left: 30px;
+    bottom: 30px;
+    z-index: 9998;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+}
+
+.back-link:hover {
+    border-color: #ff004f;
+    color: #ff004f;
+}
+
+/* Cursor uses mix-blend-mode: difference for automatic color inversion */
+
+/* ---- Responsive ---- */
+@media only screen and (max-width: 900px) {
+    .hero-split-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-panel {
+        position: relative;
+        width: 100% !important;
+        min-height: 50vh;
+        transform: none !important;
+    }
+
+    .hero-info {
+        position: relative;
+        width: 100%;
+        opacity: 1;
+        pointer-events: auto;
+        padding: 30px 20px;
+        background: rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-info h2 {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .interactive-hero {
+        height: auto;
+        min-height: calc(100vh - 60px);
+    }
+
+    .hero-panel {
+        min-height: 40vh;
+    }
+
+    .hero-info h2 {
+        font-size: 22px;
+    }
+
+    .hero-info p {
+        font-size: 13px;
+    }
+}

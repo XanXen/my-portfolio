@@ -1,0 +1,159 @@
+/* Styles for Game Design Page */
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+}
+
+.secondary-page {
+    max-width: 1512px;
+    min-height: 982px;
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background: white;
+}
+
+/* 新增元素样式 */
+.GameDesign {
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-size: 96px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: right;
+    margin: 50px 0 20px;
+}
+
+.Year {
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-size: 80px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: right;
+    margin: 0 0 40px;
+}
+
+.Description {
+    max-width: 790px;
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin: 0 0 100px;
+}
+
+.Link {
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+}
+
+.VulnerableFence {
+    position: absolute;
+    right: 20px;
+    bottom: 280px;
+}
+
+.BoardGameDesign {
+    position: absolute;
+    right: 20px;
+    bottom: 210px;
+}
+
+.BackLink {
+    position: absolute;
+    left: 20px;
+    bottom: 210px;
+}
+
+.Link:hover {
+    color: #ccc;
+}
+
+.fade-out {
+    animation: fadeOut 600ms ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* 响应式设计 */
+@media only screen and (max-width: 600px) {
+    .secondary-page {
+        padding: 10px;
+    }
+
+    .GameDesign {
+        font-size: 48px;
+        margin: 30px 0 10px;
+    }
+
+    .Year {
+        font-size: 40px;
+        margin: 0 0 20px;
+    }
+
+    .Description {
+        max-width: 100%;
+        font-size: 16px;
+        margin: 0 auto 50px;
+    }
+
+    .VulnerableFence, .BoardGameDesign {
+        font-size: 24px;
+        right: 10px;
+    }
+
+    .BackLink {
+        left: 10px;
+        bottom: 50px;
+        font-size: 24px;
+    }
+
+    .VulnerableFence {
+        bottom: 100px;
+    }
+
+    .BoardGameDesign {
+        bottom: 50px;
+    }
+}
+
+/* Cursor uses mix-blend-mode: difference for automatic color inversion */

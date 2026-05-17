@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - AI Design</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="ai-design.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+</head>
+<body style="margin:0; padding:0; background:#f5f3ff;">
+
+  <div class="cursor">
+    <div class="cursor-big-circle"></div>
+    <div class="cursor-small-circle"></div>
+  </div>
+
+  <a href="index.html#services" class="agent-back">
+    <i class="fa-solid fa-arrow-left"></i> Back
+  </a>
+
+  <div class="agent-page">
+    <div class="agent-aura">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="agent-shell">
+
+      <!-- ====== Sidebar ====== -->
+      <div class="agent-sidebar-card" id="agentSidebar">
+        <div class="agent-sidebar-header">
+          <i class="fa-solid fa-chess-king brand-icon"></i>
+          <span class="brand-text">Zenith&nbsp;&nbsp;Agent</span>
+          <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-up-down"></i>
+          </button>
+        </div>
+
+        <div class="agent-sidebar-body" id="sidebarBody">
+          <div class="agent-nav-label">General</div>
+          <ul class="agent-nav">
+            <li><a href="#" class="active" data-view="dashboard"><i class="fa-solid fa-house"></i><span>Dashboard</span></a></li>
+          </ul>
+          <div class="agent-nav-divider"></div>
+          <div class="agent-nav-label">Agents</div>
+          <ul class="agent-nav">
+            <li><a href="#" data-view="agent-xundian"><i class="fa-solid fa-store"></i><span>AI巡店助手</span></a></li>
+            <li><a href="#" data-view="agent-fenxi"><i class="fa-solid fa-chart-column"></i><span>AI智能分析助理</span></a></li>
+            <li><a href="#" data-view="agent-hetong"><i class="fa-solid fa-file-contract"></i><span>AI智能合同实操</span></a></li>
+            <li><a href="#" data-view="agent-kefu"><i class="fa-solid fa-headset"></i><span>AI智能客服</span></a></li>
+            <li><a href="#" data-view="behind-code"><i class="fa-solid fa-code"></i><span>Behind the Code</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: Dashboard (default) ====== -->
+      <div class="agent-view" id="view-dashboard">
+        <h1 class="agent-title">HI！Welcome to my Space&nbsp;&nbsp;&#x1F44B;</h1>
+        <p class="agent-subtitle">Meet my personal AI agent — it thinks, plans, and gets things done with me.</p>
+
+        <div class="agent-content">
+          <!-- AI 自我介绍气泡 -->
+          <div class="ai-intro-bubble">
+            <div class="ai-intro-avatar">
+              <i class="fa-solid fa-chess-king"></i>
+            </div>
+            <div class="ai-intro-content">
+              <div class="ai-intro-typing">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="ai-intro-text">你好！我是 Han 的 AI 助手 👋 试试点击下面的卡片，看看我能做什么～</div>
+            </div>
+          </div>
+
+          <div class="agent-cards-row agent-row-3">
+            <div class="agent-card has-tip" data-view="agent-xundian">
+              <div class="agent-card-icon" style="background:#8680e3;"><i class="fa-solid fa-store"></i></div>
+              <div class="agent-card-name">AI巡店助手</div>
+              <div class="agent-card-tip">
+                <div class="card-tip-tags"><span>自然语言查询改写</span><span>智能门店筛选</span><span>环线路线规划</span><span>高德地图API</span><span>任务卡生成</span><span>多区域扩展</span></div>
+                <p class="card-tip-desc">将用户自然语言输入自动改写为知识库搜索Query，按优先级规则（销量达标率 > 陈列达标 > 竞品入侵 > 搭建保持 > 佳沛标准）智能筛选问题门店，集成高德地图地理编码与公共交通路线规划API，按地理位置生成闭环环线巡店路线，最终输出"今日巡店任务卡"。</p>
+              </div>
+            </div>
+            <div class="agent-card has-tip" data-view="agent-fenxi">
+              <div class="agent-card-icon" style="background:#b893dd;"><i class="fa-solid fa-chart-column"></i></div>
+              <div class="agent-card-name">AI面试智能助理</div>
+              <div class="agent-card-tip">
+                <div class="card-tip-tags"><span>JD岗位生成</span><span>简历智能解析</span><span>多格式支持</span><span>面试问题生成</span><span>人岗匹配评估</span><span>全流程串联</span></div>
+                <p class="card-tip-desc">一站式招聘流程AI赋能平台：上传岗位图片/文字自动生成结构化JD，支持PDF/Word/TXT/飞书文档多格式简历解析，基于JD与简历生成不少于5个针对性面试问题并附带考察目的，结合通用+岗位专属评价标准输出★星级人岗匹配度评估，四个子工作流全链路自动化串联。</p>
+              </div>
+            </div>
+            <div class="agent-card has-tip" data-view="agent-hetong">
+              <div class="agent-card-icon" style="background:#7e91e3;"><i class="fa-solid fa-file-contract"></i></div>
+              <div class="agent-card-name">AI智能合同实操</div>
+              <div class="agent-card-tip">
+                <div class="card-tip-tags"><span>智能合同审查</span><span>审查规则知识库</span><span>合同差异对比</span><span>结构化五要素输出</span><span>豆包1.8深度思考</span><span>多格式支持</span></div>
+                <p class="card-tip-desc">双引擎合同处理系统：引擎一（contract_Agent）读取合同文件 → 知识库检索审查规则 → 大模型逐条审核，输出risk/key/tip/content/advice五要素结构化结果；引擎二（contract_compare）上传两份合同 → 提取链接 → 分别读取 → 大模型对比差异，以表格形式列示每个变更点。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-cards-row agent-row-2">
+            <div class="agent-card has-tip" data-view="agent-kefu">
+              <div class="agent-card-icon" style="background:#edaa6e;"><i class="fa-solid fa-headset"></i></div>
+              <div class="agent-card-name">AI智能客服</div>
+
+              <div class="agent-card-tip">
+                <div class="card-tip-tags"><span>场景智能识别</span><span>物流专家19方案</span><span>支付专家16方案</span><span>售后专家18方案</span><span>代码匹配方案库</span><span>人格化客服"小咪"</span></div>
+                <p class="card-tip-desc">多场景分流×专家方案匹配×人格化沟通系统：用户意图识别节点自动判断场景（物流/支付/售后），三个专属解决方案专家分别匹配对应场景的标准化方案库（共53个方案），Python代码节点精准匹配JSON方案库输出方案内容，最终由"小咪"角色以温柔、甜美、富有同理心的方式与用户沟通协商，完成完整的客服服务流程。</p>
+              </div>
+            </div>
+            <div class="agent-card" data-view="behind-code">
+              <div class="agent-card-icon" style="background:#55b05f;"><i class="fa-solid fa-code"></i></div>
+              <div class="agent-card-name">Behind the Code</div>
+            </div>
+          </div>
+
+          <div class="agent-bottom-area"></div>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: AI巡店助手 ====== -->
+      <div class="agent-view agent-chat-view" id="view-agent-xundian" style="display:none;">
+        <div class="agent-chat-header">
+          <div class="agent-chat-header-icon" style="background:#8680e3;"><i class="fa-solid fa-store"></i></div>
+          <div class="agent-chat-header-info">
+            <div class="agent-chat-header-name">AI巡店助手</div>
+            <div class="agent-chat-header-status"><span></span>Online</div>
+          </div>
+        </div>
+        <div class="agent-chat-messages" data-agent="xundian">
+          <div class="agent-chat-welcome">
+            <p>你好！我是AI巡店助手，可以帮你规划门店巡检路线、生成巡店报告、分析门店数据。请问有什么需要帮助的？</p>
+          </div>
+        </div>
+        <div class="agent-chat-inputbar">
+          <input type="text" class="agent-chat-input" placeholder="输入你的问题..." autocomplete="off" />
+          <button class="agent-chat-sendbtn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: AI智能分析助理 ====== -->
+      <div class="agent-view agent-chat-view" id="view-agent-fenxi" style="display:none;">
+        <div class="agent-chat-header">
+          <div class="agent-chat-header-icon" style="background:#b893dd;"><i class="fa-solid fa-chart-column"></i></div>
+          <div class="agent-chat-header-info">
+            <div class="agent-chat-header-name">AI智能分析助理</div>
+            <div class="agent-chat-header-status"><span></span>Online</div>
+          </div>
+        </div>
+        <div class="agent-chat-messages" data-agent="fenxi">
+          <div class="agent-chat-welcome">
+            <p>你好！我是AI智能分析助理，可以帮你进行数据分析、生成可视化报表、提供业务洞察。请问需要分析什么数据？</p>
+          </div>
+        </div>
+        <div class="agent-chat-inputbar">
+          <input type="text" class="agent-chat-input" placeholder="输入你的问题..." autocomplete="off" />
+          <button class="agent-chat-sendbtn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: AI智能合同实操 ====== -->
+      <div class="agent-view agent-chat-view" id="view-agent-hetong" style="display:none;">
+        <div class="agent-chat-header">
+          <div class="agent-chat-header-icon" style="background:#7e91e3;"><i class="fa-solid fa-file-contract"></i></div>
+          <div class="agent-chat-header-info">
+            <div class="agent-chat-header-name">AI智能合同实操</div>
+            <div class="agent-chat-header-status"><span></span>Online</div>
+          </div>
+        </div>
+        <div class="agent-chat-messages" data-agent="hetong">
+          <div class="agent-chat-welcome">
+            <p>你好！我是AI智能合同实操助手，可以帮你审查合同条款、生成合同模板、解答合同相关法律问题。请问需要什么帮助？</p>
+          </div>
+        </div>
+        <div class="agent-chat-file-preview" style="display:none;"></div>
+        <div class="agent-chat-inputbar">
+          <button class="agent-chat-filebtn" type="button" title="上传文件"><i class="fa-solid fa-paperclip"></i></button>
+          <input type="file" class="agent-chat-fileinput" style="display:none;" />
+          <input type="text" class="agent-chat-input" placeholder="输入你的问题..." autocomplete="off" />
+          <button class="agent-chat-sendbtn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: AI智能客服 ====== -->
+      <div class="agent-view agent-chat-view" id="view-agent-kefu" style="display:none;">
+        <div class="agent-chat-header">
+          <div class="agent-chat-header-icon" style="background:#edaa6e;"><i class="fa-solid fa-headset"></i></div>
+          <div class="agent-chat-header-info">
+            <div class="agent-chat-header-name">AI智能客服</div>
+            <div class="agent-chat-header-status"><span></span>Online</div>
+          </div>
+        </div>
+        <div class="agent-chat-messages" data-agent="kefu">
+          <div class="agent-chat-welcome">
+            <p>你好！我是AI智能客服，可以帮你解答产品问题、处理售后、查询订单等。有什么我可以帮你的？</p>
+          </div>
+        </div>
+        <div class="agent-chat-file-preview" style="display:none;"></div>
+        <div class="agent-chat-inputbar">
+          <button class="agent-chat-filebtn" type="button" title="上传文件"><i class="fa-solid fa-paperclip"></i></button>
+          <input type="file" class="agent-chat-fileinput" style="display:none;" />
+          <input type="text" class="agent-chat-input" placeholder="输入你的问题..." autocomplete="off" />
+          <button class="agent-chat-sendbtn" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+
+      <!-- ====== VIEW: Behind the Code ====== -->
+      <div class="agent-view agent-chat-view" id="view-behind-code" style="display:none;">
+        <div class="agent-chat-header">
+          <div class="agent-chat-header-icon" style="background:#55b05f;"><i class="fa-solid fa-code"></i></div>
+          <div class="agent-chat-header-info">
+            <div class="agent-chat-header-name">Behind the Code</div>
+            <div class="agent-chat-header-status"><span></span>Tech Highlights</div>
+          </div>
+        </div>
+
+        <div class="btc-scroll">
+          <!-- 01 — Custom Cursor -->
+          <div class="btc-card">
+            <div class="btc-number">01</div>
+            <div class="btc-body">
+              <div class="btc-title">Custom Cursor System</div>
+              <div class="btc-tags">
+                <span>CSS</span><span>JavaScript</span><span>mix-blend-mode</span>
+              </div>
+              <p class="btc-desc">双圆跟随光标，使用线性插值（lerp）实现弹簧物理跟随效果。外圈通过 <code>mix-blend-mode: difference</code> 实现反色效果，在深色/浅色背景上自动切换对比色，hover 交互元素时缩放变形。</p>
+              <div class="btc-demo" id="btcCursorDemo">
+                <div class="btc-demo-hint">Move your mouse here</div>
+                <div class="btc-demo-cursor-big"></div>
+                <div class="btc-demo-cursor-small"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 02 — 3D Model -->
+          <div class="btc-card">
+            <div class="btc-number">02</div>
+            <div class="btc-body">
+              <div class="btc-title">3D Model Loading</div>
+              <div class="btc-tags">
+                <span>Three.js</span><span>GLTFLoader</span><span>WebGL</span>
+              </div>
+              <p class="btc-desc">基于 Three.js 加载 GLTF 3D 模型，配置环境光 + 聚光灯 + 平行光 + 点光源的多光源系统。模型跟随鼠标位置实时旋转，带有插值平滑过渡。通过 ResizeObserver 实现画布自适应缩放，加载过程带有实时进度条。</p>
+            </div>
+          </div>
+
+          <!-- 03 — Hand Gesture Lab -->
+          <div class="btc-card">
+            <div class="btc-number">03</div>
+            <div class="btc-body">
+              <div class="btc-title">Hand Gesture Recognition</div>
+              <div class="btc-tags">
+                <span>MediaPipe</span><span>Canvas</span><span>Spring Physics</span>
+              </div>
+              <p class="btc-desc">接入 Google MediaPipe 手势识别，将手部关键点映射为屏幕光标位置。光标运动使用弹簧阻尼物理模型（K=0.28, damping=0.72），实现自然的跟随手感。配合 Canvas 粒子系统，手势划过时生成交互粒子效果。支持握拳手势检测触发特定操作。</p>
+            </div>
+          </div>
+
+          <!-- 04 — Cross-iframe Communication -->
+          <div class="btc-card">
+            <div class="btc-number">04</div>
+            <div class="btc-body">
+              <div class="btc-title">Cross-iframe Communication</div>
+              <div class="btc-tags">
+                <span>postMessage</span><span>iframe</span><span>Event Forwarding</span>
+              </div>
+              <p class="btc-desc">Plant Sense Party 项目使用透明 overlay 层捕获主页面的鼠标事件，通过 postMessage API 将光标坐标和交互状态实时转发给 iframe 内的 p5.js 画布，实现光标穿透 iframe 边界的无缝交互体验。</p>
+            </div>
+          </div>
+
+          <!-- 05 — Page Transitions -->
+          <div class="btc-card">
+            <div class="btc-number">05</div>
+            <div class="btc-body">
+              <div class="btc-title">Page Transitions</div>
+              <div class="btc-tags">
+                <span>CSS</span><span>opacity</span><span>Fixed Positioning</span>
+              </div>
+              <p class="btc-desc">页面切换使用纯 opacity 渐隐渐显动画，刻意避免 transform 属性——因为 CSS transform 会创建新的 containing block，导致 fixed 定位元素（如导航栏、光标）相对于变换元素定位而非视口，产生布局错乱。</p>
+            </div>
+          </div>
+
+          <!-- 06 — Coze Agent Integration -->
+          <div class="btc-card">
+            <div class="btc-number">06</div>
+            <div class="btc-body">
+              <div class="btc-title">Coze Agent Integration</div>
+              <div class="btc-tags">
+                <span>Coze API</span><span>SSE Polling</span><span>File Upload</span>
+              </div>
+              <p class="btc-desc">本页面的 4 个 AI Agent 均通过 Coze API 实时对话。采用轮询机制（2s 间隔，最长 120s）等待异步回复，支持文件上传后附带 file_id 发送。工作流类 Agent 使用 SSE 流式接口，前端解析多种返回格式（message/content/data/output）确保兼容性。</p>
+            </div>
+          </div>
+
+          <!-- 07 — Responsive Circular Text -->
+          <div class="btc-card">
+            <div class="btc-number">07</div>
+            <div class="btc-body">
+              <div class="btc-title">Rotating Circular Text</div>
+              <div class="btc-tags">
+                <span>CSS Transform</span><span>Scroll Event</span><span>RGB Manipulation</span>
+              </div>
+              <p class="btc-desc">环形排列文字通过逐字符计算旋转角度实现。滚动时实时计算 RGB 值，文字颜色从白色渐变为灰色，营造层次感。配合 CSS 持续旋转动画，形成动态视觉焦点。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Coze Chat SDK -->
+  <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+  <script>
+    (function() {
+      var COZE_TOKEN = 'pat_KLjs6P1xATRWMZOJYbCdqpAtLXQbOClufyjfYjfXxe9qHZ9ChC2yNBQsDdLqLHGQ';
+
+      // Helper: escape HTML to prevent XSS
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // Agent configs: viewId -> { bot_id, name, type }
+      var agentConfigs = {
+        'agent-xundian': { bot_id: '7639738384079929363', name: 'AI巡店助手' },
+        'agent-fenxi':   { bot_id: '7630461450112516134', name: 'AI智能分析助理' },
+        'agent-hetong':  { bot_id: '7629731934230380594', name: 'AI智能合同实操' },
+        'agent-kefu':    { bot_id: '7628623001585074219', name: 'AI智能客服' }
+      };
+
+      // ===== Sidebar toggle =====
+      document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('agentSidebar').classList.toggle('collapsed');
+      });
+
+      // ===== View switching =====
+      var allViews = document.querySelectorAll('.agent-view');
+
+      function switchView(viewId) {
+        allViews.forEach(function(v) { v.style.display = 'none'; });
+        var target = document.getElementById('view-' + viewId);
+        if (target) target.style.display = '';
+
+        document.querySelectorAll('.agent-nav a').forEach(function(a) {
+          a.classList.remove('active');
+        });
+        var activeNav = document.querySelector('.agent-nav a[data-view="' + viewId + '"]');
+        if (activeNav) activeNav.classList.add('active');
+      }
+
+      // Sidebar nav clicks
+      document.querySelectorAll('.agent-nav a[data-view]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          switchView(this.getAttribute('data-view'));
+        });
+      });
+
+      // Card clicks on dashboard
+      document.querySelectorAll('.agent-card[data-view]').forEach(function(card) {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          switchView(this.getAttribute('data-view'));
+        });
+      });
+
+      // ===== Coze API chat function =====
+      function sendToCoze(botId, userMessage, onChunk, onDone) {
+        fetch('https://api.coze.cn/v3/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + COZE_TOKEN
+          },
+          body: JSON.stringify({
+            bot_id: botId,
+            user_id: 'web_user_' + Date.now(),
+            stream: false,
+            auto_save_history: true,
+            additional_messages: [{
+              role: 'user',
+              content: userMessage,
+              content_type: 'text'
+            }]
+          })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.code === 0 && data.data) {
+            // Poll for result
+            pollChatResult(data.data.id, data.data.conversation_id, onDone);
+          } else {
+            onDone('抱歉，请求出错了：' + (data.msg || '未知错误'));
+          }
+        })
+        .catch(function(err) {
+          onDone('网络错误，请稍后重试。');
+        });
+      }
+
+      function pollChatResult(chatId, conversationId, onDone) {
+        var pollCount = 0;
+        var maxPolls = 60; // max 120 seconds (60 polls × 2s)
+        var pollInterval = 2000; // 2 seconds between polls
+
+        function poll() {
+          pollCount++;
+          fetch('https://api.coze.cn/v3/chat/retrieve?chat_id=' + chatId + '&conversation_id=' + conversationId, {
+            headers: { 'Authorization': 'Bearer ' + COZE_TOKEN }
+          })
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.code !== 0) {
+              onDone('抱歉，查询状态出错：' + (data.msg || '未知错误'));
+              return;
+            }
+            if (data.data) {
+              var status = data.data.status;
+              if (status === 'completed') {
+                // Get messages
+                fetch('https://api.coze.cn/v3/chat/message/list?chat_id=' + chatId + '&conversation_id=' + conversationId, {
+                  headers: { 'Authorization': 'Bearer ' + COZE_TOKEN }
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(msgData) {
+                  if (msgData.code === 0 && msgData.data) {
+                    var answer = '';
+                    msgData.data.forEach(function(msg) {
+                      if (msg.role === 'assistant' && msg.type === 'answer') {
+                        answer += msg.content;
+                      }
+                    });
+                    onDone(answer || '抱歉，没有获取到回复。');
+                  } else {
+                    onDone('获取回复失败。');
+                  }
+                });
+              } else if (status === 'failed') {
+                onDone('抱歉，Agent 处理失败，请稍后重试。');
+              } else if (pollCount < maxPolls) {
+                setTimeout(poll, pollInterval);
+              } else {
+                onDone('回复超时，请稍后重试。');
+              }
+            } else {
+              onDone('抱歉，查询状态异常。');
+            }
+          })
+          .catch(function() {
+            if (pollCount < maxPolls) {
+              setTimeout(poll, pollInterval);
+            } else {
+              onDone('网络错误，请稍后重试。');
+            }
+          });
+        }
+
+        setTimeout(poll, pollInterval);
+      }
+
+      // ===== Coze Workflow Stream API =====
+      function sendToCozeWorkflow(workflowId, appId, userMessage, onDone, typingEl) {
+        fetch('https://api.coze.cn/v1/workflow/stream_run', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + COZE_TOKEN
+          },
+          body: JSON.stringify({
+            workflow_id: workflowId,
+            parameters: {
+              CONVERSATION_NAME: 'Default',
+              USER_INPUT: userMessage,
+              user_input: userMessage
+            }
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) {
+            onDone('服务暂不可用，请稍后重试。');
+            return;
+          }
+          return res.text();
+        })
+        .then(function(rawText) {
+          if (rawText === undefined) return;
+          if (!rawText) {
+            onDone('抱歉，没有获取到回复。');
+            return;
+          }
+          // Parse SSE lines
+          var fullOutput = '';
+          var lines = rawText.split('\n');
+          lines.forEach(function(line) {
+            line = line.trim();
+            if (!line || line.startsWith('event:') || line.startsWith('id:')) return;
+            if (!line.startsWith('data:')) return;
+            var jsonStr = line.substring(5).trim();
+            if (!jsonStr || jsonStr === '[DONE]') return;
+            try {
+              var evt = JSON.parse(jsonStr);
+              // Try all possible formats
+              if (evt.message && typeof evt.message === 'string') {
+                try { var p = JSON.parse(evt.message); fullOutput = p.output || p.answer || p.text || evt.message; } catch(e) { fullOutput = evt.message; }
+              }
+              if (evt.content && typeof evt.content === 'string') {
+                fullOutput = evt.content;
+              }
+              if (evt.data && typeof evt.data === 'string') {
+                try { var d = JSON.parse(evt.data); fullOutput = d.output || d.answer || d.text || evt.data; } catch(e) { fullOutput = evt.data; }
+              }
+              if (evt.output && typeof evt.output === 'string') {
+                fullOutput = evt.output;
+              }
+            } catch(e) {
+              // Skip unparseable SSE lines
+            }
+          });
+          if (fullOutput) {
+            onDone(fullOutput);
+          } else {
+            onDone('抱歉，未能解析到有效回复，请稍后重试。');
+          }
+        })
+        .catch(function(err) {
+          onDone('网络错误，请稍后重试。');
+        });
+      }
+
+      // ===== Upload file to Coze =====
+      function uploadFileToCoze(file, callback) {
+        var formData = new FormData();
+        formData.append('file', file);
+        fetch('https://api.coze.cn/v1/files/upload', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + COZE_TOKEN
+          },
+          body: formData
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.code === 0 && data.data && data.data.id) {
+            callback(null, data.data);
+          } else {
+            callback(data.msg || '文件上传失败');
+          }
+        })
+        .catch(function(err) {
+          callback('文件上传网络错误');
+        });
+      }
+
+      // ===== Send to Coze with file support =====
+      function sendToCozeWithFile(botId, userMessage, fileInfo, onChunk, onDone) {
+        var msgContent;
+        if (fileInfo) {
+          msgContent = JSON.stringify([
+            { type: 'text', text: userMessage || '请分析这个文件' },
+            { type: 'file', file_id: fileInfo.id }
+          ]);
+        }
+        fetch('https://api.coze.cn/v3/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + COZE_TOKEN
+          },
+          body: JSON.stringify({
+            bot_id: botId,
+            user_id: 'web_user_' + Date.now(),
+            stream: false,
+            auto_save_history: true,
+            additional_messages: [{
+              role: 'user',
+              content: fileInfo ? msgContent : userMessage,
+              content_type: fileInfo ? 'object_string' : 'text'
+            }]
+          })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.code === 0 && data.data) {
+            pollChatResult(data.data.id, data.data.conversation_id, onDone);
+          } else {
+            onDone('抱歉，请求出错了：' + (data.msg || '未知错误'));
+          }
+        })
+        .catch(function(err) {
+          onDone('网络错误，请稍后重试。');
+        });
+      }
+
+      // ===== Chat send for each agent view =====
+      document.querySelectorAll('.agent-chat-view').forEach(function(view) {
+        var input = view.querySelector('.agent-chat-input');
+        var sendBtn = view.querySelector('.agent-chat-sendbtn');
+        var messages = view.querySelector('.agent-chat-messages');
+        var fileBtn = view.querySelector('.agent-chat-filebtn');
+        var fileInput = view.querySelector('.agent-chat-fileinput');
+        var filePreview = view.querySelector('.agent-chat-file-preview');
+        var viewId = view.id.replace('view-', '');
+        var config = agentConfigs[viewId];
+        var pendingFile = null;
+
+        // File upload handling
+        if (fileBtn && fileInput) {
+          fileBtn.addEventListener('click', function() {
+            fileInput.click();
+          });
+          fileInput.addEventListener('change', function() {
+            if (fileInput.files && fileInput.files[0]) {
+              pendingFile = fileInput.files[0];
+              filePreview.innerHTML = '<span class="file-tag"><i class="fa-solid fa-file"></i>' +
+                escapeHtml(pendingFile.name) + '<span class="file-remove" title="移除文件">&times;</span></span>';
+              filePreview.style.display = 'flex';
+              filePreview.querySelector('.file-remove').addEventListener('click', function() {
+                pendingFile = null;
+                fileInput.value = '';
+                filePreview.style.display = 'none';
+                filePreview.innerHTML = '';
+              });
+            }
+          });
+        }
+
+        function send() {
+          var text = input.value.trim();
+          if (!text && !pendingFile) return;
+          input.value = '';
+          var currentFile = pendingFile;
+          pendingFile = null;
+          if (fileInput) fileInput.value = '';
+          if (filePreview) {
+            filePreview.style.display = 'none';
+            filePreview.innerHTML = '';
+          }
+
+          // Hide welcome
+          var welcome = messages.querySelector('.agent-chat-welcome');
+          if (welcome) welcome.style.display = 'none';
+
+          // User bubble
+          var userMsg = document.createElement('div');
+          userMsg.className = 'chat-bubble chat-bubble-user';
+          if (currentFile && text) {
+            userMsg.innerHTML = '<i class="fa-solid fa-paperclip" style="margin-right:4px;opacity:0.6;"></i>' + escapeHtml(currentFile.name) + '<br>' + escapeHtml(text);
+          } else if (currentFile) {
+            userMsg.innerHTML = '<i class="fa-solid fa-paperclip" style="margin-right:4px;opacity:0.6;"></i>' + escapeHtml(currentFile.name);
+          } else {
+            userMsg.textContent = text;
+          }
+          messages.appendChild(userMsg);
+          messages.scrollTop = messages.scrollHeight;
+
+          // Show typing indicator
+          var typing = document.createElement('div');
+          typing.className = 'chat-bubble chat-bubble-ai chat-typing';
+          typing.textContent = currentFile ? '正在上传文件...' : '正在思考...';
+          messages.appendChild(typing);
+          messages.scrollTop = messages.scrollHeight;
+
+          if (config && (config.bot_id || config.workflow_id)) {
+            if (config.type === 'workflow') {
+              typing.classList.remove('chat-typing');
+              sendToCozeWorkflow(config.workflow_id, config.bot_id, text, function(reply) {
+                typing.textContent = reply;
+                messages.scrollTop = messages.scrollHeight;
+              }, typing);
+            } else if (currentFile) {
+              // Upload file first, then send with file_id
+              uploadFileToCoze(currentFile, function(err, fileData) {
+                if (err) {
+                  typing.remove();
+                  var errMsg = document.createElement('div');
+                  errMsg.className = 'chat-bubble chat-bubble-ai';
+                  errMsg.textContent = '文件上传失败：' + err;
+                  messages.appendChild(errMsg);
+                  messages.scrollTop = messages.scrollHeight;
+                  return;
+                }
+                typing.textContent = '正在思考...';
+                sendToCozeWithFile(config.bot_id, text, fileData, null, function(reply) {
+                  typing.remove();
+                  var aiMsg = document.createElement('div');
+                  aiMsg.className = 'chat-bubble chat-bubble-ai';
+                  aiMsg.textContent = reply;
+                  messages.appendChild(aiMsg);
+                  messages.scrollTop = messages.scrollHeight;
+                });
+              });
+            } else {
+              // Bot API call (no file)
+              sendToCoze(config.bot_id, text, null, function(reply) {
+                typing.remove();
+                var aiMsg = document.createElement('div');
+                aiMsg.className = 'chat-bubble chat-bubble-ai';
+                aiMsg.textContent = reply;
+                messages.appendChild(aiMsg);
+                messages.scrollTop = messages.scrollHeight;
+              });
+            }
+          } else {
+            setTimeout(function() {
+              typing.remove();
+              var aiMsg = document.createElement('div');
+              aiMsg.className = 'chat-bubble chat-bubble-ai';
+              aiMsg.textContent = '此 Agent 尚未接入，请提供 Bot ID 后激活。';
+              messages.appendChild(aiMsg);
+              messages.scrollTop = messages.scrollHeight;
+            }, 600);
+          }
+        }
+
+        sendBtn.addEventListener('click', send);
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); send(); }
+        });
+      });
+      // ===== Tooltip positioning: move tips to body and position via JS =====
+      document.querySelectorAll('.agent-card.has-tip').forEach(function(card) {
+        var tip = card.querySelector('.agent-card-tip');
+        if (!tip) return;
+        // Move tip to body so it escapes overflow:hidden ancestors
+        document.body.appendChild(tip);
+
+        card.addEventListener('mouseenter', function() {
+          var rect = card.getBoundingClientRect();
+          tip.style.display = 'block';
+          // Position above the card, centered horizontally
+          var tipWidth = tip.offsetWidth;
+          var tipHeight = tip.offsetHeight;
+          var left = rect.left + rect.width / 2 - tipWidth / 2;
+          var top = rect.top - tipHeight - 10;
+          // Keep within viewport
+          if (left < 8) left = 8;
+          if (left + tipWidth > window.innerWidth - 8) left = window.innerWidth - 8 - tipWidth;
+          if (top < 8) { top = rect.bottom + 10; tip.classList.add('tip-below'); } else { tip.classList.remove('tip-below'); }
+          tip.style.left = left + 'px';
+          tip.style.top = top + 'px';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          tip.style.display = 'none';
+        });
+      });
+
+      // ===== Behind the Code: Cursor Demo =====
+      (function() {
+        var demo = document.getElementById('btcCursorDemo');
+        if (!demo) return;
+        var big = demo.querySelector('.btc-demo-cursor-big');
+        var small = demo.querySelector('.btc-demo-cursor-small');
+        if (!big || !small) return;
+        var bx = 0, by = 0, sx = 0, sy = 0, tx = 0, ty = 0;
+        var active = false;
+
+        demo.addEventListener('mouseenter', function() {
+          active = true;
+          big.style.display = 'block';
+          small.style.display = 'block';
+        });
+        demo.addEventListener('mouseleave', function() {
+          active = false;
+          big.style.display = 'none';
+          small.style.display = 'none';
+        });
+        demo.addEventListener('mousemove', function(e) {
+          var rect = demo.getBoundingClientRect();
+          tx = e.clientX - rect.left;
+          ty = e.clientY - rect.top;
+        });
+
+        function animate() {
+          if (active) {
+            bx += (tx - bx) * 0.12;
+            by += (ty - by) * 0.12;
+            sx += (tx - sx) * 0.35;
+            sy += (ty - sy) * 0.35;
+            big.style.left = bx + 'px';
+            big.style.top = by + 'px';
+            small.style.left = sx + 'px';
+            small.style.top = sy + 'px';
+          }
+          requestAnimationFrame(animate);
+        }
+        animate();
+      })();
+    })();
+  </script>
+</body>
+</html>

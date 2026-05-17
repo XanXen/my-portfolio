@@ -1,0 +1,1726 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>魔法齿轮工坊 | AI手势交互</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      :root {
+        --pink: #ff6b9d;
+        --cyan: #00d4ff;
+        --yellow: #ffd93d;
+        --purple: #c44dff;
+        --green: #4dff91;
+        --orange: #ff8c42;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        background: #ffffff;
+        overflow: hidden;
+        font-family:
+          "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
+        user-select: none;
+        cursor: none;
+      }
+
+      /* ===== 动态渐变背景 ===== */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: transparent;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      @keyframes bgPulse {
+        0% {
+          opacity: 0.5;
+          transform: scale(1) rotate(0deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.15) rotate(5deg);
+        }
+      }
+
+      /* ===== 粒子画布 ===== */
+      #particleCanvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* ===== 主容器 ===== */
+      .container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ===== 标题 ===== */
+      .header {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 50;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .title {
+        font-size: 44px;
+        color: #1a1a2e;
+        text-shadow:
+          0 2px 8px rgba(196, 77, 255, 0.2),
+          0 4px 16px rgba(0, 212, 255, 0.12);
+        letter-spacing: 6px;
+        animation: titleFloat 3.5s ease-in-out infinite;
+      }
+
+      @keyframes titleFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-4px);
+        }
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: rgba(60, 60, 80, 0.75);
+        margin-top: 20px;
+        letter-spacing: 4px;
+      }
+
+      /* ===== 状态提示条 ===== */
+      .status-banner {
+        position: absolute;
+        top: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 28px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(180, 180, 200, 0.25);
+        border-radius: 30px;
+        color: rgba(60, 60, 80, 0.85);
+        font-size: 15px;
+        letter-spacing: 2px;
+        z-index: 40;
+        pointer-events: none;
+        transition: all 0.5s;
+        animation: statusGlow 3s ease-in-out infinite;
+      }
+
+      @keyframes statusGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 15px rgba(0, 180, 220, 0.08);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(0, 180, 220, 0.15);
+        }
+      }
+
+      .status-banner .emoji {
+        display: inline-block;
+        animation: emojiHop 0.7s ease-in-out infinite;
+      }
+
+      .status-banner .emoji:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .status-banner .emoji:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      @keyframes emojiHop {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      /* ===== 齿轮侧边栏 ===== */
+      .gears-sidebar {
+        position: absolute;
+        left: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        z-index: 50;
+      }
+
+      .gear-card {
+        width: 150px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 2px solid rgba(180, 180, 200, 0.25);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        cursor: none;
+        overflow: hidden;
+        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        animation: cardFloat 3.5s ease-in-out infinite;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .gear-card:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .gear-card:nth-child(2) {
+        animation-delay: 0.6s;
+      }
+      .gear-card:nth-child(3) {
+        animation-delay: 1.2s;
+      }
+      .gear-card:nth-child(4) {
+        animation-delay: 1.8s;
+      }
+
+      @keyframes cardFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        30% {
+          transform: translateY(-12px) rotate(1.5deg);
+        }
+        60% {
+          transform: translateY(8px) rotate(-1deg);
+        }
+      }
+
+      .gear-card::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 18px;
+        padding: 2px;
+        background: linear-gradient(
+          135deg,
+          rgba(180, 180, 210, 0.3),
+          transparent 60%
+        );
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .gear-card.highlight::before {
+        opacity: 1;
+      }
+
+      .gear-card.highlight {
+        transform: scale(1.18) translateY(-16px) !important;
+        border-color: rgba(196, 77, 255, 0.45) !important;
+        box-shadow:
+          0 12px 36px rgba(0, 0, 0, 0.1),
+          0 0 40px rgba(196, 77, 255, 0.25) !important;
+        animation: cardBuzz 0.4s ease-in-out infinite !important;
+      }
+
+      @keyframes cardBuzz {
+        0%,
+        100% {
+          transform: scale(1.18) translateY(-16px) rotate(0deg);
+        }
+        50% {
+          transform: scale(1.2) translateY(-18px) rotate(2deg);
+        }
+      }
+
+      .gear-card .card-glow {
+        position: absolute;
+        inset: -8px;
+        border-radius: 22px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .gear-card:nth-child(1) .card-glow {
+        background: radial-gradient(
+          circle,
+          rgba(255, 107, 157, 0.2) 0%,
+          transparent 70%
+        );
+      }
+      .gear-card:nth-child(2) .card-glow {
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.2) 0%,
+          transparent 70%
+        );
+      }
+      .gear-card:nth-child(3) .card-glow {
+        background: radial-gradient(
+          circle,
+          rgba(255, 217, 61, 0.2) 0%,
+          transparent 70%
+        );
+      }
+      .gear-card:nth-child(4) .card-glow {
+        background: radial-gradient(
+          circle,
+          rgba(77, 255, 145, 0.2) 0%,
+          transparent 70%
+        );
+      }
+
+      .gear-card.highlight .card-glow {
+        opacity: 1;
+      }
+
+      .gear-thumb {
+        position: absolute;
+        width: 150%;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.18));
+      }
+
+      .gear-card.highlight .gear-thumb {
+        transform: translate(-50%, -50%) scale(1.15) rotate(12deg);
+      }
+
+      /* 每张齿轮图单独调整大小和位置 */
+      .gear-card:nth-child(2) .gear-thumb {
+        width: 300%;
+        top: 45%;
+        left: 50%;
+      }
+      .gear-card:nth-child(3) .gear-thumb {
+        width: 200%;
+        top: 85%;
+        left: 57%;
+      }
+      .gear-card:nth-child(4) .gear-thumb {
+        width: 100%;
+        top: 45%;
+        left: 57%;
+      }
+
+      .gear-label {
+        position: absolute;
+        bottom: -26px;
+        font-size: 12px;
+        color: rgba(60, 60, 80, 0.65);
+        white-space: nowrap;
+        letter-spacing: 1px;
+        pointer-events: none;
+        transition: color 0.3s;
+      }
+
+      .gear-card:nth-child(1) .gear-label {
+        color: rgba(255, 107, 157, 0.7);
+      }
+      .gear-card:nth-child(2) .gear-label {
+        color: rgba(0, 180, 220, 0.7);
+      }
+      .gear-card:nth-child(3) .gear-label {
+        color: rgba(220, 180, 40, 0.7);
+      }
+      .gear-card:nth-child(4) .gear-label {
+        color: rgba(60, 200, 110, 0.7);
+      }
+
+      /* 侧边提示箭头 */
+      .sidebar-hint {
+        position: absolute;
+        left: 205px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(60, 60, 80, 0.5);
+        font-size: 14px;
+        z-index: 45;
+        pointer-events: none;
+        letter-spacing: 1px;
+        writing-mode: vertical-rl;
+        animation: hintPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes hintPulse {
+        0%,
+        100% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 0.9;
+        }
+      }
+
+      /* ===== 图纸区域 ===== */
+      .blueprint-wrapper {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+      }
+
+      .blueprint-frame {
+        position: relative;
+        width: 960px;
+        height: 540px;
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(180, 180, 200, 0.12);
+        border-radius: 18px;
+        padding: 8px;
+        box-shadow:
+          0 0 30px rgba(0, 180, 220, 0.04),
+          0 10px 40px rgba(0, 0, 0, 0.06);
+        transition: all 0.5s ease;
+      }
+
+      .blueprint-frame.glow-active {
+        border-color: rgba(0, 180, 220, 0.5);
+        box-shadow:
+          0 0 50px rgba(0, 180, 220, 0.2),
+          0 0 100px rgba(196, 77, 255, 0.12),
+          0 10px 40px rgba(0, 0, 0, 0.06);
+      }
+
+      .blueprint-frame.glow-active .frame-corner::before,
+      .blueprint-frame.glow-active .frame-corner::after {
+        opacity: 1;
+        box-shadow: 0 0 8px currentColor;
+      }
+
+      /* 四角装饰 */
+      .frame-corner {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      .frame-corner::before,
+      .frame-corner::after {
+        content: "";
+        position: absolute;
+        background: var(--cyan);
+        border-radius: 2px;
+        opacity: 0.35;
+        transition: all 0.5s;
+      }
+
+      .corner-tl {
+        top: 14px;
+        left: 14px;
+      }
+      .corner-tr {
+        top: 14px;
+        right: 14px;
+      }
+      .corner-bl {
+        bottom: 14px;
+        left: 14px;
+      }
+      .corner-br {
+        bottom: 14px;
+        right: 14px;
+      }
+
+      .corner-tl::before,
+      .corner-tr::before,
+      .corner-bl::before,
+      .corner-br::before {
+        width: 20px;
+        height: 2px;
+      }
+      .corner-bl::before,
+      .corner-br::before {
+        bottom: 0;
+      }
+      .corner-tl::after,
+      .corner-bl::after {
+        width: 2px;
+        height: 20px;
+        left: 0;
+      }
+      .corner-tr::after,
+      .corner-br::after {
+        width: 2px;
+        height: 20px;
+        right: 0;
+      }
+
+      .blueprint-inner {
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.03);
+      }
+
+      /* 内部 1920x1080 缩放容器 */
+      .blueprint-content {
+        position: absolute;
+        width: 1920px;
+        height: 1080px;
+        transform: scale(0.5);
+        transform-origin: top left;
+        top: 0;
+        left: 0;
+      }
+
+      .blueprint-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        opacity: 0.18;
+        pointer-events: none;
+      }
+
+      .drop-zone {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+      }
+
+      /* ===== 已放置齿轮 ===== */
+      .placed-gear {
+        position: absolute;
+        width: 1920px;
+        height: 1080px;
+        z-index: 10;
+        object-fit: contain;
+        transform-origin: center center;
+      }
+
+      @keyframes gearSnapIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.35) rotate(-25deg);
+        }
+        60% {
+          transform: scale(1.05) rotate(3deg);
+        }
+        80% {
+          transform: scale(0.97) rotate(-1deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .rotating {
+        animation: spin 4s linear infinite;
+      }
+
+      .rotating-reverse {
+        animation: spin 4s linear infinite reverse;
+      }
+
+      /* ===== 拖拽中的齿轮克隆体 ===== */
+      .gear-clone {
+        position: fixed;
+        width: 1920px;
+        height: 1080px;
+        pointer-events: none;
+        z-index: 1000;
+        object-fit: contain;
+        transform: scale(0.42);
+        filter: drop-shadow(0 0 25px rgba(196, 77, 255, 0.35));
+        transition:
+          filter 0.3s,
+          transform 0.2s;
+        animation: cloneWobble 0.8s ease-in-out infinite;
+      }
+
+      @keyframes cloneWobble {
+        0%,
+        100% {
+          transform: scale(0.42) rotate(0deg);
+        }
+        25% {
+          transform: scale(0.43) rotate(1deg);
+        }
+        75% {
+          transform: scale(0.41) rotate(-1deg);
+        }
+      }
+
+      .gear-clone.near-blueprint {
+        transform: scale(0.5) !important;
+        filter: drop-shadow(0 0 40px rgba(0, 180, 220, 0.7))
+          drop-shadow(0 0 15px rgba(196, 77, 255, 0.4)) !important;
+        animation: clonePulse 0.5s ease-in-out infinite !important;
+      }
+
+      @keyframes clonePulse {
+        0%,
+        100% {
+          transform: scale(0.5);
+        }
+        50% {
+          transform: scale(0.52);
+        }
+      }
+
+      /* ===== 手势光标 ===== */
+      #handCursor {
+        position: fixed;
+        width: 26px;
+        height: 26px;
+        background: radial-gradient(
+          circle at 40% 40%,
+          rgba(196, 77, 255, 0.85),
+          rgba(255, 107, 157, 0.55)
+        );
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        box-shadow:
+          0 0 18px rgba(196, 77, 255, 0.4),
+          0 0 36px rgba(255, 107, 157, 0.2);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          background 0.2s,
+          box-shadow 0.2s;
+      }
+
+      #handCursor.grabbing {
+        width: 14px;
+        height: 14px;
+        background: radial-gradient(circle at 40% 40%, #ff6b9d, #ff3b30);
+        border-color: rgba(255, 255, 255, 0.95);
+        box-shadow:
+          0 0 28px rgba(255, 59, 48, 0.6),
+          0 0 56px rgba(255, 107, 157, 0.35);
+      }
+
+      /* 光标拖尾 */
+      .cursor-trail-ring {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        border-radius: 50%;
+        border: 1px solid rgba(196, 77, 255, 0.3);
+        animation: trailFade 0.5s ease-out forwards;
+      }
+
+      @keyframes trailFade {
+        0% {
+          opacity: 0.7;
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0);
+        }
+      }
+
+      /* ===== 进度指示器 ===== */
+      .progress-bar {
+        position: absolute;
+        bottom: 110px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 14px;
+        z-index: 50;
+      }
+
+      .progress-dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: rgba(160, 160, 190, 0.2);
+        border: 2px solid rgba(160, 160, 190, 0.4);
+        transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        position: relative;
+      }
+
+      .progress-dot.filled {
+        background: var(--cyan);
+        border-color: var(--cyan);
+        box-shadow: 0 0 14px rgba(0, 212, 255, 0.6);
+        animation: dotPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      @keyframes dotPop {
+        0% {
+          transform: scale(0);
+        }
+        55% {
+          transform: scale(1.6);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .progress-dot.filled::after {
+        content: "";
+        position: absolute;
+        inset: -6px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        animation: dotRipple 1.5s ease-out infinite;
+      }
+
+      @keyframes dotRipple {
+        0% {
+          inset: -4px;
+          opacity: 0.6;
+        }
+        100% {
+          inset: -14px;
+          opacity: 0;
+        }
+      }
+
+      .reset-btn:active {
+        transform: translateX(-50%) scale(0.94);
+        transition: transform 0.1s;
+      }
+
+      .reset-btn.shake {
+        animation: btnShake 0.5s ease-in-out;
+      }
+
+      @keyframes btnShake {
+        0%,
+        100% {
+          transform: translateX(-50%);
+        }
+        15% {
+          transform: translateX(calc(-50% - 10px)) rotate(-4deg);
+        }
+        35% {
+          transform: translateX(calc(-50% + 10px)) rotate(4deg);
+        }
+        55% {
+          transform: translateX(calc(-50% - 6px)) rotate(-2deg);
+        }
+        75% {
+          transform: translateX(calc(-50% + 6px)) rotate(2deg);
+        }
+      }
+
+      /* ===== 摄像头画面 ===== */
+      .webcam-container {
+        display: none;
+      }
+
+      /* ===== Toast 通知 ===== */
+      .toast-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        pointer-events: none;
+      }
+
+      .toast {
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(180, 180, 200, 0.2);
+        border-radius: 14px;
+        color: #3d3d50;
+        font-size: 14px;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation:
+          toastIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+          toastOut 0.35s ease-in 2.2s forwards;
+      }
+
+      @keyframes toastIn {
+        0% {
+          opacity: 0;
+          transform: translateX(60px) scale(0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+        }
+      }
+
+      @keyframes toastOut {
+        0% {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-20px) scale(0.9);
+        }
+      }
+
+      /* ===== 庆祝动画 ===== */
+      .celebration-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .celebration-overlay.active {
+        opacity: 1;
+      }
+
+      .celebration-text {
+        font-size: 56px;
+        color: #2a2a3d;
+        text-shadow:
+          0 0 60px rgba(255, 217, 61, 0.5),
+          0 0 120px rgba(255, 107, 157, 0.4),
+          0 0 180px rgba(196, 77, 255, 0.35);
+        animation: celebPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      }
+
+      @keyframes celebPop {
+        0% {
+          transform: scale(0) rotate(-15deg);
+          opacity: 0;
+        }
+        60% {
+          transform: scale(1.1) rotate(3deg);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+          opacity: 1;
+        }
+      }
+
+      /* 完成后的长方形动画 */
+      .completion-box {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.5s;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+
+      .completion-box.active {
+        opacity: 1;
+      }
+
+      .completion-content {
+        display: flex;
+        width: 90%;
+        height: 90%;
+        max-width: 1200px;
+        max-height: 800px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(255, 107, 157, 0.3);
+        overflow: hidden;
+      }
+
+      .completion-image-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 20px;
+      }
+
+      .completion-image {
+        max-width: 100%;
+        max-height: 48%;
+        object-fit: contain;
+        border-radius: 10px;
+      }
+
+      .completion-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 30px;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .completion-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #1a1a2e;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(196, 77, 255, 0.2);
+        width: 100%;
+      }
+
+      .completion-content-text {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #333;
+        text-align: justify;
+        flex: 1;
+        overflow-y: auto;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .completion-back-btn {
+        display: inline-block;
+        padding: 12px 36px;
+        background: linear-gradient(135deg, #c44dff, #ff6b9d);
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 30px;
+        text-decoration: none;
+        letter-spacing: 2px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 20px rgba(196, 77, 255, 0.3);
+      }
+      .completion-back-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 6px 30px rgba(196, 77, 255, 0.5);
+      }
+      .key-hint {
+        margin-top: 10px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.4);
+        letter-spacing: 1px;
+      }
+
+      @keyframes completionScale {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* 响应式微调 */
+      @media (max-width: 1400px) {
+        .gears-sidebar {
+          right: 16px;
+          gap: 10px;
+        }
+        .gear-card {
+          width: 120px;
+          height: 96px;
+          border-radius: 14px;
+        }
+        .sidebar-hint {
+          right: 160px;
+          font-size: 11px;
+        }
+        .title {
+          font-size: 34px;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .blueprint-frame {
+          width: 640px;
+          height: 360px;
+        }
+        .blueprint-content {
+          transform: scale(0.333);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+      <!-- 标题 -->
+      <div class="header">
+        <div class="title">四动态龙头风筝</div>
+        <div class="subtitle">AI HAND GESTURE LAB</div>
+      </div>
+
+      <!-- 状态提示 -->
+      <div class="status-banner" id="statusBanner">
+        <span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸
+        <span class="emoji">👋</span>
+      </div>
+
+      <!-- 齿轮卡片侧边栏 -->
+      <div class="gears-sidebar" id="gearsSidebar"></div>
+      <div class="sidebar-hint">从 这 里 抓 取 齿 轮</div>
+
+      <!-- 图纸区域 -->
+      <div class="blueprint-wrapper">
+        <div class="blueprint-frame" id="blueprintFrame">
+          <div class="frame-corner corner-tl"></div>
+          <div class="frame-corner corner-tr"></div>
+          <div class="frame-corner corner-bl"></div>
+          <div class="frame-corner corner-br"></div>
+          <div class="blueprint-inner">
+            <div class="blueprint-content">
+              <img
+                src="总.png"
+                alt="图纸"
+                class="blueprint-bg"
+                draggable="false"
+              />
+              <div class="drop-zone" id="dropZone"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 进度点 -->
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+
+      <!-- 摄像头 -->
+      <div class="webcam-container">
+        <video id="webcam" autoplay playsinline></video>
+        <span class="webcam-label">手势感应</span>
+      </div>
+
+      <!-- 手势光标 -->
+      <div id="handCursor"></div>
+
+      <!-- Toast -->
+      <div class="toast-container" id="toastContainer"></div>
+
+      <!-- 庆祝浮层 -->
+      <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="celebration-text">齿轮组合完成!</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // ==================== DOM 引用 ====================
+        const gearsSidebar = document.getElementById("gearsSidebar");
+        const dropZone = document.getElementById("dropZone");
+        const blueprintFrame = document.getElementById("blueprintFrame");
+        const handCursor = document.getElementById("handCursor");
+        const statusBanner = document.getElementById("statusBanner");
+        const progressBar = document.getElementById("progressBar");
+        const toastContainer = document.getElementById("toastContainer");
+        const celebration = document.getElementById("celebrationOverlay");
+        const particleCanvas = document.getElementById("particleCanvas");
+        const ctx2d = particleCanvas.getContext("2d");
+
+        // ==================== 状态 ====================
+        const gearImages = ["1.png", "2.png", "3.png", "4.png"];
+        const gearNames = ["星轨齿轮", "核心齿轮", "流光齿轮", "辉光齿轮"];
+        // 图层z-index：严格按照总.png的叠加顺序（从底到顶）
+        const gearZIndex = {
+          "1.png": 10,
+          "3.png": 20,
+          "2.png": 30,
+          "4.png": 40,
+        };
+        const placedGears = new Set(); // 记录已放置的齿轮
+        let activeClone = null;
+        let isDragging = false;
+        let draggedSrc = null;
+        let celebrationShown = false;
+
+        // 弹簧光标物理
+        let targetX = window.innerWidth / 2,
+          targetY = window.innerHeight / 2;
+        let cursorX = targetX,
+          cursorY = targetY;
+        let velX = 0,
+          velY = 0;
+        const SPRING = 0.28;
+        const DAMPING = 0.72;
+
+        // ==================== 粒子系统 ====================
+        const particles = [];
+        const MAX_PARTICLES = 80;
+
+        function spawnParticles(x, y, count, color, spread, life) {
+          for (let i = 0; i < count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = (Math.random() * 0.7 + 0.3) * spread;
+            particles.push({
+              x,
+              y,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed - Math.random() * 2,
+              life: life * (0.6 + Math.random() * 0.4),
+              maxLife: life,
+              color,
+              size: Math.random() * 4 + 1.5,
+            });
+          }
+          if (particles.length > MAX_PARTICLES) {
+            particles.splice(0, particles.length - MAX_PARTICLES);
+          }
+        }
+
+        function updateParticles(dt) {
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= dt;
+            if (p.life <= 0) {
+              particles.splice(i, 1);
+            }
+          }
+        }
+
+        function drawParticles() {
+          for (const p of particles) {
+            const alpha = Math.max(0, p.life / p.maxLife);
+            ctx2d.beginPath();
+            ctx2d.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
+            ctx2d.fillStyle = p.color
+              .replace("1)", `${alpha})`)
+              .replace("rgb", "rgba");
+            if (p.color.startsWith("#")) {
+              ctx2d.fillStyle = p.color;
+              ctx2d.globalAlpha = alpha;
+            }
+            ctx2d.fill();
+            ctx2d.globalAlpha = 1;
+          }
+        }
+
+        // 背景环境粒子
+        const ambientParticles = [];
+        for (let i = 0; i < 35; i++) {
+          ambientParticles.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            size: Math.random() * 2 + 0.5,
+            speedX: (Math.random() - 0.5) * 0.3,
+            speedY: (Math.random() - 0.5) * 0.3 - 0.15,
+            opacity: Math.random() * 0.5 + 0.15,
+            phase: Math.random() * Math.PI * 2,
+          });
+        }
+
+        function drawAmbientParticles(time) {
+          for (const ap of ambientParticles) {
+            ap.x += ap.speedX;
+            ap.y += ap.speedY;
+            if (ap.x < -10) ap.x = window.innerWidth + 10;
+            if (ap.x > window.innerWidth + 10) ap.x = -10;
+            if (ap.y < -10) ap.y = window.innerHeight + 10;
+            if (ap.y > window.innerHeight + 10) ap.y = -10;
+
+            const flicker =
+              ap.opacity * (0.6 + 0.4 * Math.sin(time * 0.002 + ap.phase));
+            ctx2d.beginPath();
+            ctx2d.arc(ap.x, ap.y, ap.size, 0, Math.PI * 2);
+            ctx2d.fillStyle = `rgba(140,120,200,${flicker})`;
+            ctx2d.fill();
+          }
+        }
+
+        // ==================== Toast ====================
+        function showToast(msg) {
+          const el = document.createElement("div");
+          el.className = "toast";
+          el.textContent = msg;
+          toastContainer.appendChild(el);
+          setTimeout(() => {
+            if (el.parentNode) el.remove();
+          }, 3000);
+        }
+
+        // ==================== 状态更新 ====================
+        function updateStatus(msg) {
+          statusBanner.innerHTML = msg;
+        }
+
+        function updateProgress() {
+          const dots = progressBar.querySelectorAll(".progress-dot");
+          dots.forEach((dot, i) => {
+            if (i < placedGears.size) dot.classList.add("filled");
+            else dot.classList.remove("filled");
+          });
+        }
+
+        // ==================== 庆祝 ====================
+        function showCelebration() {
+          if (celebrationShown) return;
+          celebrationShown = true;
+          celebration.classList.add("active");
+          // 全屏粒子爆发
+          spawnParticles(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            60,
+            "#ffd93d",
+            12,
+            3,
+          );
+          spawnParticles(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            40,
+            "#ff6b9d",
+            10,
+            2.5,
+          );
+          spawnParticles(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            40,
+            "#c44dff",
+            10,
+            2.5,
+          );
+          spawnParticles(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            30,
+            "#00d4ff",
+            11,
+            3,
+          );
+          updateStatus(
+            '<span class="emoji">🎉</span> 所有齿轮已就位！机械共鸣启动 <span class="emoji">🎉</span>',
+          );
+          showToast("🎉 太厉害了！全部齿轮已就位！");
+
+          // 添加完成后的长方形动画
+          const completionBox = document.createElement("div");
+          completionBox.className = "completion-box";
+          completionBox.innerHTML = `
+            <div class="completion-content">
+              <div class="completion-image-container">
+                <img src="7.png" class="completion-image" alt="动态龙风筝">
+                <img src="8.png" class="completion-image" alt="小型动态龙头">
+              </div>
+              <div class="completion-text">
+                <h2 class="completion-title">四动态龙头风筝</h2>
+                <div class="completion-content-text">
+                  <p><strong>这个动态龙风筝，是我于1987年首创的有三处部位会动的中型龙风筝。</strong></p>
+                  <p>龙头两腮旁为风动轮，因为风轮转动的太快，我在风轮轴上安装了一个小齿轮，然后带动一个大齿轮将速度减慢，并在大齿轮轴的两端弯制了不同半径的曲柄，曲柄随大齿轮旋转时带动相应的三个连杆，各连杆分别连接到龙头的下巴、舌头和龙的双眼球。经过许多巧妙的机构，使龙头的下巴可以开合，龙舌可伸缩并伴有上下运动。</p>
+                  <p>尤其是将传统风吹转眼创造性地改变为左右转动，使龙头一下活灵话现，首次赋与了龙风筝新的生命。</p>
+                  <p>这件动态龙风筝，1988年参加第三届全国风筝邀请赛期间，获得工艺、放飞两项第一，随即被加拿大朋友收藏，后被印制成加拿大邮票。</p>
+                  <p>下面介绍的小型动态龙头，是在原三个动作的基础上又增加了一个龙的双眉可竖起落下共四处部位会活动的龙头。</p>
+                </div>
+                <a href="index.html" class="completion-back-btn">返回首页</a>
+                <div class="key-hint">按 F 键返回</div>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(completionBox);
+
+          // 停顿3秒后再触发动画
+          setTimeout(() => {
+            completionBox.classList.add("active");
+          }, 3000);
+        }
+
+        function hideCelebration() {
+          celebrationShown = false;
+          celebration.classList.remove("active");
+        }
+
+        // ==================== 齿轮卡片创建 ====================
+        function createGearCards() {
+          gearImages.forEach((src, i) => {
+            const card = document.createElement("div");
+            card.className = "gear-card";
+            card.setAttribute("data-src", src);
+
+            const glow = document.createElement("div");
+            glow.className = "card-glow";
+            card.appendChild(glow);
+
+            const img = document.createElement("img");
+            img.src = src;
+            img.className = "gear-thumb";
+            img.draggable = false;
+            card.appendChild(img);
+
+            const label = document.createElement("span");
+            label.className = "gear-label";
+            label.textContent = gearNames[i];
+            card.appendChild(label);
+
+            gearsSidebar.appendChild(card);
+          });
+        }
+
+        // ==================== 拖拽逻辑 ====================
+        function startDragging(x, y, src) {
+          if (activeClone) return;
+          activeClone = document.createElement("img");
+          activeClone.src = src;
+          activeClone.className = "gear-clone";
+          document.body.appendChild(activeClone);
+          moveClone(x, y);
+          // 抓取粒子
+          spawnParticles(x, y, 12, "#c44dff", 3, 0.8);
+          spawnParticles(x, y, 8, "#ff6b9d", 2.5, 0.6);
+          updateStatus(
+            '<span class="emoji">✊</span> 已抓取齿轮！移动到图纸上方...',
+          );
+        }
+
+        function moveClone(x, y) {
+          if (!activeClone) return;
+          activeClone.style.left = x - 960 + "px";
+          activeClone.style.top = y - 540 + "px";
+        }
+
+        function checkProximity(x, y) {
+          if (!activeClone) return;
+          const frameRect = blueprintFrame.getBoundingClientRect();
+          const isNear =
+            x > frameRect.left &&
+            x < frameRect.right &&
+            y > frameRect.top &&
+            y < frameRect.bottom;
+          if (isNear) {
+            activeClone.classList.add("near-blueprint");
+            blueprintFrame.classList.add("glow-active");
+          } else {
+            activeClone.classList.remove("near-blueprint");
+            blueprintFrame.classList.remove("glow-active");
+          }
+        }
+
+        function finishDragging(x, y, src) {
+          if (!activeClone) return;
+
+          const dzRect = dropZone.getBoundingClientRect();
+          if (
+            x > dzRect.left &&
+            x < dzRect.right &&
+            y > dzRect.top &&
+            y < dzRect.bottom
+          ) {
+            // 同一个齿轮不重复放置
+            const fileName = src.split("/").pop();
+            if (placedGears.has(fileName)) {
+              showToast("⚠️ 这个齿轮已经放过了！");
+            } else {
+              const gear = document.createElement("img");
+              gear.src = src;
+              gear.className = "placed-gear";
+              gear.style.left = "0px";
+              gear.style.top = "0px";
+              gear.style.zIndex = gearZIndex[fileName] || 10;
+              gear.draggable = false;
+
+              // 先播放入场动画
+              gear.style.animation =
+                "gearSnapIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards";
+
+              // 动画结束后切换为旋转动画
+              const onSnapEnd = () => {
+                gear.style.animation = "";
+                if (src.includes("1.png") || src.includes("2.png")) {
+                  gear.classList.add("rotating");
+                }
+                if (src.includes("3.png")) {
+                  gear.classList.add("rotating-reverse");
+                  gear.style.transformOrigin = "890px 250px";
+                }
+                gear.removeEventListener("animationend", onSnapEnd);
+              };
+              gear.addEventListener("animationend", onSnapEnd);
+
+              dropZone.appendChild(gear);
+
+              // 放置粒子爆发
+              spawnParticles(x, y, 20, "#00d4ff", 5, 1.2);
+              spawnParticles(x, y, 15, "#c44dff", 4, 1);
+              spawnParticles(x, y, 10, "#ffd93d", 3, 0.8);
+
+              placedGears.add(fileName);
+              updateProgress();
+
+              // 进度反馈
+              const count = placedGears.size;
+              const remaining = 4 - count;
+              if (remaining > 0) {
+                const msg = `第 ${count} 个齿轮就位！还差 ${remaining} 个`;
+                updateStatus(`<span class="emoji">⚙️</span> ${msg}`);
+                showToast(msg);
+              }
+
+              // 4个齿轮全部就位才触发庆祝
+              if (placedGears.size === 4) {
+                showCelebration();
+              }
+            }
+          }
+
+          // 清理
+          activeClone.remove();
+          activeClone = null;
+          blueprintFrame.classList.remove("glow-active");
+          updateStatus(
+            '<span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸 <span class="emoji">👋</span>',
+          );
+        }
+
+        // ==================== 光标拖尾 ====================
+        function spawnTrailRing(x, y) {
+          const ring = document.createElement("div");
+          ring.className = "cursor-trail-ring";
+          ring.style.left = x + "px";
+          ring.style.top = y + "px";
+          ring.style.width = Math.random() * 8 + 6 + "px";
+          ring.style.height = ring.style.width;
+          document.body.appendChild(ring);
+          setTimeout(() => ring.remove(), 500);
+        }
+
+        let lastTrailTime = 0;
+
+        // ==================== 主循环 ====================
+        let lastTime = performance.now();
+
+        function loop(time) {
+          const dt = Math.min((time - lastTime) / 1000, 0.1);
+          lastTime = time;
+
+          // 弹簧光标物理
+          const fx = (targetX - cursorX) * SPRING;
+          const fy = (targetY - cursorY) * SPRING;
+          velX = (velX + fx) * DAMPING;
+          velY = (velY + fy) * DAMPING;
+          cursorX += velX;
+          cursorY += velY;
+
+          // 更新光标 DOM
+          handCursor.style.left = cursorX + "px";
+          handCursor.style.top = cursorY + "px";
+
+          // 光标拖尾
+          if (isDragging && time - lastTrailTime > 40) {
+            spawnTrailRing(cursorX, cursorY);
+            lastTrailTime = time;
+          }
+
+          // 粒子物理
+          updateParticles(dt);
+
+          // 渲染
+          resizeCanvas();
+          ctx2d.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+          drawAmbientParticles(time);
+          drawParticles();
+
+          requestAnimationFrame(loop);
+        }
+
+        function resizeCanvas() {
+          if (
+            particleCanvas.width !== window.innerWidth ||
+            particleCanvas.height !== window.innerHeight
+          ) {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+          }
+        }
+
+        // ==================== 高亮最近的齿轮卡片 ====================
+        function highlightNearestCard(hx, hy) {
+          const cards = gearsSidebar.querySelectorAll(".gear-card");
+          let nearest = null;
+          let minDist = Infinity;
+
+          cards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dist = Math.hypot(hx - cx, hy - cy);
+            if (dist < minDist) {
+              minDist = dist;
+              nearest = card;
+            }
+          });
+
+          cards.forEach((c) => c.classList.remove("highlight"));
+          if (nearest && minDist < 240) {
+            nearest.classList.add("highlight");
+          }
+        }
+
+        // ==================== MediaPipe 手势识别 ====================
+        const videoElement = document.getElementById("webcam");
+
+        function isFist(landmarks) {
+          const getDist = (p1, p2) =>
+            Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+          const wrist = landmarks[0];
+          let folded = 0;
+          [8, 12, 16, 20].forEach((tipIdx) => {
+            const mcpIdx = tipIdx - 3;
+            if (
+              getDist(landmarks[tipIdx], wrist) <
+              getDist(landmarks[mcpIdx], wrist)
+            ) {
+              folded++;
+            }
+          });
+          return folded >= 3;
+        }
+
+        function onResults(results) {
+          if (
+            results.multiHandLandmarks &&
+            results.multiHandLandmarks.length > 0
+          ) {
+            const lm = results.multiHandLandmarks[0];
+            const cp = lm[9]; // 中指 MCP
+
+            // 镜像映射
+            const rawX = (1 - cp.x) * window.innerWidth;
+            const rawY = cp.y * window.innerHeight;
+
+            targetX = rawX;
+            targetY = rawY;
+
+            const grabbing = isFist(lm);
+
+            if (grabbing) {
+              handCursor.classList.add("grabbing");
+              if (!isDragging) {
+                // 检测手指下方的齿轮卡片
+                handCursor.style.display = "none";
+                const elUnder = document.elementFromPoint(cursorX, cursorY);
+                handCursor.style.display = "block";
+
+                if (elUnder) {
+                  const card = elUnder.closest(".gear-card");
+                  if (card) {
+                    isDragging = true;
+                    draggedSrc = card.getAttribute("data-src");
+                    startDragging(cursorX, cursorY, draggedSrc);
+                  }
+                }
+              } else {
+                moveClone(cursorX, cursorY);
+                checkProximity(cursorX, cursorY);
+              }
+            } else {
+              handCursor.classList.remove("grabbing");
+              if (isDragging) {
+                finishDragging(cursorX, cursorY, draggedSrc);
+                isDragging = false;
+                draggedSrc = null;
+              }
+              // 非抓取时高亮最近卡片
+              highlightNearestCard(cursorX, cursorY);
+            }
+          }
+        }
+
+        // ==================== 启动 ====================
+        function init() {
+          createGearCards();
+          setupMouseSupport();
+          resizeCanvas();
+          requestAnimationFrame(loop);
+
+          // 入场动画
+          updateStatus(
+            '<span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸 <span class="emoji">👋</span>',
+          );
+          setTimeout(
+            () => showToast("💡 将手移到左侧齿轮上方，握拳即可抓取"),
+            800,
+          );
+
+          // MediaPipe
+          const hands = new Hands({
+            locateFile: (file) =>
+              `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+          });
+          hands.setOptions({
+            maxNumHands: 1,
+            modelComplexity: 1,
+            minDetectionConfidence: 0.7,
+            minTrackingConfidence: 0.7,
+          });
+          hands.onResults(onResults);
+
+          const camera = new Camera(videoElement, {
+            onFrame: async () => {
+              await hands.send({ image: videoElement });
+            },
+            width: 640,
+            height: 480,
+          });
+          camera.start().catch(() => {
+            updateStatus(
+              '<span class="emoji">⚠️</span> 摄像头未启用 — 可使用鼠标模拟体验',
+            );
+            showToast("⚠️ 摄像头未检测到，请检查权限设置");
+          });
+        }
+
+        // ==================== 鼠标支持 ====================
+        function setupMouseSupport() {
+          // 鼠标移动 → 更新弹簧光标目标位置
+          document.addEventListener("mousemove", (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+
+            if (isDragging) {
+              moveClone(cursorX, cursorY);
+              checkProximity(cursorX, cursorY);
+            } else {
+              highlightNearestCard(cursorX, cursorY);
+            }
+          });
+
+          // 鼠标按下齿轮卡片 → 开始拖拽
+          gearsSidebar.addEventListener("mousedown", (e) => {
+            const card = e.target.closest(".gear-card");
+            if (!card || isDragging) return;
+            e.preventDefault();
+
+            const src = card.getAttribute("data-src");
+            isDragging = true;
+            draggedSrc = src;
+            handCursor.classList.add("grabbing");
+            startDragging(cursorX, cursorY, src);
+            updateStatus(
+              '<span class="emoji">✊</span> 已抓取齿轮！移动到图纸上方...',
+            );
+          });
+
+          // 鼠标释放 → 放置齿轮
+          document.addEventListener("mouseup", () => {
+            if (!isDragging) return;
+
+            handCursor.classList.remove("grabbing");
+            finishDragging(cursorX, cursorY, draggedSrc);
+            isDragging = false;
+            draggedSrc = null;
+          });
+        }
+
+        // ==================== 键盘快捷键 ====================
+        // 快捷键 F → 返回首页（仅在完成画面显示时）
+        document.addEventListener("keydown", (e) => {
+          if ((e.key === "f" || e.key === "F") && celebrationShown) {
+            if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+              window.location.href = "index.html";
+            }
+          }
+        });
+
+        // ==================== 窗口事件 ====================
+        window.addEventListener("resize", resizeCanvas);
+
+        document.addEventListener("DOMContentLoaded", init);
+      })();
+    </script>
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'j' || e.key === 'J') {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'vibe-back' }, '*');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

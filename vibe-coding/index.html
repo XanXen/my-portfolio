@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数字工坊 | 主页</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- 标题 -->
+    <div class="header">
+      <div class="title">动态风筝数字工坊实践</div>
+      <div class="subtitle">AI HAND GESTURE LAB</div>
+    </div>
+
+    <!-- 状态提示 -->
+    <div class="status-banner" id="statusBanner">
+      👋 将手移到卡片上方 · 握拳进入
+    </div>
+
+    <!-- 三个长方形卡片 -->
+    <div class="cards-row" id="cardsRow">
+      <!-- 第一个卡片：动态风筝 -->
+      <div class="card" data-target="workshop.html">
+        <span class="card-number">01</span>
+        <img src="10.png" alt="动态风筝" class="card-image" draggable="false" />
+        <span class="card-label">四动态龙头风筝</span>
+      </div>
+
+      <!-- 第二个卡片：占位 -->
+      <div class="card" data-target="workshop2.html">
+        <span class="card-number">02</span>
+        <img src="11.png" alt="龙头动态工坊" class="card-image" draggable="false" />
+        <span class="card-label">龙头动态工坊</span>
+      </div>
+
+      <!-- 第三个卡片 -->
+      <div class="card" data-target="workshop3.html">
+        <span class="card-number">03</span>
+        <img src="12.png" alt="动态工坊三" class="card-image" draggable="false" />
+        <span class="card-label">二动态仙鹤风筝</span>
+      </div>
+
+    </div>
+
+    <!-- 手势光标 -->
+    <div id="handCursor"></div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- 摄像头 -->
+    <div class="webcam-container">
+      <video id="webcam" autoplay playsinline></video>
+    </div>
+
+    <script src="js/index.js"></script>
+    <script>
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'j' || e.key === 'J') {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'vibe-back' }, '*');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

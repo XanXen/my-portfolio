@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="board game.css">
+    <style>
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer !important;
+            z-index: 10000;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor">
+        <div class="cursor-big-circle"></div>
+        <div class="cursor-small-circle"></div>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">&larr; Back to Game Design</button>
+
+    <div class="content">
+        <img src="images/game design - 2 14_.webp" alt="Board Game Design" loading="lazy">
+    </div>
+
+    <script>
+        function goBack() {
+            document.body.style.transition = 'opacity 0.3s ease';
+            document.body.style.opacity = '0';
+            setTimeout(function() {
+                window.location.href = 'game-design.html';
+            }, 300);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches && "ontouchstart" in window;
+
+            // Entrance animation (opacity only, no transform)
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            requestAnimationFrame(function () {
+                document.body.style.opacity = '1';
+            });
+
+            // Cursor
+            if (!isMobile) {
+                var cursorBig = document.querySelector(".cursor-big-circle");
+                var cursorSmall = document.querySelector(".cursor-small-circle");
+                if (cursorBig && cursorSmall) {
+                    var styleEl = document.createElement('style');
+                    styleEl.textContent = '* { cursor: none !important; }';
+                    document.head.appendChild(styleEl);
+
+                    var mouseX = 0, mouseY = 0;
+                    var bigX = 0, bigY = 0, smallX = 0, smallY = 0;
+                    var isFirstMove = true;
+
+                    document.addEventListener("mousemove", function (e) {
+                        mouseX = e.clientX;
+                        mouseY = e.clientY;
+                        if (isFirstMove) {
+                            bigX = mouseX; bigY = mouseY;
+                            smallX = mouseX; smallY = mouseY;
+                            isFirstMove = false;
+                        }
+                    });
+
+                    (function animate() {
+                        bigX += (mouseX - bigX) * 0.15;
+                        bigY += (mouseY - bigY) * 0.15;
+                        smallX += (mouseX - smallX) * 0.25;
+                        smallY += (mouseY - smallY) * 0.25;
+                        cursorBig.style.left = bigX + "px";
+                        cursorBig.style.top = bigY + "px";
+                        cursorSmall.style.left = smallX + "px";
+                        cursorSmall.style.top = smallY + "px";
+                        requestAnimationFrame(animate);
+                    })();
+                }
+            } else {
+                document.querySelectorAll(".cursor-big-circle, .cursor-small-circle").forEach(function (el) { el.remove(); });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith Space - Game Design</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="game-design.css">
+    <script src="https://kit.fontawesome.com/4ab0ddf8ee.js" crossorigin="anonymous" defer></script>
+</head>
+<body style="background: #000; margin:0; padding:0; width:100vw; height:110vh; overflow:hidden; position: relative;">
+  <canvas id="color-detector" style="display:none;"></canvas>
+  <img src="images/209d0a99d9f1f47d142cfc6c8d499e4bd85628dd.webp" style="display:block; max-width:100vw; max-height:110vh; object-fit:cover; margin:0 auto; position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); z-index: 0;" />
+  <div class="cursor" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99999;">
+      <div class="cursor-big-circle"></div>
+      <div class="cursor-small-circle"></div>
+  </div>
+
+  <div id="header">
+      <div class="container">
+          <nav class="navbar">
+              <a href="index.html" class="brand">Zenith</a>
+              <div class="menu-btn">
+                  <i class="fas fa-bars"></i>
+              </div>
+              <ul class="nav-links">
+                  <li><a href="index.html#about">About</a></li>
+                  <li><a href="index.html#services">My work</a></li>
+                  <li><a href="index.html#portfolio">Experience</a></li>
+                  <li><a href="index.html#contact">Contact</a></li>
+              </ul>
+          </nav>
+      </div>
+  </div>
+
+  <div class="secondary-page">
+      <div data-layer="GAME DESIGN" class="GameDesign">GAME DESIGN</div>
+      <div data-layer="2023-2024" class="Year">2023-2024</div>
+      <div data-layer="Games are virtual flowers that grow in the cracks of reality, nurturing a perception of the unknown world in entertainment. People wander among them, constantly crossing boundaries, and unconsciously project those fictional light and shadow back onto the mirror of reality, reflecting a possible future." class="Description">
+          Games are virtual flowers that grow in the cracks of reality, nurturing a perception of the unknown world in entertainment. People wander among them, constantly crossing boundaries, and unconsciously project those fictional light and shadow back onto the mirror of reality, reflecting a possible future.
+      </div>
+      <a data-layer="Go to Vulnerable Fence ?" class="Link VulnerableFence" href="vulnerable fence.html">Go to Vulnerable Fence ?</a>
+      <a data-layer="Go to Board Game ?" class="Link BoardGameDesign" href="board game.html">Go to Board Game ?</a>
+      <a class="Link BackLink" href="index.html#services">&larr; Back</a>
+  </div>
+
+  <script src="game-design.js"></script>
+</body>
+</html>
