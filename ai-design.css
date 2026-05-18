@@ -365,20 +365,37 @@
   min-height: 20px;
 }
 
+/* ================================================================
+   TOOLTIP PORTAL — dedicated layer above ALL other elements
+   Including the .cursor with mix-blend-mode: difference
+   ================================================================ */
+#tooltip-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;  /* maximum safe z-index */
+  pointer-events: none;
+  isolation: isolate;    /* break free from any parent stacking context */
+}
+
 /* Hover tooltip — positioned via JS as fixed overlay on body */
 .agent-card-tip {
   display: none;
   position: fixed;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.20);
   padding: 14px 16px;
-  width: 320px;
-  max-width: 90vw;
-  z-index: 999999;
+  width: 380px;
+  max-width: 92vw;
+  z-index: 2147483647;
   pointer-events: none;
-  transform: translateZ(0);
-  will-change: transform;
+  isolation: isolate;
+  mix-blend-mode: normal;
+  animation: tipFadeIn 0.2s ease;
+}
+@keyframes tipFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .agent-card-tip::before {
   content: '';
@@ -403,11 +420,127 @@
   border-bottom: 6px solid #fff;
 }
 
+/* ===== Preview Panel (image/workflow area at top of tooltip) ===== */
+.card-tip-preview {
+  margin: -14px -16px 12px;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+}
+
+.preview-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.preview-banner i {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.preview-flow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 12px;
+  background: #faf9ff;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+.preview-flow::-webkit-scrollbar { display: none; }
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: 52px;
+}
+.flow-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d1c4f0;
+  flex-shrink: 0;
+}
+.flow-node span {
+  font-size: 9px;
+  color: #6b5b8a;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 64px;
+  word-break: keep-all;
+}
+.flow-arrow {
+  color: #c4b5e8;
+  font-size: 9px;
+  flex-shrink: 0;
+  margin-top: -12px;
+}
+
+/* Dual-lane layout (AI智能合同) */
+.preview-flow-dual {
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+}
+.flow-lane {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+.flow-lane-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: #7e91e3;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  margin-right: 4px;
+  padding: 2px 4px;
+  background: rgba(126,145,227,0.06);
+  border-radius: 4px;
+}
+
+/* Branched layout (AI智能客服) */
+.preview-flow-branched {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.flow-node-start {
+  width: 100%;
+  margin-bottom: 2px;
+}
+.flow-branches {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.flow-branch {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: #fff3e6;
+  color: #d4894a;
+  border: 1px solid #f5d5b0;
+}
+
+/* Tags + description (unchanged but repositioned below preview) */
 .card-tip-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   margin-bottom: 8px;
+  padding: 0 2px;
 }
 .card-tip-tags span {
   font-size: 10px;
@@ -423,6 +556,7 @@
   color: #777;
   line-height: 1.7;
   margin: 0;
+  padding: 0 2px;
 }
 
 /* ====== AGENT CHAT VIEW ====== */
@@ -714,12 +848,27 @@
   .agent-back {
     position: absolute;
     top: 12px;
-    right: 12px;
+    right: 48px;   /* leave room for the sidebar collapse toggle */
     padding: 6px 14px;
     font-size: 12px;
     border-radius: 8px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+  /* Language toggle: fixed top-right on mobile */
+  .lang-toggle {
+    position: fixed !important;
+    top: 12px !important;
+    right: 100px !important;
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    height: 26px !important;
+    border-radius: 8px !important;
+  }
+  /* Make sidebar toggle easier to tap on mobile */
+  .sidebar-toggle-btn {
+    padding: 8px 10px;
+    font-size: 14px;
   }
 
   /* Show back-to-dashboard button in chat views */
@@ -771,7 +920,21 @@
     overflow: hidden;
   }
   .agent-cards-row { flex-direction: column; }
-  .agent-card { height: 130px; }
+  .agent-card {
+    height: auto;
+    min-height: 120px;
+    padding: 20px 16px;
+  }
+  .agent-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+  .agent-card-name {
+    font-size: 13px;
+  }
 
   /* All views: become flex children */
   .agent-view {
@@ -817,7 +980,21 @@
 
 @media (max-width: 480px) {
   .agent-cards-row { flex-direction: column; }
-  .agent-card { height: 120px; }
+  .agent-card {
+    height: auto;
+    min-height: 110px;
+    padding: 18px 14px;
+  }
+  .agent-card-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .agent-card-name {
+    font-size: 12px;
+  }
   .agent-title { font-size: 22px !important; }
   .agent-chat-inputbar { padding: 8px 12px 12px; gap: 8px; }
   .agent-chat-input { font-size: 16px; } /* prevent iOS zoom on focus */

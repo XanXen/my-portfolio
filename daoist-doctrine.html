@@ -221,6 +221,18 @@
             .detail-header {
                 padding: 0 20px;
             }
+
+            .detail-header .lang-toggle {
+                position: static !important;
+                margin-left: auto !important;
+                background: rgba(255,255,255,0.15) !important;
+                border-color: rgba(255,255,255,0.4) !important;
+                color: rgba(255,255,255,0.8) !important;
+                padding: 3px 8px !important;
+                font-size: 10px !important;
+                height: 24px !important;
+                flex-shrink: 0;
+            }
         }
     </style>
 </head>
@@ -231,50 +243,51 @@
     </div>
 
     <header class="detail-header">
-        <a href="Interactive Design.html" class="back-link">&larr; Back</a>
-        <a href="index.html" class="brand">Zenith</a>
+        <a href="Interactive Design.html" class="back-link" data-en="&larr; Back" data-zh="&larr; 返回">&larr; Back</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language" style="margin-left:auto;border-color:rgba(255,255,255,0.6);color:rgba(255,255,255,0.8);background:transparent;">EN</button>
+        <a href="index.html" class="brand" style="margin-left:16px;">Zenith</a>
     </header>
 
     <div class="detail-hero">
         <img src="images/daoist doctrine of inaction.webp" alt="Daoist Doctrine of Inaction" loading="lazy" />
         <div class="detail-hero-overlay">
-            <span class="tag">INTERACTIVE INSTALLATION</span>
-            <h1>Daoist Doctrine<br/>of Inaction</h1>
+            <span class="tag" data-en="INTERACTIVE INSTALLATION" data-zh="交互装置">INTERACTIVE INSTALLATION</span>
+            <h1 data-en="Daoist Doctrine<br/>of Inaction" data-zh-html="道<br/>无为">Daoist Doctrine<br/>of Inaction</h1>
         </div>
     </div>
 
     <section class="detail-info">
         <div class="info-left">
-            <div class="info-label">ABOUT THIS PROJECT</div>
-            <p class="info-text">
+            <div class="info-label" data-en="ABOUT THIS PROJECT" data-zh="关于此项目">ABOUT THIS PROJECT</div>
+            <p class="info-text" data-en="Inspired by the Daoist philosophy of &quot;Wu Wei&quot; (non-action), this interactive installation explores the harmony between human intention and natural flow. Through gesture and presence, participants experience the paradox of effortless action." data-zh="灵感来源于道家"无为"哲学，这个交互装置探索了人类意图与自然流动之间的和谐。通过手势和在场感，参与者体验到不费力行动的悖论。">
                 Inspired by the Daoist philosophy of "Wu Wei" (non-action), this interactive installation explores the harmony between human intention and natural flow. Through gesture and presence, participants experience the paradox of effortless action.
             </p>
-            <p class="info-text">
+            <p class="info-text" data-en="The installation invites visitors to engage with generative visuals that respond to stillness and movement, revealing the beauty of letting go and allowing things to unfold naturally — a digital meditation on the Daoist doctrine of inaction." data-zh="这个装置邀请观众与生成式视觉互动，这些视觉对静止和运动做出反应，揭示放手让事物自然展开的美——一场关于道家无为的数字冥想。">
                 The installation invites visitors to engage with generative visuals that respond to stillness and movement, revealing the beauty of letting go and allowing things to unfold naturally — a digital meditation on the Daoist doctrine of inaction.
             </p>
         </div>
         <div class="info-right">
             <div class="info-item">
-                <span class="info-tag">YEAR</span>
+                <span class="info-tag" data-en="YEAR" data-zh="年份">YEAR</span>
                 <span class="info-val">2023-2024</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">TYPE</span>
-                <span class="info-val">Interactive Installation</span>
+                <span class="info-tag" data-en="TYPE" data-zh="类型">TYPE</span>
+                <span class="info-val" data-en="Interactive Installation" data-zh="交互装置">Interactive Installation</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">TOOLS</span>
+                <span class="info-tag" data-en="TOOLS" data-zh="工具">TOOLS</span>
                 <span class="info-val">Media</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">ROLE</span>
-                <span class="info-val">Designer & Developer</span>
+                <span class="info-tag" data-en="ROLE" data-zh="角色">ROLE</span>
+                <span class="info-val" data-en="Designer & Developer" data-zh="设计师 & 开发者">Designer & Developer</span>
             </div>
         </div>
     </section>
 
     <section class="detail-videos">
-        <div class="section-label">PROJECT VIDEOS</div>
+        <div class="section-label" data-en="PROJECT VIDEOS" data-zh="项目视频">PROJECT VIDEOS</div>
         <div class="video-grid">
             <div class="video-item">
                 <video controls preload="none" playsinline>
@@ -358,5 +371,6 @@
         }
     });
     </script>
+    <script src="lang.js"></script>
 </body>
 </html>

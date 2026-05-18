@@ -39,17 +39,17 @@
                     <i class="fas fa-bars"></i>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="index.html#about">About</a></li>
-                    <li><a href="index.html#services">My work</a></li>
-                    <li><a href="index.html#portfolio">Experience</a></li>
-                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="index.html#about" data-en="About" data-zh="关于">About</a></li>
+                    <li><a href="index.html#services" data-en="My Work" data-zh="作品">My Work</a></li>
+                    <li><a href="index.html#contact" data-en="Contact" data-zh="联系">Contact</a></li>
                 </ul>
+                <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
             </nav>
         </div>
     </div>
 
     <!-- Back Button -->
-    <a href="index.html#services" class="back-link">&larr;&nbsp;Back</a>
+    <a href="index.html#services" class="back-link" data-en="&larr;&nbsp;Back" data-zh="&larr;&nbsp;返回">&larr;&nbsp;Back</a>
 
     <!-- Main Hero Section with Split Images -->
     <section class="interactive-hero">
@@ -66,10 +66,10 @@
             <!-- Info on LEFT side: Daoist Doctrine info (left panel slides away, this fills the empty left) -->
             <div class="hero-info hero-info-left" id="info-daoist">
                 <span class="hero-tag">01</span>
-                <h2>Daoist Doctrine<br/>of Inaction</h2>
-                <p>Creating a wonderful plant sensory world through dialogue, amplifying plant behavior in the micro world, and enhancing emotional connections between humans and plants.</p>
+                <h2 data-en-html="Daoist Doctrine<br/>of Inaction" data-zh-html="道<br/>无为">Daoist Doctrine<br/>of Inaction</h2>
+                <p data-en="Inspired by the Daoist philosophy of Wu Wei (non-action), this interactive installation explores the harmony between human intention and natural flow through gesture and presence." data-zh="灵感来源于道家"无为"哲学，这个交互装置通过手势和在场感，探索人类意图与自然流动之间的和谐。">Inspired by the Daoist philosophy of Wu Wei (non-action), this interactive installation explores the harmony between human intention and natural flow through gesture and presence.</p>
                 <a href="daoist-doctrine.html" class="hero-arrow-link">
-                    <span class="hero-arrow-text">Explore Project</span>
+                    <span class="hero-arrow-text" data-en="Explore Project" data-zh="探索项目">Explore Project</span>
                     <span class="hero-arrow-icon">&rarr;</span>
                 </a>
             </div>
@@ -77,16 +77,17 @@
             <!-- Info on RIGHT side: Plant Sense Party info (right panel slides away, this fills the empty right) -->
             <div class="hero-info hero-info-right" id="info-plant">
                 <span class="hero-tag">02</span>
-                <h2>Plant Sense<br/>Party</h2>
-                <p>An interactive visualization that transforms bioelectric signals into perceivable media, exploring plant sensory worlds through p5.js.</p>
+                <h2 data-en-html="Plant Sense<br/>Party" data-zh-html="植物感知<br/>派对">Plant Sense<br/>Party</h2>
+                <p data-en="An interactive visualization that transforms bioelectric signals into perceivable media, exploring plant sensory worlds through p5.js." data-zh="一个交互式可视化项目，将生物电信号转化为可感知的媒介，通过 p5.js 探索植物的感官世界。">An interactive visualization that transforms bioelectric signals into perceivable media, exploring plant sensory worlds through p5.js.</p>
                 <a href="plant-sense-party.html" class="hero-arrow-link">
-                    <span class="hero-arrow-text">Explore Project</span>
+                    <span class="hero-arrow-text" data-en="Explore Project" data-zh="探索项目">Explore Project</span>
                     <span class="hero-arrow-icon">&rarr;</span>
                 </a>
             </div>
         </div>
     </section>
 
+    <script src="lang.js"></script>
     <script src="Interactive Design.js"></script>
 </body>
 </html>

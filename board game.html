@@ -57,7 +57,8 @@
         <div class="cursor-small-circle"></div>
     </div>
 
-    <button class="back-btn" onclick="goBack()">&larr; Back to Game Design</button>
+    <button class="back-btn" onclick="goBack()" data-en="&larr; Back to Game Design" data-zh="&larr; 返回游戏设计">&larr; Back to Game Design</button>
+    <button class="lang-toggle" id="langToggle" aria-label="Switch language" style="position:fixed;top:13px;right:60px;z-index:9999;border-color:#fff;color:#fff;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);">EN</button>
 
     <div class="content">
         <img src="images/game design - 2 14_.webp" alt="Board Game Design" loading="lazy">
@@ -122,5 +123,6 @@
             }
         });
     </script>
+    <script src="lang.js"></script>
 </body>
 </html>

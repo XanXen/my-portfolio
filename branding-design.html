@@ -22,11 +22,11 @@
                   <i class="fas fa-bars"></i>
               </div>
               <ul class="nav-links">
-                  <li><a href="index.html#about">About</a></li>
-                  <li><a href="index.html#services">My work</a></li>
-                  <li><a href="index.html#portfolio">Experience</a></li>
-                  <li><a href="index.html#contact">Contact</a></li>
+                  <li><a href="index.html#about" data-en="About" data-zh="关于">About</a></li>
+                  <li><a href="index.html#services" data-en="My Work" data-zh="作品">My Work</a></li>
+                  <li><a href="index.html#contact" data-en="Contact" data-zh="联系">Contact</a></li>
               </ul>
+              <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
           </nav>
       </div>
   </div>
@@ -44,7 +44,7 @@
       <img class="bg-pattern"    src="images/branding-deco-pattern.png" alt="" aria-hidden="true" loading="lazy" />
 
       <!-- Title -->
-      <h1 class="branding-title">Branding Design</h1>
+      <h1 class="branding-title" data-en="Branding Design" data-zh="品牌设计">Branding Design</h1>
 
       <!-- Two project cards -->
       <div class="branding-card card-1" data-project="xiaohongqi">
@@ -68,7 +68,7 @@
   </div>
 
   <!-- Back link (outside canvas to avoid scaling) -->
-  <a class="branding-back" href="index.html#services">&larr;&nbsp;Back</a>
+  <a class="branding-back" href="index.html#services" data-en="&larr;&nbsp;Back" data-zh="&larr;&nbsp;返回">&larr;&nbsp;Back</a>
 
   <!-- Detail overlay -->
   <div class="detail-overlay" id="detail-overlay">
@@ -78,6 +78,7 @@
       </div>
   </div>
 
+  <script src="lang.js"></script>
   <script src="branding-design.js"></script>
 </body>
 </html>

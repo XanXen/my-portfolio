@@ -22,11 +22,11 @@
                   <i class="fas fa-bars"></i>
               </div>
               <ul class="nav-links">
-                  <li><a href="index.html#about">About</a></li>
-                  <li><a href="index.html#services">My work</a></li>
-                  <li><a href="index.html#portfolio">Experience</a></li>
-                  <li><a href="index.html#contact">Contact</a></li>
+                  <li><a href="index.html#about" data-en="About" data-zh="关于">About</a></li>
+                  <li><a href="index.html#services" data-en="My Work" data-zh="作品">My Work</a></li>
+                  <li><a href="index.html#contact" data-en="Contact" data-zh="联系">Contact</a></li>
               </ul>
+              <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
           </nav>
       </div>
   </div>
@@ -37,8 +37,8 @@
       <!-- Left: title + project 1 -->
       <div class="iv-col iv-col-left">
           <div class="iv-title-block">
-              <span class="iv-eyebrow">04 / Communication Design</span>
-              <h1 class="iv-title">Info<br>Visualization</h1>
+              <span class="iv-eyebrow" data-en="04 / Communication Design" data-zh="04 / 传达设计">04 / Communication Design</span>
+              <h1 class="iv-title" data-en-html="Info<br>Visualization" data-zh-html="信息<br>可视化">Info<br>Visualization</h1>
           </div>
           <div class="iv-project iv-project-1" data-detail="takeaway">
               <div class="iv-project-img">
@@ -46,8 +46,8 @@
               </div>
               <div class="iv-project-info">
                   <span class="iv-project-num">01</span>
-                  <h3>外卖信息调研设计</h3>
-                  <p>Food Delivery Research</p>
+                  <h3 data-en="Food Delivery Research" data-zh="外卖信息调研设计">外卖信息调研设计</h3>
+                  <p data-en="Food Delivery Research" data-zh="Food Delivery Research">Food Delivery Research</p>
               </div>
           </div>
       </div>
@@ -60,8 +60,8 @@
               </div>
               <div class="iv-project-info">
                   <span class="iv-project-num">02</span>
-                  <h3>任天堂信息调研设计</h3>
-                  <p>Nintendo Information Research</p>
+                  <h3 data-en="Nintendo Information Research" data-zh="任天堂信息调研设计">任天堂信息调研设计</h3>
+                  <p data-en="Nintendo Information Research" data-zh="Nintendo Information Research">Nintendo Information Research</p>
               </div>
           </div>
       </div>
@@ -70,7 +70,7 @@
   </div>
 
   <!-- Back link (outside canvas to avoid scaling) -->
-  <a class="iv-back" href="index.html#services">&larr;&nbsp;Back</a>
+  <a class="iv-back" href="index.html#services" data-en="&larr;&nbsp;Back" data-zh="&larr;&nbsp;返回">&larr;&nbsp;Back</a>
 
   <!-- Detail overlay -->
   <div class="detail-overlay" id="detail-overlay">
@@ -80,6 +80,7 @@
       </div>
   </div>
 
+  <script src="lang.js"></script>
   <script src="info-visualization.js"></script>
 </body>
 </html>

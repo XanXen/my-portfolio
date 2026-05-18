@@ -241,6 +241,14 @@
         .agent-sub-chat { padding: 0 16px; }
         .agent-sub-inputbar { padding: 12px 16px 16px; }
         .agent-welcome { padding: 40px 20px; }
+        .lang-toggle {
+          position: static !important;
+          margin-left: auto !important;
+          padding: 3px 8px !important;
+          font-size: 10px !important;
+          height: 24px !important;
+          flex-shrink: 0;
+        }
       }
     </style>
 </head>
@@ -259,18 +267,19 @@
     <div class="agent-subpage-shell">
       <!-- Top bar -->
       <div class="agent-sub-topbar">
-        <a href="ai-design.html" class="agent-sub-back">
-          <i class="fa-solid fa-arrow-left"></i> Back
+        <a href="ai-design.html" class="agent-sub-back" data-en="&larr; Back" data-zh="&larr; 返回">
+          <i class="fa-solid fa-arrow-left"></i><span data-en=" Back" data-zh=" 返回"> Back</span>
         </a>
         <div class="agent-sub-title">
           <div class="agent-sub-icon">
             <i class="fa-solid fa-headset"></i>
           </div>
           <div>
-            <div class="agent-sub-name">AI智能客服</div>
-            <div class="agent-sub-status">Online</div>
+            <div class="agent-sub-name" data-en="AI Customer Service" data-zh="AI智能客服">AI智能客服</div>
+            <div class="agent-sub-status" data-en="Online" data-zh="在线">Online</div>
           </div>
         </div>
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language" style="margin-left:auto;border-color:#825ae4;color:#825ae4;">EN</button>
       </div>
 
       <!-- Chat area -->
@@ -281,13 +290,13 @@
             <div class="agent-welcome-icon">
               <i class="fa-solid fa-headset"></i>
             </div>
-            <h2>AI智能客服</h2>
-            <p>你好！我是 AI 智能客服助手，可以帮你解答产品问题、处理售后、查询订单等。有什么我可以帮你的？</p>
+            <h2 data-en="AI Customer Service" data-zh="AI智能客服">AI智能客服</h2>
+            <p data-en="Hello! I'm your AI customer service assistant. I can help you with product inquiries, after-sales service, order tracking, and more. How can I help you?" data-zh="你好！我是 AI 智能客服助手，可以帮你解答产品问题、处理售后、查询订单等。有什么我可以帮你的？">你好！我是 AI 智能客服助手，可以帮你解答产品问题、处理售后、查询订单等。有什么我可以帮你的？</p>
             <div class="agent-quick-actions">
-              <button class="agent-quick-btn" data-msg="我想咨询产品信息">产品咨询</button>
-              <button class="agent-quick-btn" data-msg="我需要售后服务">售后服务</button>
-              <button class="agent-quick-btn" data-msg="我想查询订单状态">订单查询</button>
-              <button class="agent-quick-btn" data-msg="我有其他问题需要帮助">其他问题</button>
+              <button class="agent-quick-btn" data-msg="我想咨询产品信息" data-en="Product Inquiry" data-zh="产品咨询">产品咨询</button>
+              <button class="agent-quick-btn" data-msg="我需要售后服务" data-en="After-Sales" data-zh="售后服务">售后服务</button>
+              <button class="agent-quick-btn" data-msg="我想查询订单状态" data-en="Order Tracking" data-zh="订单查询">订单查询</button>
+              <button class="agent-quick-btn" data-msg="我有其他问题需要帮助" data-en="Other Questions" data-zh="其他问题">其他问题</button>
             </div>
           </div>
         </div>
@@ -295,7 +304,7 @@
 
       <!-- Input bar -->
       <div class="agent-sub-inputbar">
-        <input type="text" class="agent-sub-input" id="subInput" placeholder="输入你的问题..." autocomplete="off" />
+        <input type="text" class="agent-sub-input" id="subInput" data-en-placeholder="Type your question..." data-zh-placeholder="输入你的问题..." placeholder="输入你的问题..." autocomplete="off" />
         <button class="agent-sub-sendbtn" id="subSend" type="button">
           <i class="fa-solid fa-paper-plane"></i>
         </button>

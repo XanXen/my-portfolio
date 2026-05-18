@@ -232,6 +232,18 @@
             .detail-header {
                 padding: 0 20px;
             }
+
+            .detail-header .lang-toggle {
+                position: static !important;
+                margin-left: auto !important;
+                background: rgba(255,255,255,0.15) !important;
+                border-color: rgba(255,255,255,0.4) !important;
+                color: rgba(255,255,255,0.8) !important;
+                padding: 3px 8px !important;
+                font-size: 10px !important;
+                height: 24px !important;
+                flex-shrink: 0;
+            }
         }
     </style>
 </head>
@@ -242,51 +254,52 @@
     </div>
 
     <header class="detail-header">
-        <a href="Interactive Design.html" class="back-link">&larr; Back</a>
-        <a href="index.html" class="brand">Zenith</a>
+        <a href="Interactive Design.html" class="back-link" data-en="&larr; Back" data-zh="&larr; 返回">&larr; Back</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Switch language" style="margin-left:auto;border-color:rgba(255,255,255,0.6);color:rgba(255,255,255,0.8);background:transparent;">EN</button>
+        <a href="index.html" class="brand" style="margin-left:16px;">Zenith</a>
     </header>
 
     <div class="detail-hero">
         <img src="images/plant sense party.webp" alt="Plant Sense Party" loading="lazy" />
         <div class="detail-hero-overlay">
-            <span class="tag">INTERACTIVE VISUALIZATION</span>
-            <h1>Plant Sense<br/>Party</h1>
+            <span class="tag" data-en="INTERACTIVE VISUALIZATION" data-zh="交互可视化">INTERACTIVE VISUALIZATION</span>
+            <h1 data-en="Plant Sense<br/>Party" data-zh-html="植物感知<br/>派对">Plant Sense<br/>Party</h1>
         </div>
     </div>
 
     <section class="detail-info">
         <div class="info-left">
-            <div class="info-label">ABOUT THIS PROJECT</div>
-            <p class="info-text">
+            <div class="info-label" data-en="ABOUT THIS PROJECT" data-zh="关于此项目">ABOUT THIS PROJECT</div>
+            <p class="info-text" data-en="As living organisms, plants constantly perceive their environment with various information-collecting terminals. In the inaudible world of plants, they have their own way of sensing the world." data-zh="作为生命体，植物通过各种信息收集终端不断感知环境。在植物无声的世界里，它们有着自己感知世界的方式。">
                 As living organisms, plants constantly perceive their environment with various information-collecting terminals. In the inaudible world of plants, they have their own way of sensing the world.
             </p>
-            <p class="info-text">
+            <p class="info-text" data-en="Plant Sense Party uses visualization to transform bioelectric signals into perceivable media. Through the five senses of plants, we attempt to converse with them, amplify their microscopic behaviors, and create a wonderful plant sensory world." data-zh="Plant Sense Party 利用可视化将生物电信号转化为可感知的媒介。通过植物的五感，我们尝试与它们对话，放大它们的微观行为，创造一个奇妙的植物感官世界。">
                 Plant Sense Party uses visualization to transform bioelectric signals into perceivable media. Through the five senses of plants, we attempt to converse with them, amplify their microscopic behaviors, and create a wonderful plant sensory world.
             </p>
         </div>
         <div class="info-right">
             <div class="info-item">
-                <span class="info-tag">YEAR</span>
+                <span class="info-tag" data-en="YEAR" data-zh="年份">YEAR</span>
                 <span class="info-val">2023-2024</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">TYPE</span>
-                <span class="info-val">Interactive Visualization</span>
+                <span class="info-tag" data-en="TYPE" data-zh="类型">TYPE</span>
+                <span class="info-val" data-en="Interactive Visualization" data-zh="交互可视化">Interactive Visualization</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">TOOLS</span>
+                <span class="info-tag" data-en="TOOLS" data-zh="工具">TOOLS</span>
                 <span class="info-val">p5.js / Bioelectric Sensors</span>
             </div>
             <div class="info-item">
-                <span class="info-tag">ROLE</span>
-                <span class="info-val">Designer & Developer</span>
+                <span class="info-tag" data-en="ROLE" data-zh="角色">ROLE</span>
+                <span class="info-val" data-en="Designer & Developer" data-zh="设计师 & 开发者">Designer & Developer</span>
             </div>
         </div>
     </section>
 
     <section class="sketch-section">
-        <div class="section-label">INTERACTIVE EXPERIENCE</div>
-        <p class="section-hint">Press & drag your mouse on the canvas to paint with plant textures. Click to switch between 8 different plants.</p>
+        <div class="section-label" data-en="INTERACTIVE EXPERIENCE" data-zh="交互体验">INTERACTIVE EXPERIENCE</div>
+        <p class="section-hint" data-en="Press &amp; drag your mouse on the canvas to paint with plant textures. Click to switch between 8 different plants." data-zh="在画布上按住并拖动鼠标，用植物纹理绘画。点击可在8种不同植物之间切换。">Press & drag your mouse on the canvas to paint with plant textures. Click to switch between 8 different plants.</p>
         <div class="sketch-container" id="sketch-container">
             <div class="sketch-overlay" id="sketch-overlay"></div>
             <iframe id="sketch-frame" src="sketch/index.html" frameborder="0" scrolling="no" allowfullscreen></iframe>
@@ -400,5 +413,6 @@
         }
     });
     </script>
+    <script src="lang.js"></script>
 </body>
 </html>
