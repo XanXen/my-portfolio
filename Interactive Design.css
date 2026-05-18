@@ -329,9 +329,9 @@
     .back-link.nav-back {
         position: static;
         margin-left: auto;
-        margin-right: 12px;
-        font-size: 12px;
-        padding: 7px 14px;
+        margin-right: 4px;
+        font-size: 14px;
+        padding: 12px 18px;
         background: rgba(255,255,255,0.1);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
@@ -340,6 +340,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        border-radius: 6px;
     }
 }
 
