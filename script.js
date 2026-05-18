@@ -390,7 +390,36 @@ function init3DModel() {
 
     if (typeof THREE === 'undefined') {
         console.error('Three.js 未正确加载');
+        // Hide loading indicator on failure
+        var loadingEl = document.getElementById('model-loading');
+        if (loadingEl) loadingEl.style.display = 'none';
         return;
+    }
+
+    // Mobile slow network detection: skip 3D on Save-Data or slow connection
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var isMobileDevice = window.matchMedia("(max-width: 600px)").matches;
+    if (conn && conn.saveData) {
+        console.log('Save-Data enabled, skipping 3D model');
+        var loadingEl = document.getElementById('model-loading');
+        if (loadingEl) loadingEl.style.display = 'none';
+        return;
+    }
+    if (isMobileDevice && conn && conn.effectiveType && (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g')) {
+        console.log('Slow mobile connection, skipping 3D model');
+        var loadingEl = document.getElementById('model-loading');
+        if (loadingEl) loadingEl.style.display = 'none';
+        return;
+    }
+
+    // Set a loading timeout - if model doesn't load in 15s on mobile, give up
+    var modelLoadTimeout = null;
+    if (isMobileDevice) {
+        modelLoadTimeout = setTimeout(function() {
+            console.warn('3D model loading timeout on mobile');
+            var loadingEl = document.getElementById('model-loading');
+            if (loadingEl) loadingEl.style.display = 'none';
+        }, 15000);
     }
 
     const scene = new THREE.Scene();
@@ -441,6 +470,7 @@ function init3DModel() {
         // Loading progress handled by UI progress bar
     };
     loadingManager.onLoad = function() {
+        if (modelLoadTimeout) clearTimeout(modelLoadTimeout);
         var loadingEl = document.getElementById('model-loading');
         if (loadingEl) loadingEl.style.display = 'none';
     };

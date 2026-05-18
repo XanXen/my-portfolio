@@ -12,13 +12,18 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="style.css" />
+    <!-- FontAwesome with fallback -->
     <script
       src="https://kit.fontawesome.com/4ab0ddf8ee.js"
       crossorigin="anonymous"
       defer
+      onerror="console.warn('FontAwesome CDN failed, icons may not display')"
     ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
+    <!-- Three.js with local fallback -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer
+      onerror="var s=document.createElement('script');s.src='lib/three.min.js';s.defer=true;document.head.appendChild(s);"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer
+      onerror="var s=document.createElement('script');s.src='lib/GLTFLoader.js';s.defer=true;document.head.appendChild(s);"></script>
     <script src="script.js" defer></script>
     <style>
       .cursor {
