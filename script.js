@@ -1,4 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // ---- 中英文切换 ----
+    let currentLang = localStorage.getItem('zenith-lang') || 'en';
+    const langToggle = document.getElementById('langToggle');
+
+    function applyLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('zenith-lang', lang);
+        if (langToggle) langToggle.textContent = lang === 'en' ? 'EN' : '中';
+
+        // Update text content
+        document.querySelectorAll('[data-en]').forEach(function(el) {
+            var text = el.getAttribute('data-' + lang);
+            if (text) el.textContent = text;
+        });
+
+        // Update innerHTML (for elements with <br> etc.)
+        document.querySelectorAll('[data-en-html]').forEach(function(el) {
+            var html = el.getAttribute('data-' + lang + '-html');
+            if (html) el.innerHTML = html;
+        });
+
+        // Update placeholders
+        document.querySelectorAll('[data-en-placeholder]').forEach(function(el) {
+            var ph = el.getAttribute('data-' + lang + '-placeholder');
+            if (ph) el.placeholder = ph;
+        });
+
+        // Update circular text
+        var circularEl = document.querySelector('.circular-text');
+        if (circularEl) {
+            var enText = "Welcome • My Space • UX Designer • Based In China • ";
+            var zhText = "欢迎 • 我的空间 • UX 设计师 • 来自中国 • ";
+            var t = lang === 'zh' ? zhText : enText;
+            var chars = t.split('');
+            var deg = 360 / chars.length;
+            // Remove old spans
+            circularEl.querySelectorAll('span').forEach(function(s) { s.remove(); });
+            chars.forEach(function(char, i) {
+                var span = document.createElement('span');
+                span.innerText = char;
+                span.style.transform = 'rotate(' + (deg * i) + 'deg)';
+                circularEl.appendChild(span);
+            });
+        }
+
+        document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+    }
+
+    if (langToggle) {
+        langToggle.addEventListener('click', function() {
+            applyLanguage(currentLang === 'en' ? 'zh' : 'en');
+        });
+    }
+    applyLanguage(currentLang);
+
     // 检查是否为移动设备（基于屏幕宽度或触摸支持）
     const isMobile = window.matchMedia("(max-width: 600px)").matches || "ontouchstart" in window;
 
@@ -461,6 +516,7 @@ function init3DModel() {
 
             modelGroup.position.set(0, 0, 0);
 
+            // Desktop: mouse control
             document.addEventListener('mousemove', (event) => {
                 const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
                 const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
@@ -468,6 +524,65 @@ function init3DModel() {
                 targetRotationY = mouseX * 0.5;
                 targetRotationX = mouseY * 0.3;
             });
+
+            // Mobile: gyroscope (DeviceOrientation) control
+            var gyroEnabled = false;
+            var initialBeta = null;
+            var initialGamma = null;
+
+            function handleOrientation(event) {
+                if (event.beta === null || event.gamma === null) return;
+                if (initialBeta === null) {
+                    initialBeta = event.beta;
+                    initialGamma = event.gamma;
+                }
+                // beta = front-back tilt (-180~180), gamma = left-right tilt (-90~90)
+                var deltaBeta = (event.beta - initialBeta);
+                var deltaGamma = (event.gamma - initialGamma);
+                // Clamp to reasonable range
+                deltaBeta = Math.max(-40, Math.min(40, deltaBeta));
+                deltaGamma = Math.max(-40, Math.min(40, deltaGamma));
+                targetRotationX = (deltaBeta / 40) * 0.4;
+                targetRotationY = (deltaGamma / 40) * 0.6;
+            }
+
+            if ('ontouchstart' in window || window.matchMedia("(max-width: 600px)").matches) {
+                // Try to enable gyroscope
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    // iOS 13+ requires permission
+                    document.addEventListener('touchstart', function requestGyro() {
+                        DeviceOrientationEvent.requestPermission().then(function(state) {
+                            if (state === 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                                gyroEnabled = true;
+                            }
+                        }).catch(function() {});
+                        document.removeEventListener('touchstart', requestGyro);
+                    }, { once: true });
+                } else if ('DeviceOrientationEvent' in window) {
+                    // Android and older iOS
+                    window.addEventListener('deviceorientation', handleOrientation);
+                    gyroEnabled = true;
+                }
+
+                // Fallback: touch drag control
+                var touchStartX = 0, touchStartY = 0;
+                var touchRotX = 0, touchRotY = 0;
+                container.style.pointerEvents = 'auto';
+                container.addEventListener('touchstart', function(e) {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    touchRotX = targetRotationX;
+                    touchRotY = targetRotationY;
+                }, { passive: true });
+                container.addEventListener('touchmove', function(e) {
+                    if (gyroEnabled) return; // gyroscope takes priority
+                    var dx = e.touches[0].clientX - touchStartX;
+                    var dy = e.touches[0].clientY - touchStartY;
+                    targetRotationY = touchRotY + dx * 0.005;
+                    targetRotationX = touchRotX + dy * 0.005;
+                }, { passive: true });
+            }
 
             animate();
         },

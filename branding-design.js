@@ -111,6 +111,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // ---- Mobile: tap to flip cards ----
+    if (isMobile) {
+        document.querySelectorAll('.branding-card').forEach(function (card) {
+            card.addEventListener('click', function (e) {
+                // If card-back was tapped while flipped, let the detail handler run
+                if (card.classList.contains('flipped') && e.target.closest('.card-back')) return;
+                card.classList.toggle('flipped');
+            });
+        });
+    }
+
     // ---- Cursor effects (non-mobile only) ----
     if (!isMobile) {
         var cursorBig = document.querySelector(".cursor-big-circle");

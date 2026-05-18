@@ -74,6 +74,29 @@
             transition: background 0.1s, color 0.1s;
         }
 
+        /* Mobile: make back-hint tappable */
+        @media only screen and (max-width: 600px) {
+            .back-hint {
+                pointer-events: auto;
+                cursor: pointer;
+                bottom: 20px;
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            .back-hint .key-badge {
+                display: none;
+            }
+            .back-hint .mobile-arrow {
+                display: inline;
+            }
+        }
+        @media only screen and (min-width: 601px) {
+            .back-hint .mobile-arrow {
+                display: none;
+            }
+        }
+
         /* Page exit transition */
         .vibe-exit {
             animation: vibeOut 0.4s ease-in forwards;
@@ -93,7 +116,8 @@
         <iframe src="vibe-coding/index.html" allow="camera;microphone" allowfullscreen></iframe>
     </div>
 
-    <div class="back-hint">
+    <div class="back-hint" id="backHint">
+        <span class="mobile-arrow">&larr;</span>
         <span class="key-badge">J</span>
         <span>Press to go back</span>
     </div>
@@ -118,6 +142,16 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'j' || e.key === 'J') goBack();
             });
+
+            // Mobile: tap back hint to go back
+            var backHint = document.getElementById('backHint');
+            if (backHint) {
+                backHint.addEventListener('click', goBack);
+                backHint.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    goBack();
+                });
+            }
 
             // Listen for postMessage from iframe (when iframe has focus)
             window.addEventListener('message', function(e) {

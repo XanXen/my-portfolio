@@ -44,7 +44,8 @@
       max-width: 1512px;
       height: auto;
       margin: 0 auto;
-      overflow: auto;
+      overflow-x: hidden;
+      overflow-y: auto;
     "
   >
     <div class="cursor">
@@ -88,16 +89,17 @@
             <i class="fas fa-bars"></i>
           </div>
           <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">My Work</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about" data-en="About" data-zh="关于">About</a></li>
+            <li><a href="#services" data-en="My Work" data-zh="作品">My Work</a></li>
+            <li><a href="#contact" data-en="Contact" data-zh="联系">Contact</a></li>
           </ul>
+          <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
         </nav>
         <div class="marquee-container">
           <div class="marquee-content">
-            <span>Postgraduate Design Management</span>
+            <span data-en="Postgraduate Design Management" data-zh="设计管理硕士研究生">Postgraduate Design Management</span>
             <span>•</span>
-            <span>Hi, I'm Zenith From China</span>
+            <span data-en="Hi, I'm Zenith From China" data-zh="你好，我是来自中国的 Zenith">Hi, I'm Zenith From China</span>
             <span>•</span>
           </div>
         </div>
@@ -110,11 +112,11 @@
       <div class="wild-section-label">ABOUT</div>
       <div class="wild-about-inner">
         <div class="wild-about-bio">
-          <h1 class="wild-heading">
+          <h1 class="wild-heading" data-en-html="I design<br /><span class='wild-heading-accent'>experiences</span><br />that matter." data-zh-html="我设计<br /><span class='wild-heading-accent'>有意义的</span><br />体验。">
             I design<br /><span class="wild-heading-accent">experiences</span
             ><br />that matter.
           </h1>
-          <p class="wild-bio-text">
+          <p class="wild-bio-text" data-en="As a design student currently pursuing an MSc in Design Management and studying Google UX Design, I am passionate about applying user-centered design to educational games that promote financial resilience. I am eager to contribute to the &quot;Game Design for Building Financial Resilience for Later Life&quot; project by combining my UX design skills, interest in inclusive game design, and commitment to social impact." data-zh="作为一名正在攻读设计管理硕士并学习 Google UX Design 的设计学生，我热衷于将以用户为中心的设计应用于促进财务韧性的教育游戏。我渴望通过结合我的 UX 设计技能、对包容性游戏设计的兴趣和对社会影响的承诺，为「为晚年建立财务韧性的游戏设计」项目做出贡献。">
             As a design student currently pursuing an MSc in Design Management
             and studying Google UX Design, I am passionate about applying
             user-centered design to educational games that promote financial
@@ -126,28 +128,28 @@
         </div>
         <div class="wild-about-data">
           <div class="wild-tab-nav">
-            <p class="tab-links active-link" onclick="opentab('skills', event)">
+            <p class="tab-links active-link" onclick="opentab('skills', event)" data-en="SKILLS" data-zh="技能">
               SKILLS
             </p>
-            <p class="tab-links" onclick="opentab('experience', event)">EXP.</p>
-            <p class="tab-links" onclick="opentab('education', event)">EDU.</p>
+            <p class="tab-links" onclick="opentab('experience', event)" data-en="EXP." data-zh="经历">EXP.</p>
+            <p class="tab-links" onclick="opentab('education', event)" data-en="EDU." data-zh="教育">EDU.</p>
           </div>
           <div class="tab-contents active-tab" id="skills">
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">01</span
-                ><strong>Visual Arts & Communication Design</strong
-                ><br />Painting / Graphic Design
+                ><strong data-en="Visual Arts & Communication Design" data-zh="视觉艺术与传达设计">Visual Arts & Communication Design</strong
+                ><br /><span data-en="Painting / Graphic Design" data-zh="绘画 / 平面设计">Painting / Graphic Design</span>
               </li>
               <li>
                 <span class="wild-data-tag">02</span
-                ><strong>Interactive & Experiential Design</strong
-                ><br />Interactive Design / Web Design
+                ><strong data-en="Interactive & Experiential Design" data-zh="交互与体验设计">Interactive & Experiential Design</strong
+                ><br /><span data-en="Interactive Design / Web Design" data-zh="交互设计 / 网页设计">Interactive Design / Web Design</span>
               </li>
               <li>
                 <span class="wild-data-tag">03</span
-                ><strong>Fashion & Information Expression Design</strong
-                ><br />Fashion Design / Information Visualization Design
+                ><strong data-en="Fashion & Information Expression Design" data-zh="时尚与信息表达设计">Fashion & Information Expression Design</strong
+                ><br /><span data-en="Fashion Design / Information Visualization Design" data-zh="服装设计 / 信息可视化设计">Fashion Design / Information Visualization Design</span>
               </li>
             </ul>
           </div>
@@ -155,16 +157,15 @@
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">2022</span
-                ><strong>Internship Mailman (Shanghai)</strong>
+                ><strong data-en="Internship Mailman (Shanghai)" data-zh="实习 Mailman（上海）">Internship Mailman (Shanghai)</strong>
               </li>
               <li>
                 <span class="wild-data-tag">2019-23</span
-                ><strong>Fashion Design / Graphic Design</strong>
+                ><strong data-en="Fashion Design / Graphic Design" data-zh="服装设计 / 平面设计">Fashion Design / Graphic Design</strong>
               </li>
               <li>
                 <span class="wild-data-tag">2023-NOW</span
-                ><strong
-                  >Interactive Design / Design Management / Google UX
+                ><strong data-en="Interactive Design / Design Management / Google UX Design" data-zh="交互设计 / 设计管理 / Google UX 设计">Interactive Design / Design Management / Google UX
                   Design</strong
                 >
               </li>
@@ -174,12 +175,12 @@
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">2019</span
-                ><strong>Fashion Design</strong><br />Dalian University, CN
+                ><strong data-en="Fashion Design" data-zh="服装设计">Fashion Design</strong><br /><span data-en="Dalian University, CN" data-zh="大连大学，中国">Dalian University, CN</span>
               </li>
               <li>
                 <span class="wild-data-tag">2024</span
-                ><strong>Design Management</strong><br />University of
-                Southampton, UK
+                ><strong data-en="Design Management" data-zh="设计管理">Design Management</strong><br /><span data-en="University of Southampton, UK" data-zh="南安普顿大学，英国">University of
+                Southampton, UK</span>
               </li>
             </ul>
           </div>
@@ -240,7 +241,7 @@
       <div class="wild-section-label">CONTACT</div>
       <div class="wild-contact-inner">
         <div class="wild-contact-left">
-          <h2 class="wild-contact-heading">
+          <h2 class="wild-contact-heading" data-en-html="Let's<br />work<br /><span class='wild-heading-accent'>together.</span>" data-zh-html="让我们<br />一起<br /><span class='wild-heading-accent'>合作。</span>">
             Let's<br />work<br /><span class="wild-heading-accent"
               >together.</span
             >
@@ -290,25 +291,29 @@
             ></a>
           </div>
           <!-- 作品集和简历需要更新 -->
-          <a href="images/my-cv.pdf" download="" class="wild-btn-download"
+          <a href="images/my-cv.pdf" download="" class="wild-btn-download" data-en="DOWNLOAD CV &darr;" data-zh="下载简历 &darr;"
             >DOWNLOAD CV &darr;</a
           >
         </div>
         <div class="wild-contact-right">
           <form class="wild-form" id="contactForm">
-            <input type="text" name="Name" placeholder="YOUR NAME *" required />
+            <input type="text" name="Name" placeholder="YOUR NAME *" data-en-placeholder="YOUR NAME *" data-zh-placeholder="你的姓名 *" required />
             <input
               type="email"
               name="email"
               placeholder="YOUR EMAIL *"
+              data-en-placeholder="YOUR EMAIL *"
+              data-zh-placeholder="你的邮箱 *"
               required
             />
             <textarea
               name="Message"
               rows="5"
               placeholder="YOUR MESSAGE"
+              data-en-placeholder="YOUR MESSAGE"
+              data-zh-placeholder="你的留言"
             ></textarea>
-            <button type="submit" class="wild-btn-submit" id="contactSubmitBtn">SEND &rarr;</button>
+            <button type="submit" class="wild-btn-submit" id="contactSubmitBtn" data-en="SEND &rarr;" data-zh="发送 &rarr;">SEND &rarr;</button>
           </form>
           <script>
             document.getElementById('contactForm').addEventListener('submit', function(e) {

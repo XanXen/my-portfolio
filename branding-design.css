@@ -294,3 +294,45 @@ body {
     background: rgba(223, 16, 27, 0.7);
 }
 
+/* ── Mobile responsive ── */
+@media only screen and (max-width: 600px) {
+    .cursor-big-circle,
+    .cursor-small-circle {
+        display: none !important;
+    }
+    * { cursor: auto !important; }
+
+    .detail-scroll {
+        width: 90%;
+        max-height: 80vh;
+        border-radius: 12px;
+    }
+
+    .detail-img {
+        border-radius: 12px;
+    }
+
+    .detail-close {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    /* Touch-friendly cards: tap to flip instead of hover */
+    .branding-card {
+        cursor: pointer;
+    }
+
+    .branding-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .branding-card.flipped {
+        transform: scale(1.05) rotateY(180deg);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+    }
+}
+

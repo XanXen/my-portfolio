@@ -949,6 +949,30 @@ nav ul li a:hover::after {
 }
 
 
+/* --- LANG TOGGLE --- */
+.lang-toggle {
+    background: transparent;
+    border: 2px solid #333;
+    color: #333;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    font-family: 'Poppins', monospace;
+    transition: background 0.3s, color 0.3s;
+    line-height: 1;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer !important;
+}
+
+.lang-toggle:hover {
+    background: #ff004f;
+    border-color: #ff004f;
+    color: #fff;
+}
+
 /* --- MENU BTN --- */
 nav .fas {
     display: none;
@@ -1114,6 +1138,19 @@ nav .fas {
         z-index: 9999;
     }
 
+    .lang-toggle {
+        position: fixed;
+        top: 13px;
+        right: 60px;
+        z-index: 9999;
+        font-size: 11px;
+        padding: 3px 10px;
+        height: 28px;
+        border-color: #333;
+        color: #333;
+        background: rgba(255,255,255,0.9);
+    }
+
     .wild-section {
         padding: 60px 20px;
     }
@@ -1187,5 +1224,106 @@ nav .fas {
         width: 100%;
         margin: 0;
         padding: 15px;
+        min-height: 100vh;
+        min-height: 100svh;
+    }
+
+    /* 3D model mobile sizing */
+    #model-container {
+        width: clamp(120px, 55vw, 280px);
+        height: clamp(120px, 55vw, 280px);
+    }
+
+    .circular-text {
+        width: clamp(160px, 70vw, 340px);
+        height: clamp(160px, 70vw, 340px);
+        --radius: clamp(80px, 35vw, 170px);
+    }
+
+    .circular-text span {
+        font-size: clamp(0.7em, 1.2vw, 1em);
+    }
+
+    /* marquee mobile */
+    .marquee-container {
+        top: 50px;
+        height: 36px;
+    }
+    .marquee-content span {
+        font-size: 1.2em;
+        padding: 0 12px;
+    }
+
+    /* About mobile tweaks */
+    .wild-about {
+        padding-top: 80px;
+        padding-bottom: 80px;
+    }
+
+    .wild-bio-text {
+        font-size: 14px;
+        line-height: 1.7;
+        padding-left: 15px;
+    }
+
+    .wild-tab-nav .tab-links {
+        padding: 10px 14px;
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    /* Card mobile - ensure touch feedback */
+    .wild-card {
+        min-height: 160px;
+        padding: 30px 20px;
+    }
+
+    .wild-card::before {
+        display: none;
+    }
+
+    .wild-card-arrow {
+        opacity: 1;
+        transform: translateX(0);
+        color: #ff004f;
+    }
+
+    /* Contact mobile */
+    .wild-contact {
+        padding-top: 80px;
+        padding-bottom: 60px;
+    }
+
+    .wild-contact-heading {
+        font-size: 28px;
+    }
+
+    .wild-social a {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .wild-btn-download {
+        padding: 14px 28px;
+        font-size: 12px;
+    }
+
+    .wild-btn-submit {
+        width: 100%;
+        padding: 16px 40px;
+        font-size: 13px;
+    }
+
+    .wild-form input,
+    .wild-form textarea {
+        font-size: 14px;
+        padding: 14px 0;
+    }
+
+    /* Footer mobile */
+    .wild-footer-marquee span {
+        font-size: clamp(20px, 6vw, 36px);
+        padding: 0 12px;
     }
 }

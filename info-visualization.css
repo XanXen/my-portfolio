@@ -259,3 +259,30 @@ body {
 .detail-close:hover {
     background: rgba(0, 0, 0, 0.6);
 }
+
+/* ── Mobile responsive ── */
+@media only screen and (max-width: 600px) {
+    .cursor-big-circle,
+    .cursor-small-circle {
+        display: none !important;
+    }
+    * { cursor: auto !important; }
+
+    .detail-scroll {
+        width: 90%;
+        max-height: 80vh;
+        border-radius: 12px;
+    }
+
+    .detail-img {
+        border-radius: 12px;
+    }
+
+    .detail-close {
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+}
