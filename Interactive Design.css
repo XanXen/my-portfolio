@@ -326,12 +326,13 @@
     }
 
     .back-link {
-        position: relative;
-        display: block;
-        margin: 20px 24px 40px;
-        width: fit-content;
-        font-size: 14px;
-        padding: 10px 20px;
+        position: fixed;
+        left: 16px;
+        top: 68px;
+        bottom: auto;
+        font-size: 12px;
+        padding: 8px 16px;
+        z-index: 10000;
     }
 }
 
