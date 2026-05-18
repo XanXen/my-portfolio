@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // ---- 处理 hash：滚动到目标后清除，避免刷新卡在非顶部位置 ----
+    if (window.location.hash) {
+        var hashTarget = document.querySelector(window.location.hash);
+        if (hashTarget) {
+            // 等一帧让页面渲染完再滚动
+            requestAnimationFrame(function() {
+                hashTarget.scrollIntoView({ behavior: 'auto' });
+                // 清除 hash，刷新时回到顶部
+                history.replaceState(null, '', window.location.pathname);
+            });
+        }
+    }
+
     // ---- 中英文切换 ----
     let currentLang = localStorage.getItem('zenith-lang') || 'en';
     const langToggle = document.getElementById('langToggle');
