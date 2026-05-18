@@ -12,6 +12,7 @@
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="style.css" />
+
     <!-- FontAwesome with fallback -->
     <script
       src="https://kit.fontawesome.com/4ab0ddf8ee.js"
@@ -20,10 +21,26 @@
       onerror="console.warn('FontAwesome CDN failed, icons may not display')"
     ></script>
     <!-- Three.js with local fallback -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer
-      onerror="var s=document.createElement('script');s.src='lib/three.min.js';s.defer=true;document.head.appendChild(s);"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer
-      onerror="var s=document.createElement('script');s.src='lib/GLTFLoader.js';s.defer=true;document.head.appendChild(s);"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+      defer
+      onerror="
+        var s = document.createElement('script');
+        s.src = 'lib/three.min.js';
+        s.defer = true;
+        document.head.appendChild(s);
+      "
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"
+      defer
+      onerror="
+        var s = document.createElement('script');
+        s.src = 'lib/GLTFLoader.js';
+        s.defer = true;
+        document.head.appendChild(s);
+      "
+    ></script>
     <script src="script.js" defer></script>
     <style>
       .cursor {
@@ -59,28 +76,75 @@
     </div>
 
     <section id="hero">
-      <div id="model-loading" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;text-align:center;color:#999;font-family:'Poppins',sans-serif;">
-        <div style="width:200px;height:2px;background:#333;border-radius:1px;overflow:hidden;">
-          <div id="model-progress-bar" style="width:0%;height:100%;background:#fff;transition:width 0.3s;"></div>
+      <div
+        id="model-loading"
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 10;
+          text-align: center;
+          color: #999;
+          font-family: &quot;Poppins&quot;, sans-serif;
+        "
+      >
+        <div
+          style="
+            width: 200px;
+            height: 2px;
+            background: #333;
+            border-radius: 1px;
+            overflow: hidden;
+          "
+        >
+          <div
+            id="model-progress-bar"
+            style="
+              width: 0%;
+              height: 100%;
+              background: #fff;
+              transition: width 0.3s;
+            "
+          ></div>
         </div>
-        <div id="model-progress-text" style="margin-top:8px;font-size:12px;letter-spacing:2px;">LOADING 0%</div>
+        <div
+          id="model-progress-text"
+          style="margin-top: 8px; font-size: 12px; letter-spacing: 2px"
+        >
+          LOADING 0%
+        </div>
       </div>
       <div id="model-container"></div>
       <div class="hero-content">
         <div class="hero-accent-circle"></div>
-        <div class="welcome-text">Welcome</div>
-        <div class="circular-text">
+        <div class="welcome-text" data-en="Welcome" data-zh="欢迎">Welcome</div>
+        <div class="circular-text" id="circularText">
           <script>
-            const text = "Welcome • My Space • UX Designer • Based In China • ";
-            const chars = text.split("");
-            const deg = 360 / chars.length;
+            (function () {
+              var container = document.getElementById("circularText");
+              var texts = {
+                en: "Welcome • My Space • UX Designer • Based In China • ",
+                zh: "欢迎 • 我的空间 • UX设计师 • 来自中国 • ",
+              };
 
-            chars.forEach((char, i) => {
-              const span = document.createElement("span");
-              span.innerText = char;
-              span.style.transform = `rotate(${deg * i}deg)`;
-              document.querySelector(".circular-text").appendChild(span);
-            });
+              window.rebuildCircularText = function (lang) {
+                container.innerHTML = "";
+                var text = texts[lang] || texts.en;
+                var chars = text.split("");
+                var deg = 360 / chars.length;
+                chars.forEach(function (char, i) {
+                  var span = document.createElement("span");
+                  span.innerText = char;
+                  span.style.transform = "rotate(" + deg * i + "deg)";
+                  container.appendChild(span);
+                });
+              };
+
+              // Initial build based on saved language
+              var savedLang = localStorage.getItem("zenith-lang") || "en";
+              window.rebuildCircularText(savedLang);
+            })();
           </script>
         </div>
       </div>
@@ -95,16 +159,34 @@
           </div>
           <ul class="nav-links">
             <li><a href="#about" data-en="About" data-zh="关于">About</a></li>
-            <li><a href="#services" data-en="My Work" data-zh="作品">My Work</a></li>
-            <li><a href="#contact" data-en="Contact" data-zh="联系">Contact</a></li>
+            <li>
+              <a href="#services" data-en="My Work" data-zh="作品">My Work</a>
+            </li>
+            <li>
+              <a href="#contact" data-en="Contact" data-zh="联系">Contact</a>
+            </li>
           </ul>
-          <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
+          <button
+            class="lang-toggle"
+            id="langToggle"
+            aria-label="Switch language"
+          >
+            EN
+          </button>
         </nav>
         <div class="marquee-container">
           <div class="marquee-content">
-            <span data-en="Postgraduate Design Management" data-zh="设计管理硕士研究生">Postgraduate Design Management</span>
+            <span
+              data-en="Postgraduate Design Management"
+              data-zh="设计管理硕士研究生"
+              >Postgraduate Design Management</span
+            >
             <span>•</span>
-            <span data-en="Hi, I'm Zenith From China" data-zh="你好，我是来自中国的 Zenith">Hi, I'm Zenith From China</span>
+            <span
+              data-en="Hi, I'm Zenith From China"
+              data-zh="你好，我是来自中国的 Zenith"
+              >Hi, I'm Zenith From China</span
+            >
             <span>•</span>
           </div>
         </div>
@@ -114,47 +196,101 @@
 
     <div id="about" class="wild-section wild-about">
       <div class="wild-section-num" aria-hidden="true">01</div>
-      <div class="wild-section-label">ABOUT</div>
+      <div class="wild-section-label" data-en="ABOUT" data-zh="关于">ABOUT</div>
       <div class="wild-about-inner">
         <div class="wild-about-bio">
-          <h1 class="wild-heading" data-en-html="I design<br /><span class='wild-heading-accent'>experiences</span><br />that matter." data-zh-html="我设计<br /><span class='wild-heading-accent'>有意义的</span><br />体验。">
+          <h1
+            class="wild-heading"
+            data-en-html="I design<br /><span class='wild-heading-accent'>experiences</span><br />that matter."
+            data-zh-html="我设计<br /><span class='wild-heading-accent'>有意义的</span><br />体验。"
+          >
             I design<br /><span class="wild-heading-accent">experiences</span
             ><br />that matter.
           </h1>
-          <p class="wild-bio-text" data-en="As a design student currently pursuing an MSc in Design Management and studying Google UX Design, I am passionate about applying user-centered design to educational games that promote financial resilience. I am eager to contribute to the &quot;Game Design for Building Financial Resilience for Later Life&quot; project by combining my UX design skills, interest in inclusive game design, and commitment to social impact." data-zh="作为一名正在攻读设计管理硕士并学习 Google UX Design 的设计学生，我热衷于将以用户为中心的设计应用于促进财务韧性的教育游戏。我渴望通过结合我的 UX 设计技能、对包容性游戏设计的兴趣和对社会影响的承诺，为「为晚年建立财务韧性的游戏设计」项目做出贡献。">
-            As a design student currently pursuing an MSc in Design Management
-            and studying Google UX Design, I am passionate about applying
-            user-centered design to educational games that promote financial
-            resilience. I am eager to contribute to the "Game Design for
-            Building Financial Resilience for Later Life" project by combining
-            my UX design skills, interest in inclusive game design, and
-            commitment to social impact.
+          <p
+            class="wild-bio-text"
+            data-en="With an MSc in Design Management and a Google UX Design certification, I apply user-centered design to create meaningful digital experiences. My work spans interactive design, information visualization, and AI-driven tools — always grounded in empathy, craft, and a passion for social impact."
+            data-zh="拥有设计管理硕士学位和 Google UX Design 认证，我致力于运用以用户为中心的设计来创造有意义的数字体验。我的工作涵盖交互设计、信息可视化和 AI 驱动工具——始终以同理心、工艺和对社会影响的热情为基础。"
+          >
+            With an MSc in Design Management and a Google UX Design
+            certification, I apply user-centered design to create meaningful
+            digital experiences. My work spans interactive design, information
+            visualization, and AI-driven tools — always grounded in empathy,
+            craft, and a passion for social impact.
           </p>
         </div>
         <div class="wild-about-data">
           <div class="wild-tab-nav">
-            <p class="tab-links active-link" onclick="opentab('skills', event)" data-en="SKILLS" data-zh="技能">
+            <p
+              class="tab-links active-link"
+              onclick="opentab('skills', event)"
+              data-en="SKILLS"
+              data-zh="技能"
+            >
               SKILLS
             </p>
-            <p class="tab-links" onclick="opentab('experience', event)" data-en="EXP." data-zh="经历">EXP.</p>
-            <p class="tab-links" onclick="opentab('education', event)" data-en="EDU." data-zh="教育">EDU.</p>
+            <p
+              class="tab-links"
+              onclick="opentab('experience', event)"
+              data-en="EXP."
+              data-zh="经历"
+            >
+              EXP.
+            </p>
+            <p
+              class="tab-links"
+              onclick="opentab('education', event)"
+              data-en="EDU."
+              data-zh="教育"
+            >
+              EDU.
+            </p>
+            <p
+              class="tab-links"
+              onclick="opentab('ai', event)"
+              data-en="AI"
+              data-zh="AI"
+            >
+              AI
+            </p>
           </div>
           <div class="tab-contents active-tab" id="skills">
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">01</span
-                ><strong data-en="Visual Arts & Communication Design" data-zh="视觉艺术与传达设计">Visual Arts & Communication Design</strong
-                ><br /><span data-en="Painting / Graphic Design" data-zh="绘画 / 平面设计">Painting / Graphic Design</span>
+                ><strong
+                  data-en="Visual Arts & Communication Design"
+                  data-zh="视觉艺术与传达设计"
+                  >Visual Arts & Communication Design</strong
+                ><br /><span
+                  data-en="Painting / Graphic Design"
+                  data-zh="绘画 / 平面设计"
+                  >Painting / Graphic Design</span
+                >
               </li>
               <li>
                 <span class="wild-data-tag">02</span
-                ><strong data-en="Interactive & Experiential Design" data-zh="交互与体验设计">Interactive & Experiential Design</strong
-                ><br /><span data-en="Interactive Design / Web Design" data-zh="交互设计 / 网页设计">Interactive Design / Web Design</span>
+                ><strong
+                  data-en="Interactive & Experiential Design"
+                  data-zh="交互与体验设计"
+                  >Interactive & Experiential Design</strong
+                ><br /><span
+                  data-en="Interactive Design / Web Design"
+                  data-zh="交互设计 / 网页设计"
+                  >Interactive Design / Web Design</span
+                >
               </li>
               <li>
                 <span class="wild-data-tag">03</span
-                ><strong data-en="Fashion & Information Expression Design" data-zh="时尚与信息表达设计">Fashion & Information Expression Design</strong
-                ><br /><span data-en="Fashion Design / Information Visualization Design" data-zh="服装设计 / 信息可视化设计">Fashion Design / Information Visualization Design</span>
+                ><strong
+                  data-en="Fashion & Information Expression Design"
+                  data-zh="时尚与信息表达设计"
+                  >Fashion & Information Expression Design</strong
+                ><br /><span
+                  data-en="Fashion Design / Information Visualization Design"
+                  data-zh="服装设计 / 信息可视化设计"
+                  >Fashion Design / Information Visualization Design</span
+                >
               </li>
             </ul>
           </div>
@@ -162,15 +298,26 @@
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">2022</span
-                ><strong data-en="Internship Mailman (Shanghai)" data-zh="实习 Mailman（上海）">Internship Mailman (Shanghai)</strong>
+                ><strong
+                  data-en="Internship Mailman (Shanghai)"
+                  data-zh="实习 Mailman（上海）"
+                  >Internship Mailman (Shanghai)</strong
+                >
               </li>
               <li>
                 <span class="wild-data-tag">2019-23</span
-                ><strong data-en="Fashion Design / Graphic Design" data-zh="服装设计 / 平面设计">Fashion Design / Graphic Design</strong>
+                ><strong
+                  data-en="Fashion Design / Graphic Design"
+                  data-zh="服装设计 / 平面设计"
+                  >Fashion Design / Graphic Design</strong
+                >
               </li>
               <li>
-                <span class="wild-data-tag">2023-NOW</span
-                ><strong data-en="Interactive Design / Design Management / Google UX Design" data-zh="交互设计 / 设计管理 / Google UX 设计">Interactive Design / Design Management / Google UX
+                <span class="wild-data-tag">2023-2024</span
+                ><strong
+                  data-en="Interactive Design / Design Management / Google UX Design"
+                  data-zh="交互设计 / 设计管理 / Google UX 设计"
+                  >Interactive Design / Design Management / Google UX
                   Design</strong
                 >
               </li>
@@ -180,12 +327,77 @@
             <ul class="wild-data-list">
               <li>
                 <span class="wild-data-tag">2019</span
-                ><strong data-en="Fashion Design" data-zh="服装设计">Fashion Design</strong><br /><span data-en="Dalian University, CN" data-zh="大连大学，中国">Dalian University, CN</span>
+                ><strong data-en="Fashion Design" data-zh="服装设计"
+                  >Fashion Design</strong
+                ><br /><span
+                  data-en="Dalian University, CN"
+                  data-zh="大连大学，中国"
+                  >Dalian University, CN</span
+                >
               </li>
               <li>
                 <span class="wild-data-tag">2024</span
-                ><strong data-en="Design Management" data-zh="设计管理">Design Management</strong><br /><span data-en="University of Southampton, UK" data-zh="南安普顿大学，英国">University of
-                Southampton, UK</span>
+                ><strong data-en="Design Management" data-zh="设计管理"
+                  >Design Management</strong
+                ><br /><span
+                  data-en="University of Southampton, UK"
+                  data-zh="南安普顿大学，英国"
+                  >University of Southampton, UK</span
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="tab-contents" id="ai">
+            <ul class="wild-data-list">
+              <li>
+                <span class="wild-data-tag">01</span
+                ><strong
+                  data-en="Multi-Agent Orchestration"
+                  data-zh="多智能体协作编排"
+                  >Multi-Agent Orchestration</strong
+                ><br /><span
+                  data-en="Designing agent topologies with shared context &amp; fallback strategies"
+                  data-zh="设计智能体拓扑结构，共享上下文与回退策略"
+                  >Designing agent topologies with shared context &amp; fallback
+                  strategies</span
+                >
+              </li>
+              <li>
+                <span class="wild-data-tag">02</span
+                ><strong
+                  data-en="Prompt Engineering &amp; Chain-of-Thought"
+                  data-zh="提示词工程与思维链"
+                  >Prompt Engineering &amp; Chain-of-Thought</strong
+                ><br /><span
+                  data-en="Guiding LLMs through multi-step reasoning &amp; structured output"
+                  data-zh="引导 LLM 完成多步推理与结构化输出"
+                  >Guiding LLMs through multi-step reasoning &amp; structured
+                  output</span
+                >
+              </li>
+              <li>
+                <span class="wild-data-tag">03</span
+                ><strong
+                  data-en="Knowledge Retrieval &amp; RAG"
+                  data-zh="知识检索与 RAG"
+                  >Knowledge Retrieval &amp; RAG</strong
+                ><br /><span
+                  data-en="Building searchable knowledge bases for runtime agent queries"
+                  data-zh="构建可检索知识库，供智能体运行时查询"
+                  >Building searchable knowledge bases for runtime agent
+                  queries</span
+                >
+              </li>
+              <li>
+                <span class="wild-data-tag">04</span
+                ><strong data-en="Workflow Automation" data-zh="工作流自动化"
+                  >Workflow Automation</strong
+                ><br /><span
+                  data-en="Node-based logic, Python/JS code nodes, API integration on Coze"
+                  data-zh="基于节点的逻辑编排，Python/JS 代码节点，Coze 平台 API 集成"
+                  >Node-based logic, Python/JS code nodes, API integration on
+                  Coze</span
+                >
               </li>
             </ul>
           </div>
@@ -196,18 +408,22 @@
 
     <div id="services" class="wild-section wild-services">
       <div class="wild-section-num" aria-hidden="true">02</div>
-      <div class="wild-section-label">WORK</div>
+      <div class="wild-section-label" data-en="WORK" data-zh="作品">WORK</div>
       <div class="wild-services-grid">
         <a href="ai-design.html" class="wild-card ai-design-link">
           <span class="wild-card-idx">01</span>
           <i class="fa-solid fa-microchip"></i>
-          <h2>AI<br />Design</h2>
+          <h2 data-en-html="AI<br />Design" data-zh-html="AI<br />设计">
+            AI<br />Design
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
         <a href="game-design.html" class="wild-card game-design-link">
           <span class="wild-card-idx">02</span>
           <i class="fa-solid fa-code"></i>
-          <h2>Game<br />Design</h2>
+          <h2 data-en-html="Game<br />Design" data-zh-html="游戏<br />设计">
+            Game<br />Design
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
         <a
@@ -216,37 +432,59 @@
         >
           <span class="wild-card-idx">03</span>
           <i class="fa-solid fa-gamepad"></i>
-          <h2>Interactive<br />Design</h2>
+          <h2
+            data-en-html="Interactive<br />Design"
+            data-zh-html="交互<br />设计"
+          >
+            Interactive<br />Design
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
         <a href="info-visualization.html" class="wild-card">
           <span class="wild-card-idx">04</span>
           <i class="fa-solid fa-sitemap"></i>
-          <h2>Info<br />Visualization</h2>
+          <h2
+            data-en-html="Info<br />Visualization"
+            data-zh-html="信息<br />可视化"
+          >
+            Info<br />Visualization
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
         <a href="vibe-coding.html" class="wild-card">
           <span class="wild-card-idx">05</span>
           <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <h2>Vibe Coding<br />Design</h2>
+          <h2
+            data-en-html="Vibe Coding<br />Design"
+            data-zh-html="Vibe Coding<br />设计"
+          >
+            Vibe Coding<br />Design
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
         <a href="branding-design.html" class="wild-card">
           <span class="wild-card-idx">06</span>
           <i class="fa-solid fa-pen-nib"></i>
-          <h2>Branding<br />Design</h2>
+          <h2 data-en-html="Branding<br />Design" data-zh-html="品牌<br />设计">
+            Branding<br />Design
+          </h2>
           <span class="wild-card-arrow">&rarr;</span>
         </a>
       </div>
     </div>
 
-
     <div id="contact" class="wild-section wild-contact">
       <div class="wild-section-num" aria-hidden="true">04</div>
-      <div class="wild-section-label">CONTACT</div>
+      <div class="wild-section-label" data-en="CONTACT" data-zh="联系">
+        CONTACT
+      </div>
       <div class="wild-contact-inner">
         <div class="wild-contact-left">
-          <h2 class="wild-contact-heading" data-en-html="Let's<br />work<br /><span class='wild-heading-accent'>together.</span>" data-zh-html="让我们<br />一起<br /><span class='wild-heading-accent'>合作。</span>">
+          <h2
+            class="wild-contact-heading"
+            data-en-html="Let's<br />work<br /><span class='wild-heading-accent'>together.</span>"
+            data-zh-html="让我们<br />一起<br /><span class='wild-heading-accent'>合作。</span>"
+          >
             Let's<br />work<br /><span class="wild-heading-accent"
               >together.</span
             >
@@ -282,10 +520,7 @@
               rel="noopener noreferrer"
               ><i class="fa-brands fa-twitter-square"></i
             ></a>
-            <a
-              href="IMG_8551.JPG"
-              target="_blank"
-              rel="noopener noreferrer"
+            <a href="IMG_8551.JPG" target="_blank" rel="noopener noreferrer"
               ><i class="fa-brands fa-weixin"></i
             ></a>
             <a
@@ -296,13 +531,25 @@
             ></a>
           </div>
           <!-- 作品集和简历需要更新 -->
-          <a href="images/my-cv.pdf" download="" class="wild-btn-download" data-en="DOWNLOAD CV &darr;" data-zh="下载简历 &darr;"
+          <a
+            href="images/my-cv.pdf"
+            download=""
+            class="wild-btn-download"
+            data-en="DOWNLOAD CV &darr;"
+            data-zh="下载简历 &darr;"
             >DOWNLOAD CV &darr;</a
           >
         </div>
         <div class="wild-contact-right">
           <form class="wild-form" id="contactForm">
-            <input type="text" name="Name" placeholder="YOUR NAME *" data-en-placeholder="YOUR NAME *" data-zh-placeholder="你的姓名 *" required />
+            <input
+              type="text"
+              name="Name"
+              placeholder="YOUR NAME *"
+              data-en-placeholder="YOUR NAME *"
+              data-zh-placeholder="你的姓名 *"
+              required
+            />
             <input
               type="email"
               name="email"
@@ -318,35 +565,50 @@
               data-en-placeholder="YOUR MESSAGE"
               data-zh-placeholder="你的留言"
             ></textarea>
-            <button type="submit" class="wild-btn-submit" id="contactSubmitBtn" data-en="SEND &rarr;" data-zh="发送 &rarr;">SEND &rarr;</button>
+            <button
+              type="submit"
+              class="wild-btn-submit"
+              id="contactSubmitBtn"
+              data-en="SEND &rarr;"
+              data-zh="发送 &rarr;"
+            >
+              SEND &rarr;
+            </button>
           </form>
           <script>
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-              e.preventDefault();
-              var btn = document.getElementById('contactSubmitBtn');
-              var form = this;
-              btn.textContent = 'SENDING...';
-              btn.disabled = true;
-              var formData = new FormData();
-              formData.append('entry.403497400', form.Name.value);
-              formData.append('entry.2104675101', form.email.value);
-              formData.append('entry.1186705777', form.Message.value);
-              fetch('https://docs.google.com/forms/d/e/1FAIpQLSfN4JQ5CUh61JjrvMsuf4Bkhu-bs9zDZbFETUrUsWLsJ8YC2w/formResponse', {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-              }).then(function() {
-                btn.textContent = 'SENT ✓';
-                form.reset();
-                setTimeout(function() {
-                  btn.textContent = 'SEND →';
-                  btn.disabled = false;
-                }, 3000);
-              }).catch(function() {
-                btn.textContent = 'FAILED, RETRY →';
-                btn.disabled = false;
+            document
+              .getElementById("contactForm")
+              .addEventListener("submit", function (e) {
+                e.preventDefault();
+                var btn = document.getElementById("contactSubmitBtn");
+                var form = this;
+                btn.textContent = "SENDING...";
+                btn.disabled = true;
+                var formData = new FormData();
+                formData.append("entry.403497400", form.Name.value);
+                formData.append("entry.2104675101", form.email.value);
+                formData.append("entry.1186705777", form.Message.value);
+                fetch(
+                  "https://docs.google.com/forms/d/e/1FAIpQLSfN4JQ5CUh61JjrvMsuf4Bkhu-bs9zDZbFETUrUsWLsJ8YC2w/formResponse",
+                  {
+                    method: "POST",
+                    mode: "no-cors",
+                    body: formData,
+                  },
+                )
+                  .then(function () {
+                    btn.textContent = "SENT ✓";
+                    form.reset();
+                    setTimeout(function () {
+                      btn.textContent = "SEND →";
+                      btn.disabled = false;
+                    }, 3000);
+                  })
+                  .catch(function () {
+                    btn.textContent = "FAILED, RETRY →";
+                    btn.disabled = false;
+                  });
               });
-            });
           </script>
         </div>
       </div>
@@ -361,7 +623,11 @@
         ><span>CREATE</span><span>&bull;</span><span>INSPIRE</span
         ><span>&bull;</span>
       </div>
-      <p class="wild-footer-copy">
+      <p
+        class="wild-footer-copy"
+        data-en-html="Copyright &amp;copy; Zenith. Made with <i class='fa-solid fa-heart'></i>"
+        data-zh-html="版权所有 &amp;copy; Zenith. 用心制作 <i class='fa-solid fa-heart'></i>"
+      >
         Copyright &copy; Zenith. Made with <i class="fa-solid fa-heart"></i>
       </p>
     </footer>
