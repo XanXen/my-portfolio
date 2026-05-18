@@ -55,7 +55,25 @@ document.addEventListener("DOMContentLoaded", function () {
     var infoPlant = document.getElementById('info-plant');     // left-side overlay
     var currentSide = null; // 'left', 'right', or null
 
-    if (heroContainer && heroLeft && heroRight) {
+    if (heroContainer && heroLeft && heroRight && isMobile) {
+        // Mobile: tap panel to toggle info
+        heroLeft.addEventListener('click', function () {
+            heroLeft.classList.toggle('tapped');
+            infoDaoist.classList.toggle('mobile-open');
+            // Close the other
+            heroRight.classList.remove('tapped');
+            infoPlant.classList.remove('mobile-open');
+        });
+        heroRight.addEventListener('click', function () {
+            heroRight.classList.toggle('tapped');
+            infoPlant.classList.toggle('mobile-open');
+            // Close the other
+            heroLeft.classList.remove('tapped');
+            infoDaoist.classList.remove('mobile-open');
+        });
+    }
+
+    if (heroContainer && heroLeft && heroRight && !isMobile) {
         heroContainer.addEventListener('mousemove', function (e) {
             var rect = heroContainer.getBoundingClientRect();
             var relX = e.clientX - rect.left;

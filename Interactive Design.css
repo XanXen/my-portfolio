@@ -226,49 +226,117 @@
 
 /* Cursor uses mix-blend-mode: difference for automatic color inversion */
 
-/* ---- Responsive ---- */
+/* ---- Responsive: Mobile card layout ---- */
 @media only screen and (max-width: 900px) {
+    .interactive-hero {
+        height: auto;
+        min-height: calc(100vh - 60px);
+        overflow: visible;
+    }
+
     .hero-split-container {
         display: flex;
         flex-direction: column;
+        position: relative;
+        height: auto;
     }
 
     .hero-panel {
         position: relative;
         width: 100% !important;
-        min-height: 50vh;
+        height: auto;
+        min-height: 0;
         transform: none !important;
+        transition: none !important;
+        z-index: 1 !important;
     }
+
+    .hero-panel img {
+        width: 100%;
+        height: 50vw;
+        min-height: 200px;
+        object-fit: cover;
+    }
+
+    /* Reorder: left-panel, left-info, right-panel, right-info */
+    .hero-left  { order: 1; }
+    #info-daoist { order: 2; }
+    .hero-right { order: 3; }
+    #info-plant  { order: 4; }
 
     .hero-info {
         position: relative;
         width: 100%;
-        opacity: 1;
-        pointer-events: auto;
-        padding: 30px 20px;
-        background: rgba(0, 0, 0, 0.85);
-    }
-
-    .hero-info h2 {
-        font-size: 28px;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    .interactive-hero {
         height: auto;
-        min-height: calc(100vh - 60px);
+        padding: 28px 24px;
+        background: #111;
+        z-index: 1;
+        /* Hidden by default, expand on tap */
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        padding-top: 0;
+        padding-bottom: 0;
+        pointer-events: none;
+        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
     }
 
-    .hero-panel {
-        min-height: 40vh;
+    .hero-info.mobile-open {
+        opacity: 1;
+        max-height: 500px;
+        padding: 28px 24px;
+        pointer-events: auto;
     }
 
     .hero-info h2 {
-        font-size: 22px;
+        font-size: 26px;
+        margin-bottom: 12px;
     }
 
     .hero-info p {
         font-size: 13px;
+        line-height: 1.7;
+        margin-bottom: 24px;
+    }
+
+    .hero-arrow-link {
+        padding: 12px 20px;
+        font-size: 12px;
+    }
+
+    /* Tap indicator on panels */
+    .hero-panel::after {
+        content: 'Tap to view';
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        background: rgba(0,0,0,0.6);
+        color: rgba(255,255,255,0.8);
+        font-size: 12px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        pointer-events: none;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: opacity 0.3s;
+    }
+
+    .hero-panel.tapped::after {
+        opacity: 0;
+    }
+
+    .back-link {
+        position: relative;
+        display: block;
+        margin: 20px 24px 40px;
+        width: fit-content;
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .hero-info h2 {
+        font-size: 22px;
     }
 }
