@@ -555,62 +555,79 @@ function init3DModel() {
                 targetRotationX = mouseY * 0.3;
             });
 
-            // Mobile: gyroscope (DeviceOrientation) control
-            var gyroEnabled = false;
+            // Mobile: gyroscope (DeviceOrientation) + touch control
+            var gyroActive = false; // true only after we receive real data
             var initialBeta = null;
             var initialGamma = null;
+            var gyroPermissionRequested = false;
 
             function handleOrientation(event) {
                 if (event.beta === null || event.gamma === null) return;
+                gyroActive = true;
                 if (initialBeta === null) {
                     initialBeta = event.beta;
                     initialGamma = event.gamma;
                 }
-                // beta = front-back tilt (-180~180), gamma = left-right tilt (-90~90)
-                var deltaBeta = (event.beta - initialBeta);
-                var deltaGamma = (event.gamma - initialGamma);
-                // Clamp to reasonable range
-                deltaBeta = Math.max(-40, Math.min(40, deltaBeta));
-                deltaGamma = Math.max(-40, Math.min(40, deltaGamma));
-                targetRotationX = (deltaBeta / 40) * 0.4;
-                targetRotationY = (deltaGamma / 40) * 0.6;
+                var deltaBeta = event.beta - initialBeta;
+                var deltaGamma = event.gamma - initialGamma;
+                deltaBeta = Math.max(-45, Math.min(45, deltaBeta));
+                deltaGamma = Math.max(-45, Math.min(45, deltaGamma));
+                targetRotationX = (deltaBeta / 45) * 0.5;
+                targetRotationY = (deltaGamma / 45) * 0.7;
+            }
+
+            function tryEnableGyro() {
+                if (gyroPermissionRequested) return;
+                gyroPermissionRequested = true;
+
+                if (typeof DeviceOrientationEvent !== 'undefined' &&
+                    typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    // iOS 13+ requires user gesture permission
+                    DeviceOrientationEvent.requestPermission().then(function(state) {
+                        if (state === 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    }).catch(function(err) {
+                        console.warn('Gyro permission denied:', err);
+                    });
+                } else if ('DeviceOrientationEvent' in window) {
+                    // Android / older iOS — just listen
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
             }
 
             if ('ontouchstart' in window || window.matchMedia("(max-width: 600px)").matches) {
-                // Try to enable gyroscope
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    // iOS 13+ requires permission
-                    document.addEventListener('touchstart', function requestGyro() {
-                        DeviceOrientationEvent.requestPermission().then(function(state) {
-                            if (state === 'granted') {
-                                window.addEventListener('deviceorientation', handleOrientation);
-                                gyroEnabled = true;
-                            }
-                        }).catch(function() {});
-                        document.removeEventListener('touchstart', requestGyro);
-                    }, { once: true });
-                } else if ('DeviceOrientationEvent' in window) {
-                    // Android and older iOS
-                    window.addEventListener('deviceorientation', handleOrientation);
-                    gyroEnabled = true;
+                // On first user touch anywhere, request gyro permission (iOS needs gesture)
+                document.addEventListener('touchstart', function() {
+                    tryEnableGyro();
+                }, { once: true });
+
+                // Also try immediately for Android (no permission needed)
+                if (typeof DeviceOrientationEvent !== 'undefined' &&
+                    typeof DeviceOrientationEvent.requestPermission !== 'function') {
+                    tryEnableGyro();
                 }
 
-                // Fallback: touch drag control
+                // Touch drag fallback — works when gyro has no data
                 var touchStartX = 0, touchStartY = 0;
                 var touchRotX = 0, touchRotY = 0;
-                container.style.pointerEvents = 'auto';
-                container.addEventListener('touchstart', function(e) {
+                var heroEl = document.getElementById('hero');
+                var touchTarget = heroEl || document;
+
+                touchTarget.addEventListener('touchstart', function(e) {
+                    if (gyroActive) return;
                     touchStartX = e.touches[0].clientX;
                     touchStartY = e.touches[0].clientY;
                     touchRotX = targetRotationX;
                     touchRotY = targetRotationY;
                 }, { passive: true });
-                container.addEventListener('touchmove', function(e) {
-                    if (gyroEnabled) return; // gyroscope takes priority
+
+                touchTarget.addEventListener('touchmove', function(e) {
+                    if (gyroActive) return;
                     var dx = e.touches[0].clientX - touchStartX;
                     var dy = e.touches[0].clientY - touchStartY;
-                    targetRotationY = touchRotY + dx * 0.005;
-                    targetRotationX = touchRotX + dy * 0.005;
+                    targetRotationY = touchRotY + dx * 0.008;
+                    targetRotationX = touchRotX + dy * 0.008;
                 }, { passive: true });
             }
 
