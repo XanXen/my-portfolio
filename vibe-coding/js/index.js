@@ -249,9 +249,25 @@
     }
   }
 
-  // ==================== 鼠标支持 ====================
+  // ==================== 鼠标/触摸支持 ====================
+  let lastTapTime = 0;
+
+  function enterCard(card) {
+    const target = card.getAttribute("data-target");
+    if (target && target.endsWith(".html")) {
+      handCursor.classList.add("grabbing");
+      statusBanner.innerHTML = "✨ 正在进入...";
+      navigateTo(target);
+      setTimeout(function() {
+        handCursor.classList.remove("grabbing");
+      }, 600);
+    } else {
+      showToast("🔧 该功能即将上线，敬请期待！");
+    }
+  }
+
   function setupMouseSupport() {
-    document.addEventListener("mousemove", (e) => {
+    document.addEventListener("mousemove", function(e) {
       targetX = e.clientX;
       targetY = e.clientY;
       if (!isGrabbing) {
@@ -259,21 +275,22 @@
       }
     });
 
-    // 鼠标点击卡片 → 模拟握拳抓取
-    cardsRow.addEventListener("click", (e) => {
-      const card = e.target.closest(".card");
+    // 点击卡片
+    cardsRow.addEventListener("click", function(e) {
+      var card = e.target.closest(".card");
       if (!card) return;
-      const target = card.getAttribute("data-target");
-      if (target && target.endsWith(".html")) {
-        handCursor.classList.add("grabbing");
-        statusBanner.innerHTML = "✊ 握拳！正在进入...";
-        navigateTo(target);
-        setTimeout(() => {
-          handCursor.classList.remove("grabbing");
-        }, 600);
-      } else {
-        showToast("🔧 该功能即将上线，敬请期待！");
-      }
+      // 防止 touchend + click 双重触发
+      if (Date.now() - lastTapTime < 400) return;
+      enterCard(card);
+    });
+
+    // 移动端触摸：更快响应
+    cardsRow.addEventListener("touchend", function(e) {
+      var card = e.target.closest(".card");
+      if (!card) return;
+      e.preventDefault();
+      lastTapTime = Date.now();
+      enterCard(card);
     });
   }
 
@@ -282,8 +299,18 @@
     resizeCanvas();
     requestAnimationFrame(loop);
 
-    statusBanner.innerHTML = "👋 将手移到卡片上方 · 握拳进入";
-    setTimeout(() => showToast("💡 将手移到卡片上方，握拳即可进入"), 800);
+    var isMobile = /Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent)
+                || (window.innerWidth <= 768 && 'ontouchstart' in window);
+
+    if (isMobile) {
+      // 移动端：纯点击，不加载摄像头/MediaPipe
+      statusBanner.innerHTML = "👆 点击卡片进入工坊";
+      setupMouseSupport();
+      return;
+    }
+
+    statusBanner.innerHTML = "👆 点击卡片 或 手势悬停进入";
+    setTimeout(function() { showToast("💡 将手移到卡片上方，握拳即可进入"); }, 800);
 
     // MediaPipe
     const hands = new Hands({
@@ -302,10 +329,13 @@
       width: 640,
       height: 480,
     });
-    camera.start().catch(() => {
+    camera.start().catch(function() {
       statusBanner.innerHTML = "⚠️ 摄像头未启用 — 点击卡片即可进入";
       showToast("⚠️ 摄像头未检测到，可使用鼠标点击");
     });
+
+    // 桌面端也支持点击卡片
+    setupMouseSupport();
   }
 
   document.addEventListener("DOMContentLoaded", init);

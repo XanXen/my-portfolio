@@ -426,6 +426,45 @@
     dropZone.appendChild(gear);
   }
 
+  // 直接放置零件（tap-to-place）
+  function tapToPlace(src) {
+    const fileName = src.split("/").pop();
+    if (placedGears.has(fileName)) {
+      showToast("⚠️ 这个零件已经放过了！");
+      return false;
+    }
+
+    if (fileName === "eyes") {
+      placeOneGear("龙头动态工坊（左眼）2.png");
+      placeOneGear("龙头动态工坊（右眼）3.png");
+    } else {
+      placeOneGear(fileName);
+    }
+
+    const dzRect = dropZone.getBoundingClientRect();
+    const cx = dzRect.left + dzRect.width / 2;
+    const cy = dzRect.top + dzRect.height / 2;
+    spawnParticles(cx, cy, 20, "#00d4ff", 5, 1.2);
+    spawnParticles(cx, cy, 15, "#c44dff", 4, 1);
+    spawnParticles(cx, cy, 10, "#ffd93d", 3, 0.8);
+
+    placedGears.add(fileName);
+    updateProgress();
+
+    const count = placedGears.size;
+    const remaining = TOTAL_GEARS - count;
+    if (remaining > 0) {
+      const msg = "第 " + count + " 个零件就位！还差 " + remaining + " 个";
+      updateStatus('<span class="emoji">⚙️</span> ' + msg);
+      showToast(msg);
+    }
+
+    if (placedGears.size === TOTAL_GEARS) {
+      showCelebration();
+    }
+    return true;
+  }
+
   function finishDragging(x, y, src) {
     if (!activeClone) return;
 
@@ -436,39 +475,7 @@
       y > dzRect.top &&
       y < dzRect.bottom
     ) {
-      const fileName = src.split("/").pop();
-      if (placedGears.has(fileName)) {
-        showToast("⚠️ 这个零件已经放过了！");
-      } else {
-        // 龙眼卡片：同时放置左眼和右眼
-        if (fileName === "eyes") {
-          placeOneGear("龙头动态工坊（左眼）2.png");
-          placeOneGear("龙头动态工坊（右眼）3.png");
-        } else {
-          placeOneGear(fileName);
-        }
-
-        // 放置粒子爆发
-        spawnParticles(x, y, 20, "#00d4ff", 5, 1.2);
-        spawnParticles(x, y, 15, "#c44dff", 4, 1);
-        spawnParticles(x, y, 10, "#ffd93d", 3, 0.8);
-
-        placedGears.add(fileName);
-        updateProgress();
-
-        // 进度反馈
-        const count = placedGears.size;
-        const remaining = TOTAL_GEARS - count;
-        if (remaining > 0) {
-          const msg = `第 ${count} 个零件就位！还差 ${remaining} 个`;
-          updateStatus(`<span class="emoji">⚙️</span> ${msg}`);
-          showToast(msg);
-        }
-
-        if (placedGears.size === TOTAL_GEARS) {
-          showCelebration();
-        }
-      }
+      tapToPlace(src);
     }
 
     // 清理
@@ -476,7 +483,7 @@
     activeClone = null;
     blueprintFrame.classList.remove("glow-active");
     updateStatus(
-      '<span class="emoji">👋</span> 握拳抓取零件 · 松手放置图纸 <span class="emoji">👋</span>',
+      '<span class="emoji">👆</span> 点击或拖拽零件 · 放置到图纸上 <span class="emoji">⚙️</span>',
     );
   }
 
@@ -642,10 +649,10 @@
 
     // 入场动画
     updateStatus(
-      '<span class="emoji">👋</span> 握拳抓取零件 · 松手放置图纸 <span class="emoji">👋</span>',
+      '<span class="emoji">👆</span> 点击或拖拽零件 · 放置到图纸上 <span class="emoji">⚙️</span>',
     );
     setTimeout(
-      () => showToast("💡 将手移到左侧零件上方，握拳即可抓取"),
+      () => showToast("💡 点击或拖拽零件卡片放置到图纸上"),
       800,
     );
     setupMouseSupport();
@@ -717,6 +724,34 @@
       finishDragging(cursorX, cursorY, draggedSrc);
       isDragging = false;
       draggedSrc = null;
+    });
+
+    // ======== 触摸 / 点击直接放置（移动端交互） ========
+    gearsSidebar.addEventListener("touchstart", function(e) {
+      const card = e.target.closest(".gear-card");
+      if (!card) return;
+      e.preventDefault();
+
+      const src = card.getAttribute("data-src");
+      const placed = tapToPlace(src);
+      if (placed) {
+        card.style.transform = "scale(0.9)";
+        setTimeout(function() { card.style.transform = ""; }, 150);
+      } else {
+        card.style.transform = "translateX(-6px)";
+        setTimeout(function() {
+          card.style.transform = "translateX(6px)";
+          setTimeout(function() { card.style.transform = ""; }, 100);
+        }, 100);
+      }
+    });
+
+    gearsSidebar.addEventListener("click", function(e) {
+      const card = e.target.closest(".gear-card");
+      if (!card) return;
+      if (isDragging) return;
+      const src = card.getAttribute("data-src");
+      tapToPlace(src);
     });
   }
 

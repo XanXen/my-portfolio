@@ -1019,6 +1019,224 @@
           transform: scale(0.333);
         }
       }
+
+      /* ==================== 移动端适配 ==================== */
+      @media only screen and (max-width: 768px) {
+        body {
+          overflow-y: auto;
+          overflow-x: hidden;
+          -webkit-overflow-scrolling: touch;
+          height: auto;
+          min-height: 100vh;
+          cursor: auto;
+        }
+
+        #handCursor,
+        .cursor-trail-ring {
+          display: none !important;
+        }
+
+        .webcam-container {
+          display: none !important;
+        }
+
+        .container {
+          height: auto;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding-bottom: 100px;
+        }
+
+        .header {
+          position: relative;
+          top: auto;
+          left: auto;
+          transform: none;
+          margin-top: 24px;
+          padding: 0 16px;
+        }
+
+        .title {
+          font-size: 24px;
+          letter-spacing: 4px;
+        }
+
+        .subtitle {
+          font-size: 11px;
+          letter-spacing: 3px;
+          margin-top: 8px;
+        }
+
+        .status-banner {
+          position: relative;
+          top: auto;
+          left: auto;
+          transform: none;
+          margin: 16px auto 0;
+          padding: 8px 18px;
+          font-size: 12px;
+          letter-spacing: 1px;
+          white-space: normal;
+          text-align: center;
+          max-width: 90vw;
+        }
+
+        .sidebar-hint {
+          display: none;
+        }
+
+        .gears-sidebar {
+          position: relative;
+          left: auto;
+          top: auto;
+          transform: none;
+          flex-direction: row;
+          gap: 10px;
+          margin-top: 20px;
+          padding: 0 16px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          max-width: 100vw;
+          z-index: 50;
+        }
+
+        .gear-card {
+          width: 100px;
+          height: 80px;
+          min-width: 100px;
+          flex-shrink: 0;
+          border-radius: 12px;
+          animation: none;
+        }
+
+        .gear-card.highlight {
+          transform: scale(1.1) !important;
+          animation: cardBuzz 0.4s ease-in-out infinite !important;
+        }
+
+        .gear-label {
+          bottom: -20px;
+          font-size: 10px;
+        }
+
+        .blueprint-wrapper {
+          position: relative;
+          left: auto;
+          top: auto;
+          transform: scale(0.38);
+          transform-origin: top center;
+          margin-top: 28px;
+          width: 960px;
+        }
+
+        .blueprint-frame {
+          width: 960px;
+          height: 540px;
+        }
+
+        .blueprint-content {
+          transform: scale(0.5);
+        }
+
+        .progress-bar {
+          position: relative;
+          bottom: auto;
+          left: auto;
+          transform: none;
+          margin: 20px auto;
+        }
+
+        .progress-dot {
+          width: 12px;
+          height: 12px;
+        }
+
+        .celebration-text {
+          font-size: 28px;
+        }
+
+        .completion-content {
+          flex-direction: column;
+          width: 94%;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .completion-image-container {
+          flex: none;
+          padding: 16px;
+        }
+
+        .completion-image {
+          max-height: 35%;
+        }
+
+        .completion-text {
+          flex: none;
+          padding: 20px 16px;
+          gap: 16px;
+        }
+
+        .completion-title {
+          font-size: 20px;
+          margin-bottom: 16px;
+        }
+
+        .completion-content-text {
+          font-size: 14px;
+          line-height: 1.6;
+        }
+
+        .completion-back-btn {
+          padding: 10px 28px;
+          font-size: 14px;
+        }
+
+        .toast-container {
+          top: auto;
+          bottom: 90px;
+          right: 12px;
+          left: 12px;
+          align-items: center;
+        }
+
+        .toast {
+          padding: 10px 16px;
+          font-size: 12px;
+        }
+
+        /* Mobile back button */
+        .mobile-back-btn {
+          position: fixed;
+          bottom: 24px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 10001;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 14px 28px;
+          background: rgba(20, 20, 30, 0.85);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(140, 180, 255, 0.25);
+          border-radius: 28px;
+          color: rgba(255, 255, 255, 0.9);
+          font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+          font-size: 16px;
+          font-weight: 600;
+          text-decoration: none;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      @media only screen and (min-width: 769px) {
+        .mobile-back-btn {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1033,13 +1251,13 @@
 
       <!-- 状态提示 -->
       <div class="status-banner" id="statusBanner">
-        <span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸
-        <span class="emoji">👋</span>
+        <span class="emoji">👆</span> 点击或拖拽齿轮 · 放置到图纸上
+        <span class="emoji">⚙️</span>
       </div>
 
       <!-- 齿轮卡片侧边栏 -->
       <div class="gears-sidebar" id="gearsSidebar"></div>
-      <div class="sidebar-hint">从 这 里 抓 取 齿 轮</div>
+      <div class="sidebar-hint">从 这 里 选 择 齿 轮</div>
 
       <!-- 图纸区域 -->
       <div class="blueprint-wrapper">
@@ -1087,6 +1305,8 @@
         <div class="celebration-text">齿轮组合完成!</div>
       </div>
     </div>
+
+    <a href="index.html" class="mobile-back-btn">&larr; Back</a>
 
     <script>
       (function () {
@@ -1381,6 +1601,63 @@
           }
         }
 
+        // 直接放置齿轮（tap-to-place）
+        function tapToPlace(src) {
+          const fileName = src.split("/").pop();
+          if (placedGears.has(fileName)) {
+            showToast("⚠️ 这个齿轮已经放过了！");
+            return false;
+          }
+
+          const gear = document.createElement("img");
+          gear.src = src;
+          gear.className = "placed-gear";
+          gear.style.left = "0px";
+          gear.style.top = "0px";
+          gear.style.zIndex = gearZIndex[fileName] || 10;
+          gear.draggable = false;
+          gear.style.animation =
+            "gearSnapIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards";
+
+          const onSnapEnd = () => {
+            gear.style.animation = "";
+            if (src.includes("1.png") || src.includes("2.png")) {
+              gear.classList.add("rotating");
+            }
+            if (src.includes("3.png")) {
+              gear.classList.add("rotating-reverse");
+              gear.style.transformOrigin = "890px 250px";
+            }
+            gear.removeEventListener("animationend", onSnapEnd);
+          };
+          gear.addEventListener("animationend", onSnapEnd);
+          dropZone.appendChild(gear);
+
+          // 在图纸中心生成粒子
+          const dzRect = dropZone.getBoundingClientRect();
+          const cx = dzRect.left + dzRect.width / 2;
+          const cy = dzRect.top + dzRect.height / 2;
+          spawnParticles(cx, cy, 20, "#00d4ff", 5, 1.2);
+          spawnParticles(cx, cy, 15, "#c44dff", 4, 1);
+          spawnParticles(cx, cy, 10, "#ffd93d", 3, 0.8);
+
+          placedGears.add(fileName);
+          updateProgress();
+
+          const count = placedGears.size;
+          const remaining = 4 - count;
+          if (remaining > 0) {
+            const msg = "第 " + count + " 个齿轮就位！还差 " + remaining + " 个";
+            updateStatus('<span class="emoji">⚙️</span> ' + msg);
+            showToast(msg);
+          }
+
+          if (placedGears.size === 4) {
+            showCelebration();
+          }
+          return true;
+        }
+
         function finishDragging(x, y, src) {
           if (!activeClone) return;
 
@@ -1391,61 +1668,7 @@
             y > dzRect.top &&
             y < dzRect.bottom
           ) {
-            // 同一个齿轮不重复放置
-            const fileName = src.split("/").pop();
-            if (placedGears.has(fileName)) {
-              showToast("⚠️ 这个齿轮已经放过了！");
-            } else {
-              const gear = document.createElement("img");
-              gear.src = src;
-              gear.className = "placed-gear";
-              gear.style.left = "0px";
-              gear.style.top = "0px";
-              gear.style.zIndex = gearZIndex[fileName] || 10;
-              gear.draggable = false;
-
-              // 先播放入场动画
-              gear.style.animation =
-                "gearSnapIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards";
-
-              // 动画结束后切换为旋转动画
-              const onSnapEnd = () => {
-                gear.style.animation = "";
-                if (src.includes("1.png") || src.includes("2.png")) {
-                  gear.classList.add("rotating");
-                }
-                if (src.includes("3.png")) {
-                  gear.classList.add("rotating-reverse");
-                  gear.style.transformOrigin = "890px 250px";
-                }
-                gear.removeEventListener("animationend", onSnapEnd);
-              };
-              gear.addEventListener("animationend", onSnapEnd);
-
-              dropZone.appendChild(gear);
-
-              // 放置粒子爆发
-              spawnParticles(x, y, 20, "#00d4ff", 5, 1.2);
-              spawnParticles(x, y, 15, "#c44dff", 4, 1);
-              spawnParticles(x, y, 10, "#ffd93d", 3, 0.8);
-
-              placedGears.add(fileName);
-              updateProgress();
-
-              // 进度反馈
-              const count = placedGears.size;
-              const remaining = 4 - count;
-              if (remaining > 0) {
-                const msg = `第 ${count} 个齿轮就位！还差 ${remaining} 个`;
-                updateStatus(`<span class="emoji">⚙️</span> ${msg}`);
-                showToast(msg);
-              }
-
-              // 4个齿轮全部就位才触发庆祝
-              if (placedGears.size === 4) {
-                showCelebration();
-              }
-            }
+            tapToPlace(src);
           }
 
           // 清理
@@ -1453,7 +1676,7 @@
           activeClone = null;
           blueprintFrame.classList.remove("glow-active");
           updateStatus(
-            '<span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸 <span class="emoji">👋</span>',
+            '<span class="emoji">👆</span> 点击或拖拽齿轮 · 放置到图纸上 <span class="emoji">⚙️</span>',
           );
         }
 
@@ -1620,7 +1843,7 @@
 
           // 入场动画
           updateStatus(
-            '<span class="emoji">👋</span> 握拳抓取齿轮 · 松手放置图纸 <span class="emoji">👋</span>',
+            '<span class="emoji">👆</span> 点击或拖拽齿轮 · 放置到图纸上 <span class="emoji">⚙️</span>',
           );
           setTimeout(
             () => showToast("💡 将手移到左侧齿轮上方，握拳即可抓取"),
@@ -1694,6 +1917,40 @@
             finishDragging(cursorX, cursorY, draggedSrc);
             isDragging = false;
             draggedSrc = null;
+          });
+
+          // ======== 触摸 / 点击直接放置（移动端交互） ========
+          gearsSidebar.addEventListener("touchstart", function(e) {
+            const card = e.target.closest(".gear-card");
+            if (!card) return;
+            e.preventDefault();
+
+            const src = card.getAttribute("data-src");
+            const placed = tapToPlace(src);
+            if (placed) {
+              // 轻量反馈：卡片闪一下
+              card.style.transform = "scale(0.9)";
+              setTimeout(function() { card.style.transform = ""; }, 150);
+            } else {
+              // 已放置，摇一摇提示
+              card.style.transform = "translateX(-6px)";
+              setTimeout(function() {
+                card.style.transform = "translateX(6px)";
+                setTimeout(function() {
+                  card.style.transform = "";
+                }, 100);
+              }, 100);
+            }
+          });
+
+          // 桌面端点击也直接放置
+          gearsSidebar.addEventListener("click", function(e) {
+            const card = e.target.closest(".gear-card");
+            if (!card) return;
+            // 如果正在拖拽中，不处理 click（由 mouseup 处理）
+            if (isDragging) return;
+            const src = card.getAttribute("data-src");
+            tapToPlace(src);
           });
         }
 

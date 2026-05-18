@@ -330,7 +330,7 @@
     activeClone.remove();
     activeClone = null;
     blueprintFrame.classList.remove("glow-active");
-    updateStatus('<span class="emoji">👋</span> 握拳抓取零件 · 松手放置图纸 <span class="emoji">👋</span>');
+    updateStatus('<span class="emoji">👆</span> 点击或拖拽零件 · 放置到图纸上 <span class="emoji">⚙️</span>');
   }
 
   // ==================== 光标拖尾 ====================
@@ -461,8 +461,8 @@
     resizeCanvas();
     requestAnimationFrame(loop);
 
-    updateStatus('<span class="emoji">👋</span> 握拳抓取零件 · 松手放置图纸 <span class="emoji">👋</span>');
-    setTimeout(() => showToast("💡 将手移到左侧零件上方，握拳即可抓取"), 800);
+    updateStatus('<span class="emoji">👆</span> 点击或拖拽零件 · 放置到图纸上 <span class="emoji">⚙️</span>');
+    setTimeout(() => showToast("💡 点击或拖拽零件卡片放置到图纸上"), 800);
     setupMouseSupport();
 
     const hands = new Hands({
