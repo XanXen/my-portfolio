@@ -14,7 +14,6 @@
 #header .navbar {
     background: transparent;
     backdrop-filter: none;
-    justify-content: flex-start;
 }
 
 #header .brand {
@@ -200,36 +199,34 @@
     transform: translateX(6px);
 }
 
-/* ---- Back Link (desktop: inline in navbar) ---- */
-.back-link.nav-back {
-    position: static;
-    margin-left: 28px;
-    color: rgba(255, 255, 255, 0.65);
+/* ---- Back Link (fixed pill, top-left of hero) ---- */
+.back-link {
+    position: fixed;
+    top: 76px;
+    left: 24px;
+    z-index: 9997;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
     font-family: 'Poppins', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    color: #fff;
     text-decoration: none;
-    transition: color 0.3s ease;
-    padding: 0;
-    border: none;
-    background: none;
-    backdrop-filter: none;
+    letter-spacing: 0.3px;
     line-height: 1;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    transition: all 0.3s ease;
 }
 
-.back-link.nav-back:hover {
+.back-link:hover {
+    background: rgba(0, 0, 0, 0.75);
+    border-color: rgba(255, 255, 255, 0.4);
     color: #ff004f;
-}
-
-/* push nav-links to the right, keeping back-link next to brand */
-#header .nav-links {
-    margin-left: auto;
-}
-
-/* ---- Mobile Back Button (hidden on desktop) ---- */
-.mobile-back-btn {
-    display: none;
 }
 
 /* Cursor uses mix-blend-mode: difference for automatic color inversion */
@@ -333,42 +330,12 @@
         opacity: 0;
     }
 
-    /* Mobile: hide navbar back, show dedicated mobile back button */
-    .back-link.nav-back {
-        display: none;
-    }
-
-    .mobile-back-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: calc(100% - 32px);
-        max-width: 400px;
-        margin: 12px auto 0;
-        padding: 14px 24px;
-        font-size: 16px;
-        font-weight: 700;
-        font-family: Arial, sans-serif;
-        color: #fff;
-        text-decoration: none;
-        letter-spacing: 1px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        transition: all 0.25s ease;
-        line-height: 1;
-    }
-
-    .mobile-back-btn:active {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: #ff004f;
-    }
-
-    .mobile-back-arrow {
-        font-size: 18px;
+    /* Mobile: slightly larger tap target */
+    .back-link {
+        top: 72px;
+        left: 16px;
+        padding: 12px 22px;
+        font-size: 15px;
     }
 }
 
