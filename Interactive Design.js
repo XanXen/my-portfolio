@@ -2,7 +2,7 @@
 // Hero panel hover, cursor, navigation
 
 document.addEventListener("DOMContentLoaded", function () {
-    var isMobile = window.matchMedia("(max-width: 600px)").matches && "ontouchstart" in window;
+    var isMobile = window.matchMedia("(max-width: 900px)").matches;
 
     // ---- Entrance animation ----
     document.body.style.opacity = '0';
