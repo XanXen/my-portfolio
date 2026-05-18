@@ -49,8 +49,7 @@ body {
 /* ── Background layers (all absolute inside canvas) ── */
 .branding-canvas img,
 .branding-canvas h1,
-.branding-canvas .branding-card,
-.branding-canvas .branding-back {
+.branding-canvas .branding-card {
     position: absolute;
 }
 
@@ -201,21 +200,34 @@ body {
     background: transparent;
 }
 
-/* ── Back link ── */
+/* ── Back link (fixed, outside canvas to avoid scaling) ── */
 .branding-back {
-    left: 51px;
+    position: fixed;
+    left: 30px;
     bottom: 30px;
-    color: #000;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 700;
+    z-index: 9997;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
     text-decoration: none;
-    z-index: 15;
-    transition: color 0.3s ease;
+    letter-spacing: 0.3px;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    transition: all 0.3s ease;
 }
 
 .branding-back:hover {
-    color: #DF101B;
+    color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 /* ── Detail overlay ── */
@@ -318,6 +330,14 @@ body {
         width: 36px;
         height: 36px;
         font-size: 20px;
+    }
+
+    .branding-back {
+        left: 16px;
+        bottom: 20px;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 700;
     }
 
     /* Touch-friendly cards: tap to flip instead of hover */
