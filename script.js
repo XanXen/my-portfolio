@@ -433,9 +433,10 @@ function initMobileControls() {
         targetRotationX = mouseY * 0.3;
     });
 
-    // Mobile: gyro + touch
+    // Mobile: gyro + touch — only on homepage (has #hero)
+    var isHomepage = !!document.getElementById('hero');
     var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice || window.matchMedia("(max-width: 600px)").matches) {
+    if (isHomepage && (isTouchDevice || window.matchMedia("(max-width: 600px)").matches)) {
         var needsPermission = (typeof DeviceOrientationEvent !== 'undefined' &&
             typeof DeviceOrientationEvent.requestPermission === 'function');
 

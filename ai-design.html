@@ -15,10 +15,6 @@
     <div class="cursor-small-circle"></div>
   </div>
 
-  <a href="index.html#services" class="agent-back">
-    <i class="fa-solid fa-arrow-left"></i> Back
-  </a>
-
   <div class="agent-page">
     <div class="agent-aura">
       <span></span><span></span><span></span><span></span><span></span>
@@ -31,6 +27,9 @@
         <div class="agent-sidebar-header">
           <i class="fa-solid fa-chess-king brand-icon"></i>
           <span class="brand-text">Zenith&nbsp;&nbsp;Agent</span>
+          <a href="index.html#services" class="agent-back">
+            <i class="fa-solid fa-arrow-left"></i> Back
+          </a>
           <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle sidebar">
             <i class="fa-solid fa-up-down"></i>
           </button>
@@ -122,6 +121,7 @@
       <!-- ====== VIEW: AI巡店助手 ====== -->
       <div class="agent-view agent-chat-view" id="view-agent-xundian" style="display:none;">
         <div class="agent-chat-header">
+          <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#8680e3;"><i class="fa-solid fa-store"></i></div>
           <div class="agent-chat-header-info">
             <div class="agent-chat-header-name">AI巡店助手</div>
@@ -142,6 +142,7 @@
       <!-- ====== VIEW: AI智能分析助理 ====== -->
       <div class="agent-view agent-chat-view" id="view-agent-fenxi" style="display:none;">
         <div class="agent-chat-header">
+          <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#b893dd;"><i class="fa-solid fa-chart-column"></i></div>
           <div class="agent-chat-header-info">
             <div class="agent-chat-header-name">AI智能分析助理</div>
@@ -162,6 +163,7 @@
       <!-- ====== VIEW: AI智能合同实操 ====== -->
       <div class="agent-view agent-chat-view" id="view-agent-hetong" style="display:none;">
         <div class="agent-chat-header">
+          <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#7e91e3;"><i class="fa-solid fa-file-contract"></i></div>
           <div class="agent-chat-header-info">
             <div class="agent-chat-header-name">AI智能合同实操</div>
@@ -185,6 +187,7 @@
       <!-- ====== VIEW: AI智能客服 ====== -->
       <div class="agent-view agent-chat-view" id="view-agent-kefu" style="display:none;">
         <div class="agent-chat-header">
+          <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#edaa6e;"><i class="fa-solid fa-headset"></i></div>
           <div class="agent-chat-header-info">
             <div class="agent-chat-header-name">AI智能客服</div>
@@ -208,6 +211,7 @@
       <!-- ====== VIEW: Behind the Code ====== -->
       <div class="agent-view agent-chat-view" id="view-behind-code" style="display:none;">
         <div class="agent-chat-header">
+          <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#55b05f;"><i class="fa-solid fa-code"></i></div>
           <div class="agent-chat-header-info">
             <div class="agent-chat-header-name">Behind the Code</div>
@@ -371,6 +375,18 @@
         card.addEventListener('click', function(e) {
           e.preventDefault();
           switchView(this.getAttribute('data-view'));
+        });
+      });
+
+      // Chat back-to-dashboard buttons
+      document.querySelectorAll('.agent-chat-back[data-view]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          switchView(this.getAttribute('data-view'));
+          // Expand sidebar on mobile when returning to dashboard
+          if (window.matchMedia('(max-width: 768px)').matches) {
+            document.getElementById('agentSidebar').classList.remove('collapsed');
+          }
         });
       });
 
