@@ -224,6 +224,11 @@
     color: #ff004f;
 }
 
+/* ---- Mobile Back Button (hidden on desktop) ---- */
+.mobile-back-btn {
+    display: none;
+}
+
 /* Cursor uses mix-blend-mode: difference for automatic color inversion */
 
 /* ---- Responsive: Mobile card layout ---- */
@@ -325,22 +330,42 @@
         opacity: 0;
     }
 
-    /* Mobile: back link inline in navbar */
+    /* Mobile: hide navbar back, show dedicated mobile back button */
     .back-link.nav-back {
-        position: static;
-        margin-left: auto;
-        margin-right: 4px;
-        font-size: 14px;
-        padding: 12px 18px;
-        background: rgba(255,255,255,0.1);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        letter-spacing: 0.5px;
-        line-height: 1;
+        display: none;
+    }
+
+    .mobile-back-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 6px;
+        gap: 8px;
+        width: calc(100% - 32px);
+        max-width: 400px;
+        margin: 12px auto 0;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        text-decoration: none;
+        letter-spacing: 1px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: all 0.25s ease;
+        line-height: 1;
+    }
+
+    .mobile-back-btn:active {
+        background: rgba(255, 255, 255, 0.18);
+        border-color: #ff004f;
+    }
+
+    .mobile-back-arrow {
+        font-size: 18px;
     }
 }
 
