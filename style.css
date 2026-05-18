@@ -1172,13 +1172,13 @@ nav .fas {
 
     .wild-data-list li {
         padding-left: 0;
-        padding-top: 32px;
+        padding-top: 38px;
     }
 
     .wild-data-tag {
         font-size: 10px;
-        padding: 2px 6px;
-        top: 18px;
+        padding: 3px 8px;
+        top: 14px;
         transform: none;
     }
 
