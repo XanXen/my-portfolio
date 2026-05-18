@@ -350,6 +350,11 @@
         });
         var activeNav = document.querySelector('.agent-nav a[data-view="' + viewId + '"]');
         if (activeNav) activeNav.classList.add('active');
+
+        // Mobile: collapse sidebar when entering a chat/detail view
+        if (window.matchMedia('(max-width: 768px)').matches && viewId !== 'dashboard') {
+          document.getElementById('agentSidebar').classList.add('collapsed');
+        }
       }
 
       // Sidebar nav clicks

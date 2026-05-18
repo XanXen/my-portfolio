@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     applyLanguage(currentLang);
 
     // 检查是否为移动设备（基于屏幕宽度或触摸支持）
-    const isMobile = window.matchMedia("(max-width: 600px)").matches || "ontouchstart" in window;
+    const isMobile = window.matchMedia("(max-width: 600px)").matches && "ontouchstart" in window;
 
     // 只在非移动设备上初始化光标效果
     if (!isMobile) {
@@ -246,6 +246,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 初始化3D模型
     init3DModel();
 
+    // 初始化移动端控制（陀螺仪 + 触摸拖拽），独立于3D模型加载
+    initMobileControls();
+
     // 控制滚动文字显示
     const marqueeContainer = document.querySelector('.marquee-container');
     const heroSection = document.querySelector('#hero');
@@ -380,6 +383,108 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// Shared rotation state (used by both 3D model and input controls)
+var targetRotationX = 0;
+var targetRotationY = 0;
+
+// Mobile gyroscope + touch controls (independent of 3D model loading)
+function initMobileControls() {
+    var gyroActive = false;
+    var initialBeta = null;
+    var initialGamma = null;
+
+    function handleOrientation(event) {
+        if (event.beta === null || event.gamma === null) return;
+        gyroActive = true;
+        var gyroBtn = document.getElementById('gyro-enable-btn');
+        if (gyroBtn) gyroBtn.style.display = 'none';
+        if (initialBeta === null) {
+            initialBeta = event.beta;
+            initialGamma = event.gamma;
+        }
+        var deltaBeta = event.beta - initialBeta;
+        var deltaGamma = event.gamma - initialGamma;
+        deltaBeta = Math.max(-45, Math.min(45, deltaBeta));
+        deltaGamma = Math.max(-45, Math.min(45, deltaGamma));
+        targetRotationX = (deltaBeta / 45) * 0.5;
+        targetRotationY = (deltaGamma / 45) * 0.7;
+    }
+
+    function requestGyroPermission() {
+        if (typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission().then(function(state) {
+                if (state === 'granted') {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+            }).catch(function(err) {
+                console.warn('Gyro permission error:', err);
+            });
+        } else if ('DeviceOrientationEvent' in window) {
+            window.addEventListener('deviceorientation', handleOrientation);
+        }
+    }
+
+    // Desktop: mouse control
+    document.addEventListener('mousemove', function(event) {
+        var mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        var mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+        targetRotationY = mouseX * 0.5;
+        targetRotationX = mouseY * 0.3;
+    });
+
+    // Mobile: gyro + touch
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice || window.matchMedia("(max-width: 600px)").matches) {
+        var needsPermission = (typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function');
+
+        if (needsPermission) {
+            // iOS: show a visible button (requestPermission requires user gesture + HTTPS)
+            var gyroBtn = document.createElement('button');
+            gyroBtn.id = 'gyro-enable-btn';
+            gyroBtn.innerHTML = '&#x1F30D; Enable Gyroscope';
+            gyroBtn.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:10000;' +
+                'padding:12px 20px;background:rgba(0,0,0,0.8);color:#fff;border:1px solid rgba(255,255,255,0.3);' +
+                'border-radius:25px;font-size:14px;font-family:Poppins,Arial,sans-serif;' +
+                'cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);';
+            gyroBtn.addEventListener('click', function() {
+                requestGyroPermission();
+                gyroBtn.textContent = 'Requesting...';
+                setTimeout(function() {
+                    if (!gyroActive) gyroBtn.innerHTML = '&#x1F30D; Tap to Retry';
+                }, 2000);
+            });
+            document.body.appendChild(gyroBtn);
+        } else {
+            // Android: no permission needed
+            requestGyroPermission();
+        }
+
+        // Touch drag fallback
+        var touchStartX = 0, touchStartY = 0;
+        var touchRotX = 0, touchRotY = 0;
+        var heroEl = document.getElementById('hero');
+        var touchTarget = heroEl || document;
+
+        touchTarget.addEventListener('touchstart', function(e) {
+            if (gyroActive) return;
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchRotX = targetRotationX;
+            touchRotY = targetRotationY;
+        }, { passive: true });
+
+        touchTarget.addEventListener('touchmove', function(e) {
+            if (gyroActive) return;
+            var dx = e.touches[0].clientX - touchStartX;
+            var dy = e.touches[0].clientY - touchStartY;
+            targetRotationY = touchRotY + dx * 0.008;
+            targetRotationX = touchRotX + dy * 0.008;
+        }, { passive: true });
+    }
+}
+
 // 3D Model Initialization
 function init3DModel() {
     const container = document.getElementById('model-container');
@@ -483,8 +588,6 @@ function init3DModel() {
     let baseScale = 1;
     let modelGroup = null;
     let animationId;
-    let targetRotationX = 0;
-    let targetRotationY = 0;
     let currentRotationX = 0;
     let currentRotationY = 0;
 
@@ -545,91 +648,6 @@ function init3DModel() {
             modelGroup.add(model);
 
             modelGroup.position.set(0, 0, 0);
-
-            // Desktop: mouse control
-            document.addEventListener('mousemove', (event) => {
-                const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
-
-                targetRotationY = mouseX * 0.5;
-                targetRotationX = mouseY * 0.3;
-            });
-
-            // Mobile: gyroscope (DeviceOrientation) + touch control
-            var gyroActive = false; // true only after we receive real data
-            var initialBeta = null;
-            var initialGamma = null;
-            var gyroPermissionRequested = false;
-
-            function handleOrientation(event) {
-                if (event.beta === null || event.gamma === null) return;
-                gyroActive = true;
-                if (initialBeta === null) {
-                    initialBeta = event.beta;
-                    initialGamma = event.gamma;
-                }
-                var deltaBeta = event.beta - initialBeta;
-                var deltaGamma = event.gamma - initialGamma;
-                deltaBeta = Math.max(-45, Math.min(45, deltaBeta));
-                deltaGamma = Math.max(-45, Math.min(45, deltaGamma));
-                targetRotationX = (deltaBeta / 45) * 0.5;
-                targetRotationY = (deltaGamma / 45) * 0.7;
-            }
-
-            function tryEnableGyro() {
-                if (gyroPermissionRequested) return;
-                gyroPermissionRequested = true;
-
-                if (typeof DeviceOrientationEvent !== 'undefined' &&
-                    typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    // iOS 13+ requires user gesture permission
-                    DeviceOrientationEvent.requestPermission().then(function(state) {
-                        if (state === 'granted') {
-                            window.addEventListener('deviceorientation', handleOrientation);
-                        }
-                    }).catch(function(err) {
-                        console.warn('Gyro permission denied:', err);
-                    });
-                } else if ('DeviceOrientationEvent' in window) {
-                    // Android / older iOS — just listen
-                    window.addEventListener('deviceorientation', handleOrientation);
-                }
-            }
-
-            if ('ontouchstart' in window || window.matchMedia("(max-width: 600px)").matches) {
-                // On first user touch anywhere, request gyro permission (iOS needs gesture)
-                document.addEventListener('touchstart', function() {
-                    tryEnableGyro();
-                }, { once: true });
-
-                // Also try immediately for Android (no permission needed)
-                if (typeof DeviceOrientationEvent !== 'undefined' &&
-                    typeof DeviceOrientationEvent.requestPermission !== 'function') {
-                    tryEnableGyro();
-                }
-
-                // Touch drag fallback — works when gyro has no data
-                var touchStartX = 0, touchStartY = 0;
-                var touchRotX = 0, touchRotY = 0;
-                var heroEl = document.getElementById('hero');
-                var touchTarget = heroEl || document;
-
-                touchTarget.addEventListener('touchstart', function(e) {
-                    if (gyroActive) return;
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                    touchRotX = targetRotationX;
-                    touchRotY = targetRotationY;
-                }, { passive: true });
-
-                touchTarget.addEventListener('touchmove', function(e) {
-                    if (gyroActive) return;
-                    var dx = e.touches[0].clientX - touchStartX;
-                    var dy = e.touches[0].clientY - touchStartY;
-                    targetRotationY = touchRotY + dx * 0.008;
-                    targetRotationX = touchRotX + dy * 0.008;
-                }, { passive: true });
-            }
 
             animate();
         },

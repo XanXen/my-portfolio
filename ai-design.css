@@ -686,6 +686,12 @@
 }
 
 @media (max-width: 768px) {
+  /* Allow page content to fit viewport and scroll internally */
+  .agent-page {
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
   .agent-sidebar-card {
     position: relative;
     left: auto;
@@ -712,16 +718,61 @@
     right: auto;
     bottom: auto;
     padding: 20px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .agent-shell {
-    height: auto;
-    min-height: 100vh;
+    height: 100%;
     border-radius: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
   .agent-cards-row { flex-direction: column; }
   .agent-card { height: 130px; }
+
+  /* All views: become flex children */
+  .agent-view {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Chat views: fill shell as flex child instead of absolute */
+  .agent-chat-view {
+    position: relative;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .agent-chat-messages {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .agent-chat-welcome {
+    padding: 30px 20px;
+  }
+
+  /* Behind the Code scroll area */
+  .btc-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media (max-width: 480px) {
@@ -729,6 +780,10 @@
   .agent-card { height: 120px; }
   .agent-title { font-size: 22px !important; }
   .agent-back { top: 8px; right: 8px; padding: 6px 12px; font-size: 12px; }
+  .agent-chat-inputbar { padding: 8px 12px 12px; gap: 8px; }
+  .agent-chat-input { font-size: 16px; } /* prevent iOS zoom on focus */
+  .btc-card { padding: 14px 16px; }
+  .btc-desc { font-size: 12.5px; }
 }
 
 /* ===== AI 自我介绍气泡 ===== */

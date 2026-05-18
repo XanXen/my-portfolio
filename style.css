@@ -1232,7 +1232,7 @@ nav .fas {
     #model-container {
         width: clamp(120px, 55vw, 280px);
         height: clamp(120px, 55vw, 280px);
-        top: 56%;
+        top: 53%;
     }
 
     .circular-text {
