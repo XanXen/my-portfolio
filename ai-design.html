@@ -50,9 +50,9 @@
           <ul class="agent-nav">
             <li><a href="#" data-view="agent-xundian"><i class="fa-solid fa-store"></i><span data-en="AI Store Inspector" data-zh="AI巡店助手">AI巡店助手</span></a></li>
             <li><a href="#" data-view="agent-fenxi"><i class="fa-solid fa-chart-column"></i><span data-en="AI Interview Assistant" data-zh="AI智能分析助理">AI智能分析助理</span></a></li>
-            <li><a href="#" data-view="agent-hetong"><i class="fa-solid fa-file-contract"></i><span data-en="AI Contract Review" data-zh="AI智能合同实操">AI智能合同实操</span></a></li>
+            <li><a href="#" data-view="agent-hetong"><i class="fa-solid fa-file-contract"></i><span data-en="AI Contract" data-zh="AI智能合同">AI智能合同</span></a></li>
             <li><a href="#" data-view="agent-kefu"><i class="fa-solid fa-headset"></i><span data-en="AI Customer Service" data-zh="AI智能客服">AI智能客服</span></a></li>
-            <li><a href="#" data-view="behind-code"><i class="fa-solid fa-code"></i><span data-en="Behind the Code" data-zh="代码背后">Behind the Code</span></a></li>
+            <li><a href="#" data-view="behind-code"><i class="fa-solid fa-code"></i><span data-en="Code" data-zh="代码">代码</span></a></li>
           </ul>
         </div>
       </div>
@@ -125,12 +125,12 @@
             </div>
             <div class="agent-card has-tip" data-view="agent-hetong">
               <div class="agent-card-icon" style="background:#7e91e3;"><i class="fa-solid fa-file-contract"></i></div>
-              <div class="agent-card-name" data-en="AI Contract Review" data-zh="AI智能合同实操">AI智能合同实操</div>
+              <div class="agent-card-name" data-en="AI Contract" data-zh="AI智能合同">AI智能合同</div>
               <div class="agent-card-tip">
                 <div class="card-tip-preview">
                   <div class="preview-banner" style="background: linear-gradient(135deg, #7e91e3 0%, #818cf8 100%);">
                     <i class="fa-solid fa-file-contract"></i>
-                    <span data-en="AI Contract Review · Workflow Preview" data-zh="AI智能合同实操 · 工作流预览">AI智能合同实操 · 工作流预览</span>
+                    <span data-en="AI Contract · Workflow Preview" data-zh="AI智能合同 · 工作流预览">AI智能合同 · 工作流预览</span>
                   </div>
                   <div class="preview-flow preview-flow-dual">
                     <div class="flow-lane">
@@ -189,7 +189,7 @@
             </div>
             <div class="agent-card" data-view="behind-code">
               <div class="agent-card-icon" style="background:#55b05f;"><i class="fa-solid fa-code"></i></div>
-              <div class="agent-card-name" data-en="Behind the Code" data-zh="代码背后">Behind the Code</div>
+              <div class="agent-card-name" data-en="Code" data-zh="代码">代码</div>
             </div>
           </div>
 
@@ -239,19 +239,19 @@
         </div>
       </div>
 
-      <!-- ====== VIEW: AI智能合同实操 ====== -->
+      <!-- ====== VIEW: AI智能合同 ====== -->
       <div class="agent-view agent-chat-view" id="view-agent-hetong" style="display:none;">
         <div class="agent-chat-header">
           <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#7e91e3;"><i class="fa-solid fa-file-contract"></i></div>
           <div class="agent-chat-header-info">
-            <div class="agent-chat-header-name" data-en="AI Contract Review" data-zh="AI智能合同实操">AI智能合同实操</div>
+            <div class="agent-chat-header-name" data-en="AI Contract" data-zh="AI智能合同">AI智能合同</div>
             <div class="agent-chat-header-status"><span></span><span data-en="Online" data-zh="在线">Online</span></div>
           </div>
         </div>
         <div class="agent-chat-messages" data-agent="hetong">
           <div class="agent-chat-welcome">
-            <p data-en="Hello! I'm the AI Contract Review Assistant. I can help you review contract terms, generate contract templates, and answer contract-related legal questions. How can I help you?" data-zh="你好！我是AI智能合同实操助手，可以帮你审查合同条款、生成合同模板、解答合同相关法律问题。请问需要什么帮助？">你好！我是AI智能合同实操助手，可以帮你审查合同条款、生成合同模板、解答合同相关法律问题。请问需要什么帮助？</p>
+            <p data-en="Hello! I'm the AI Contract Assistant. I can help you review contract terms, generate contract templates, and answer contract-related legal questions. How can I help you?" data-zh="你好！我是AI智能合同助手，可以帮你审查合同条款、生成合同模板、解答合同相关法律问题。请问需要什么帮助？">你好！我是AI智能合同助手，可以帮你审查合同条款、生成合同模板、解答合同相关法律问题。请问需要什么帮助？</p>
           </div>
         </div>
         <div class="agent-chat-file-preview" style="display:none;"></div>
@@ -293,7 +293,7 @@
           <button class="agent-chat-back" data-view="dashboard"><i class="fa-solid fa-chevron-left"></i></button>
           <div class="agent-chat-header-icon" style="background:#55b05f;"><i class="fa-solid fa-code"></i></div>
           <div class="agent-chat-header-info">
-            <div class="agent-chat-header-name" data-en="Behind the Code" data-zh="代码背后">Behind the Code</div>
+            <div class="agent-chat-header-name" data-en="Code" data-zh="代码">代码</div>
             <div class="agent-chat-header-status"><span></span><span data-en="Tech Highlights" data-zh="技术亮点">Tech Highlights</span></div>
           </div>
         </div>
@@ -411,7 +411,7 @@
       var agentConfigs = {
         'agent-xundian': { bot_id: '7639738384079929363', name: 'AI巡店助手' },
         'agent-fenxi':   { bot_id: '7630461450112516134', name: 'AI智能分析助理' },
-        'agent-hetong':  { bot_id: '7629731934230380594', name: 'AI智能合同实操' },
+        'agent-hetong':  { bot_id: '7629731934230380594', name: 'AI智能合同' },
         'agent-kefu':    { bot_id: '7628623001585074219', name: 'AI智能客服' }
       };
 
