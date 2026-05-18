@@ -855,15 +855,20 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
-  /* Language toggle: absolute like agent-back so they share the same coordinate space */
+  /* Language toggle: match agent-back style exactly for perfect alignment */
   .lang-toggle {
     position: absolute !important;
     top: 12px !important;
     right: 145px !important;
     padding: 6px 14px !important;
     font-size: 12px !important;
+    font-weight: 600 !important;
     height: auto !important;
+    border: none !important;
     border-radius: 8px !important;
+    background: rgba(255,255,255,0.85) !important;
+    color: #825ae4 !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
   /* Make sidebar toggle easier to tap on mobile */
   .sidebar-toggle-btn {
