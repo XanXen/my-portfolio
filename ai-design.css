@@ -870,8 +870,10 @@
     color: #825ae4 !important;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-  /* Make sidebar toggle easier to tap on mobile */
+  /* Make sidebar toggle easier to tap on mobile, align with agent-back at 12px from shell top */
   .sidebar-toggle-btn {
+    top: 8px;
+    transform: none;
     padding: 8px 10px;
     font-size: 14px;
   }
