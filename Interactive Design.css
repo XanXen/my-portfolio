@@ -14,6 +14,7 @@
 #header .navbar {
     background: transparent;
     backdrop-filter: none;
+    justify-content: flex-start;
 }
 
 #header .brand {
@@ -199,29 +200,31 @@
     transform: translateX(6px);
 }
 
-/* ---- Back Link (desktop: fixed bottom-left) ---- */
+/* ---- Back Link (desktop: inline in navbar) ---- */
 .back-link.nav-back {
-    position: fixed;
-    left: 30px;
-    bottom: 30px;
-    z-index: 9998;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 2px;
+    position: static;
+    margin-left: 28px;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     text-decoration: none;
-    text-transform: uppercase;
-    padding: 12px 24px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s ease;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    transition: color 0.3s ease;
+    padding: 0;
+    border: none;
+    background: none;
+    backdrop-filter: none;
+    line-height: 1;
 }
 
 .back-link.nav-back:hover {
-    border-color: #ff004f;
     color: #ff004f;
+}
+
+/* push nav-links to the right, keeping back-link next to brand */
+#header .nav-links {
+    margin-left: auto;
 }
 
 /* ---- Mobile Back Button (hidden on desktop) ---- */
