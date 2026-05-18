@@ -844,23 +844,14 @@
     flex-shrink: 0;
   }
 
-  /* Back button: keep absolute, smaller on mobile */
-  .agent-back {
-    position: absolute;
-    top: 12px;
-    right: 48px;   /* leave room for the sidebar collapse toggle */
-    padding: 6px 14px;
-    font-size: 12px;
-    border-radius: 8px;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-  /* Language toggle: match agent-back style exactly for perfect alignment */
-  .lang-toggle {
-    position: absolute !important;
-    top: 12px !important;
-    right: 145px !important;
-    padding: 6px 14px !important;
+  /* All top-right controls: fixed to viewport, same top, identical sizing */
+  .agent-back,
+  .lang-toggle,
+  .sidebar-toggle-btn {
+    position: fixed !important;
+    top: 14px !important;
+    z-index: 10000 !important;
+    padding: 6px 12px !important;
     font-size: 12px !important;
     font-weight: 600 !important;
     height: auto !important;
@@ -869,13 +860,24 @@
     background: rgba(255,255,255,0.85) !important;
     color: #825ae4 !important;
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
   }
-  /* Make sidebar toggle easier to tap on mobile, align with agent-back at 12px from shell top */
+  .agent-back {
+    right: 50px !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .lang-toggle {
+    right: 130px !important;
+  }
   .sidebar-toggle-btn {
-    top: 8px;
-    transform: none;
-    padding: 8px 10px;
-    font-size: 14px;
+    right: 12px !important;
+  }
+  .agent-sidebar-card.collapsed .sidebar-toggle-btn {
+    transform: rotate(180deg) !important;
   }
 
   /* Show back-to-dashboard button in chat views */
