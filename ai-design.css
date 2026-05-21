@@ -606,7 +606,7 @@
   align-items: center;
   gap: 4px;
 }
-.agent-chat-header-status span {
+.agent-chat-header-status span:first-child {
   width: 6px;
   height: 6px;
   border-radius: 50%;
