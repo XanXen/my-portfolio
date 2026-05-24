@@ -827,6 +827,12 @@ nav ul li a:hover::after {
     transform: rotate(-5deg) scale(1.1);
 }
 
+.wild-cv-downloads {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
 .wild-btn-download {
     display: inline-block;
     padding: 16px 36px;
@@ -837,13 +843,21 @@ nav ul li a:hover::after {
     font-weight: 800;
     letter-spacing: 3px;
     text-transform: uppercase;
-    border: none;
+    border: 2px solid transparent;
     transition: background 0.3s, transform 0.3s;
     font-family: 'Poppins', monospace;
 }
 
+.wild-btn-download-alt {
+    background: transparent;
+    border: 2px solid #0a0a0a;
+    color: #0a0a0a;
+}
+
 .wild-btn-download:hover {
     background: #ff004f;
+    border-color: #ff004f;
+    color: #ffffff;
     transform: translateY(-3px);
 }
 
@@ -1312,6 +1326,15 @@ nav .fas {
     .wild-btn-download {
         padding: 14px 28px;
         font-size: 12px;
+    }
+
+    .wild-cv-downloads {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .wild-cv-downloads .wild-btn-download {
+        text-align: center;
     }
 
     .wild-btn-submit {
